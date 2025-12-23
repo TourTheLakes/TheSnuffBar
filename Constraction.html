@@ -7,14 +7,87 @@
 
   <link rel="icon" type="image/png" href="assets/images/TheSnuffBarFavicon.png">
 
+<style>
+  :root{
+    --header-h: 260px;     /* desktop/tablet header height */
+    --logo-size: 180px;   /* brand mark size */
+    --logo-left: 24px;    /* desktop coordinate from left */
+    --overlap: 0.20;      /* 20% of logo sits in header */
+  }
 
+  body{ margin:0; }
+
+  /* FIXED HEADER (never moves) */
+  .site-header{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: var(--header-h);
+    z-index: 10;
+    overflow: hidden;
+  }
+
+  .site-header img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display:block;
+  }
+
+  /* Push page content below fixed header */
+  .page{
+    padding-top: var(--header-h);
+  }
+
+  /* FIXED BRAND MARK (never moves) */
+  .brand-mark{
+    position: fixed;
+    z-index: 20;
+    width: var(--logo-size);
+    height: var(--logo-size);
+    left: var(--logo-left);
+
+    /* seam overlap: header bottom minus 20% of logo height */
+    top: calc(var(--header-h) - (var(--logo-size) * var(--overlap)));
+  }
+
+  .brand-mark img{
+    width: 100%;
+    height: 100%;
+    display:block;
+  }
+
+  /* Mobile behaviour */
+  @media (max-width: 700px){
+    :root{
+      --header-h: 40vh;     /* your preferred mobile thickness */
+      --logo-size: 170px;   /* adjust later if needed */
+    }
+
+    .brand-mark{
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+</style>
   
 </head>
 
   
 <body>
 
+<header class="site-header">
+  <img src="assets/images/TheSnuffBarHeader.png" alt="">
+</header>
 
+<div class="brand-mark">
+  <img src="assets/images/TheSnuffBarLogo.png" alt="The Snuff Bar">
+</div>
+
+<main class="page">
+  <!-- your page content goes here -->
+</main>
 
 </body>
 </html>
