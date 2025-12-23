@@ -8,14 +8,72 @@
   <link rel="icon" type="image/png" href="assets/images/TheSnuffBarFavicon.png">
 
 <style>
- 
+ :root{
+  --header-h: 140px;   /* desktop/tablet header height */
+  --logo-top: 90px;    /* desktop/tablet logo Y position */
+  --logo-size: 180px;  /* logo size */
+}
+
+/* fixed header */
+.site-header{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: var(--header-h);
+  overflow: hidden;
+  z-index: 10;
+}
+
+.site-header img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* keep page from sitting under fixed header */
+body{
+  margin: 0;
+  padding-top: var(--header-h);
+}
+
+/* fixed logo */
+.brand-mark{
+  position: fixed;
+  top: var(--logo-top);
+  width: var(--logo-size);
+  height: var(--logo-size);
+  z-index: 20;
+}
+
+.brand-mark img{
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* mobile height handling */
+@media (max-width: 700px){
+  :root{
+    --header-h: 40vh;   /* your chosen mobile header thickness */
+    --logo-top: 28vh;   /* mobile logo Y position */
+    --logo-size: 170px;
+  }
+}
 </style>
   
 </head>
 
   
 <body>
+<header class="site-header">
+  <img src="assets/images/TheSnuffBarHeader.png" alt="">
+</header>
 
-
+<div class="brand-mark">
+  <img src="assets/images/TheSnuffBarLogo.png" alt="The Snuff Bar">
+</div>
+  
 </body>
 </html>
