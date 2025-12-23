@@ -1,87 +1,466 @@
 <!doctype html>
 <html lang="en-GB">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="The Snuff Bar, Kendal — website under construction. Contact details and opening hours." />
   <title>The Snuff Bar | Kendal</title>
+
+  <style>
+    :root{
+      /* Brand-ish palette (tuned to a “pinky” outer background) */
+      --outer-pink: #f3c1cd;
+      --outer-pink-2:#f7d2db;
+      --paper: #fff9fb;
+      --ink: #1a1a1a;
+      --muted: #3a3a3a;
+
+      --accent: #7b1f35;   /* deep berry */
+      --accent-2:#b34a63;  /* rose */
+      --rule: rgba(26,26,26,.18);
+
+      --maxw: 980px;
+      --pad: clamp(16px, 2.5vw, 28px);
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      color:var(--ink);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, "Helvetica Neue", sans-serif;
+      background:
+        /* subtle decoration over outer pink */
+        repeating-linear-gradient(
+          45deg,
+          rgba(255,255,255,.18) 0px,
+          rgba(255,255,255,.18) 10px,
+          rgba(0,0,0,.03) 10px,
+          rgba(0,0,0,.03) 20px
+        ),
+        radial-gradient(1200px 600px at 20% 10%, var(--outer-pink-2), transparent 60%),
+        radial-gradient(1200px 600px at 80% 0%, rgba(255,255,255,.25), transparent 55%),
+        linear-gradient(180deg, var(--outer-pink), var(--outer-pink-2));
+      background-attachment: fixed;
+    }
+
+    a{ color:inherit; text-decoration:none; }
+    a:hover{ text-decoration:underline; text-underline-offset: 3px; }
+
+    /* Page frame */
+    .frame{
+      min-height:100%;
+      display:flex;
+      flex-direction:column;
+    }
+
+    .topbar{
+      border-bottom: 3px solid var(--accent);
+      background: rgba(255,255,255,.25);
+      backdrop-filter: blur(6px);
+    }
+
+    .topbar-inner{
+      max-width: var(--maxw);
+      margin:0 auto;
+      padding: 12px var(--pad);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+    }
+
+    .brandline{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      min-width:0;
+    }
+
+    .logo{
+      width: 64px;
+      height: 64px;
+      border: 2px solid var(--accent);
+      background: var(--paper);
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+      flex: 0 0 auto;
+    }
+
+    .logo img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .brandtext{
+      display:flex;
+      flex-direction:column;
+      line-height:1.05;
+      min-width:0;
+    }
+
+    .brandtext .name{
+      font-weight: 800;
+      letter-spacing: .5px;
+      font-size: 18px;
+      text-transform: uppercase;
+      white-space: nowrap;
+      overflow:hidden;
+      text-overflow: ellipsis;
+    }
+
+    .brandtext .sub{
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: .25px;
+      text-transform: uppercase;
+    }
+
+    .quicklinks{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    .pill{
+      border: 2px solid var(--ink);
+      background: rgba(255,255,255,.55);
+      padding: 8px 10px;
+      font-weight: 700;
+      letter-spacing: .25px;
+      text-transform: uppercase;
+      font-size: 12px;
+      /* NO rounded edges */
+      border-radius: 0;
+      white-space:nowrap;
+    }
+
+    .main{
+      flex:1;
+      display:flex;
+      align-items:stretch;
+    }
+
+    .wrap{
+      width:100%;
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 22px var(--pad) 34px;
+      display:flex;
+      flex-direction:column;
+      gap:18px;
+    }
+
+    /* Hero panel */
+    .panel{
+      background: var(--paper);
+      border: 3px solid var(--ink);
+      box-shadow:
+        0 0 0 3px rgba(255,255,255,.35) inset,
+        10px 10px 0 rgba(0,0,0,.10);
+      border-radius:0;
+      overflow:hidden;
+    }
+
+    .panel-header{
+      padding: 18px var(--pad);
+      background:
+        linear-gradient(90deg, rgba(123,31,53,.18), rgba(179,74,99,.08)),
+        repeating-linear-gradient(
+          90deg,
+          rgba(0,0,0,.08) 0px,
+          rgba(0,0,0,.08) 2px,
+          transparent 2px,
+          transparent 10px
+        );
+      border-bottom: 3px solid var(--ink);
+    }
+
+    h1{
+      margin:0;
+      font-size: clamp(26px, 3.4vw, 40px);
+      letter-spacing: .5px;
+      text-transform: uppercase;
+    }
+
+    .lede{
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: clamp(14px, 1.8vw, 16px);
+      max-width: 70ch;
+    }
+
+    .panel-body{
+      padding: 18px var(--pad) 22px;
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+    }
+
+    .decor-rule{
+      height: 14px;
+      border: 3px solid var(--ink);
+      background:
+        repeating-linear-gradient(
+          45deg,
+          rgba(123,31,53,.20) 0px,
+          rgba(123,31,53,.20) 8px,
+          rgba(179,74,99,.10) 8px,
+          rgba(179,74,99,.10) 16px
+        );
+      border-radius:0;
+    }
+
+    /* Info grid */
+    .grid{
+      display:flex;
+      gap:16px;
+      flex-wrap:wrap;
+      align-items:stretch;
+    }
+
+    .card{
+      flex: 1 1 280px;
+      border: 3px solid var(--ink);
+      background: #ffffff;
+      border-radius:0;
+      display:flex;
+      flex-direction:column;
+      min-height: 170px;
+    }
+
+    .card .card-top{
+      padding: 12px 14px;
+      border-bottom: 2px solid var(--rule);
+      background: linear-gradient(180deg, rgba(243,193,205,.55), rgba(255,255,255,0));
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+
+    .card .title{
+      margin:0;
+      font-weight: 900;
+      letter-spacing:.35px;
+      text-transform: uppercase;
+      font-size: 13px;
+    }
+
+    .badge{
+      border: 2px solid var(--accent);
+      padding: 4px 8px;
+      font-weight: 800;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .25px;
+      background: rgba(123,31,53,.08);
+      border-radius:0;
+      white-space:nowrap;
+    }
+
+    .card .card-body{
+      padding: 12px 14px 14px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+
+    .kv{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      font-size: 15px;
+    }
+
+    .kv .k{
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing:.25px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .kv .v{
+      font-weight: 700;
+    }
+
+    .hours{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      font-weight:700;
+    }
+
+    .hours .row{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      padding: 8px 10px;
+      border: 2px solid rgba(0,0,0,.10);
+      background: rgba(243,193,205,.18);
+      border-radius:0;
+    }
+
+    .thanks{
+      border-left: 6px solid var(--accent);
+      padding: 10px 12px;
+      background: rgba(243,193,205,.22);
+      font-weight: 700;
+    }
+
+    /* Footer */
+    footer{
+      border-top: 3px solid var(--accent);
+      background: rgba(255,255,255,.25);
+      backdrop-filter: blur(6px);
+    }
+
+    .footer-inner{
+      max-width: var(--maxw);
+      margin:0 auto;
+      padding: 14px var(--pad);
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing:.2px;
+      text-transform: uppercase;
+    }
+
+    /* Responsive targets: 900 / 700 / 600 */
+    @media (max-width: 900px){
+      .topbar-inner{ align-items:flex-start; }
+      .quicklinks{ justify-content:flex-start; }
+    }
+
+    @media (max-width: 700px){
+      .logo{ width:56px; height:56px; }
+      .pill{ padding:8px 9px; }
+      .panel-header{ padding: 16px var(--pad); }
+    }
+
+    @media (max-width: 600px){
+      .topbar-inner{ flex-direction:column; align-items:stretch; }
+      .quicklinks{ justify-content:flex-start; }
+      .hours .row{ flex-direction:column; align-items:flex-start; }
+    }
+  </style>
 </head>
 
-<body style="margin:0; padding:0; background:#ffffff; color:#000000; font-family: Arial, Helvetica, sans-serif; line-height:1.6;">
-
-  <!-- HERO -->
-  <header style="
-    padding:70px 20px 56px 20px;
-    text-align:center;
-  ">
-    <img
-      src="logo.png"
-      alt="The Snuff Bar"
-      style="max-width:360px; width:100%; height:auto; display:block; margin:0 auto 18px auto;"
-    >
-
-    <p style="margin:0; font-size:18px;">
-      Our new website is coming soon.
-    </p>
-
-    <p style="margin:14px 0 0 0; font-size:15px;">
-      Meanwhile, here are a few details about us.
-    </p>
-  </header>
-
-  <!-- DETAILS (minimal “sections”, spacing only) -->
-  <main style="max-width:900px; margin:0 auto; padding:0 20px 60px 20px;">
-
-    <!-- Contact row -->
-    <section style="padding:34px 0; text-align:center;">
-      <div style="display:inline-block; text-align:left; min-width:260px; margin:0 18px 12px 18px;">
-        <div style="font-size:12px; letter-spacing:0.14em; text-transform:uppercase; margin:0 0 8px 0;">
-          Email
+<body>
+  <div class="frame">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="brandline">
+          <div class="logo" aria-label="The Snuff Bar logo">
+            <!-- Path assumes: /assets/images/TheSnuffBar.jpeg -->
+            <img src="assets/images/TheSnuffBar.jpeg" alt="The Snuff Bar" />
+          </div>
+          <div class="brandtext">
+            <div class="name">The Snuff Bar</div>
+            <div class="sub">Kendal</div>
+          </div>
         </div>
-        <div style="font-size:16px;">
-          <a href="mailto:thesnuffbar@gmail.com" style="color:#000000; text-decoration:none;">
-            thesnuffbar@gmail.com
-          </a>
-        </div>
+
+        <nav class="quicklinks" aria-label="Quick links">
+          <a class="pill" href="tel:+447854115839">Call: 07854 115839</a>
+          <a class="pill" href="mailto:thesnuffbar@gmail.com">Email</a>
+          <a class="pill" href="#hours">Opening Hours</a>
+        </nav>
       </div>
+    </header>
 
-      <div style="display:inline-block; text-align:left; min-width:260px; margin:0 18px 12px 18px;">
-        <div style="font-size:12px; letter-spacing:0.14em; text-transform:uppercase; margin:0 0 8px 0;">
-          Phone
-        </div>
-        <div style="font-size:16px;">
-          <a href="tel:07854115839" style="color:#000000; text-decoration:none;">
-            07854 115839
-          </a>
-        </div>
+    <main class="main">
+      <div class="wrap">
+        <section class="panel" aria-label="Under construction">
+          <div class="panel-header">
+            <h1>Welcome to The Snuff Bar</h1>
+            <p class="lede">
+              Our website is currently under construction, however, here are some quick details you might find handy.
+            </p>
+          </div>
+
+          <div class="panel-body">
+            <div class="decor-rule" role="presentation"></div>
+
+            <div class="grid">
+              <article class="card" aria-label="Contact details">
+                <div class="card-top">
+                  <h2 class="title">Contact</h2>
+                  <span class="badge">Quick Details</span>
+                </div>
+                <div class="card-body">
+                  <div class="kv">
+                    <div class="k">Email</div>
+                    <div class="v"><a href="mailto:thesnuffbar@gmail.com">thesnuffbar@gmail.com</a></div>
+                  </div>
+                  <div class="kv">
+                    <div class="k">Phone</div>
+                    <div class="v"><a href="tel:+447854115839">07854 115839</a></div>
+                  </div>
+                </div>
+              </article>
+
+              <article class="card" aria-label="Address">
+                <div class="card-top">
+                  <h2 class="title">Address</h2>
+                  <span class="badge">Kendal</span>
+                </div>
+                <div class="card-body">
+                  <div class="kv">
+                    <div class="k">Visit us</div>
+                    <div class="v">14 Kent Street, Kendal</div>
+                  </div>
+                </div>
+              </article>
+
+              <article class="card" id="hours" aria-label="Opening hours">
+                <div class="card-top">
+                  <h2 class="title">Opening Hours</h2>
+                  <span class="badge">Updated</span>
+                </div>
+                <div class="card-body">
+                  <div class="hours">
+                    <div class="row">
+                      <span>Monday – Friday</span>
+                      <span>5.30pm – 11pm</span>
+                    </div>
+                    <div class="row">
+                      <span>Saturday &amp; Sunday</span>
+                      <span>3pm – 11pm</span>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </div>
+
+            <div class="thanks">
+              Thank you for visiting our site - we hope to see you in person soon.
+            </div>
+          </div>
+        </section>
       </div>
-    </section>
+    </main>
 
-    <!-- Opening hours -->
-    <section style="padding:34px 0; text-align:center;">
-      <div style="display:inline-block; text-align:left; max-width:520px;">
-        <div style="font-size:12px; letter-spacing:0.14em; text-transform:uppercase; margin:0 0 8px 0;">
-          Opening Hours
-        </div>
-        <div style="font-size:16px;">
-          Monday – Friday: 5.30pm – 11pm<br>
-          Saturday &amp; Sunday: 3pm – 11pm
-        </div>
+    <footer>
+      <div class="footer-inner">
+        <div>© <span id="y"></span> The Snuff Bar</div>
+        <div>14 Kent Street, Kendal · <a href="tel:+447854115839">07854 115839</a> · <a href="mailto:thesnuffbar@gmail.com">thesnuffbar@gmail.com</a></div>
       </div>
-    </section>
+    </footer>
+  </div>
 
-    <!-- Sign off -->
-    <section style="padding:34px 0; text-align:center;">
-      <p style="margin:0; font-size:18px;">
-        Hope to see you soon!
-      </p>
-    </section>
-
-  </main>
-
-  <!-- FOOTER -->
-  <footer style="text-align:center; padding:26px 20px; font-size:13px;">
-    © The Snuff Bar
-  </footer>
-
+  <script>
+    // Footer year
+    document.getElementById("y").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
