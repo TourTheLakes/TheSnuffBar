@@ -1,14 +1,404 @@
 <!doctype html>
 <html lang="en-GB">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title> The Snuff Bar</title>
-  </head>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="The Snuff Bar — events, atmosphere, and artwork." />
+  <meta name="theme-color" content="#0e1416" />
+  <title>The Snuff Bar</title>
 
-  <body>
-    
-<h1> The Snuff Bar</h1>
-    
-  </body>
+  <!-- Performance hooks (fill in once you know your asset paths) -->
+  <!-- <link rel="preload" href="assets/header.webp" as="image" imagesrcset="assets/header.webp" /> -->
+</head>
+
+<body style="margin:0; padding:0; background:#0b0f11; color:#f2f2f2; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; line-height:1.4;">
+
+  <!-- Skip link -->
+  <a href="#home"
+     style="position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden;"
+     onfocus="this.style.left='12px'; this.style.top='12px'; this.style.width='auto'; this.style.height='auto'; this.style.padding='10px 12px'; this.style.borderRadius='10px'; this.style.background='#11181b'; this.style.color='#ffffff'; this.style.zIndex='9999';"
+     onblur="this.style.left='-9999px'; this.style.top='auto'; this.style.width='1px'; this.style.height='1px'; this.style.padding='0'; this.style.background='transparent';">
+    Skip to content
+  </a>
+
+  <!-- Top bar / nav (anchor-only) -->
+  <header style="position:sticky; top:0; z-index:1000; backdrop-filter: blur(10px); background:rgba(11,15,17,0.82); border-bottom:1px solid rgba(255,255,255,0.08);">
+    <div style="max-width:1180px; margin:0 auto; padding:14px 16px; display:flex; align-items:center; justify-content:space-between; gap:14px;">
+
+      <a href="#home" style="text-decoration:none; color:#f2f2f2; display:flex; align-items:baseline; gap:10px;">
+        <span style="display:inline-block; letter-spacing:0.08em; font-weight:650; font-size:14px; text-transform:uppercase;">The Snuff Bar</span>
+        <span style="display:inline-block; opacity:0.78; font-size:12px; letter-spacing:0.06em;">Pub • Events • Artwork</span>
+      </a>
+
+      <!-- Desktop links -->
+      <nav aria-label="Primary" style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
+        <a href="#home" style="text-decoration:none; color:#f2f2f2; opacity:0.9; font-size:13px; letter-spacing:0.04em;">Home</a>
+        <a href="#events" style="text-decoration:none; color:#f2f2f2; opacity:0.9; font-size:13px; letter-spacing:0.04em;">Upcoming Events</a>
+        <a href="#about" style="text-decoration:none; color:#f2f2f2; opacity:0.9; font-size:13px; letter-spacing:0.04em;">About</a>
+        <a href="#contact" style="text-decoration:none; color:#0b0f11; background:#f2f2f2; padding:9px 12px; border-radius:999px; font-size:13px; letter-spacing:0.04em;">Contact</a>
+      </nav>
+
+    </div>
+  </header>
+
+  <!-- HERO / HOME -->
+  <main id="home" tabindex="-1" style="outline:none;">
+    <section style="position:relative;">
+      <!-- Replace src with your Photoshop-exported header artwork -->
+      <img src="assets/header-placeholder.jpg"
+           alt="The Snuff Bar header artwork"
+           style="width:100%; height:auto; display:block; max-height:72vh; object-fit:cover;" />
+
+      <!-- Hero overlay -->
+      <div style="position:absolute; inset:0; display:flex; align-items:flex-end;">
+        <div style="width:100%; background:linear-gradient(to top, rgba(11,15,17,0.92), rgba(11,15,17,0.22), rgba(11,15,17,0));">
+          <div style="max-width:1180px; margin:0 auto; padding:34px 16px 28px 16px;">
+            <div style="max-width:720px;">
+              <div style="display:inline-block; padding:8px 12px; border-radius:999px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.12); font-size:12px; letter-spacing:0.08em; text-transform:uppercase;">
+                Live nights • Local atmosphere • Original artwork
+              </div>
+
+              <h1 style="margin:14px 0 10px 0; font-size:42px; line-height:1.06; letter-spacing:-0.02em;">
+                A proper pub, with a creative spine.
+              </h1>
+
+              <p style="margin:0 0 16px 0; font-size:16px; opacity:0.86;">
+                Your copy goes here. This layout is built for your Photoshop exports: hero artwork, section headers, and gallery pieces.
+              </p>
+
+              <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
+                <a href="#events"
+                   style="text-decoration:none; color:#0b0f11; background:#f2f2f2; padding:10px 14px; border-radius:12px; font-weight:600; font-size:14px;">
+                  View events
+                </a>
+                <a href="#about"
+                   style="text-decoration:none; color:#f2f2f2; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.16); padding:10px 14px; border-radius:12px; font-weight:600; font-size:14px;">
+                  About the venue
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURE STRIP -->
+    <section style="border-top:1px solid rgba(255,255,255,0.08); border-bottom:1px solid rgba(255,255,255,0.08); background:rgba(255,255,255,0.02);">
+      <div style="max-width:1180px; margin:0 auto; padding:18px 16px; display:flex; gap:12px; flex-wrap:wrap;">
+        <div style="flex:1 1 220px; padding:12px; border-radius:16px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08);">
+          <div style="font-size:12px; letter-spacing:0.08em; text-transform:uppercase; opacity:0.85;">Atmosphere</div>
+          <div style="margin-top:6px; font-size:14px; opacity:0.9;">Warm lighting, good music, proper conversation.</div>
+        </div>
+        <div style="flex:1 1 220px; padding:12px; border-radius:16px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08);">
+          <div style="font-size:12px; letter-spacing:0.08em; text-transform:uppercase; opacity:0.85;">Events</div>
+          <div style="margin-top:6px; font-size:14px; opacity:0.9;">Live nights, specials, and rotating features.</div>
+        </div>
+        <div style="flex:1 1 220px; padding:12px; border-radius:16px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08);">
+          <div style="font-size:12px; letter-spacing:0.08em; text-transform:uppercase; opacity:0.85;">Artwork</div>
+          <div style="margin-top:6px; font-size:14px; opacity:0.9;">Your visual identity, displayed as a curated gallery.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- UPCOMING EVENTS -->
+    <section id="events" style="max-width:1180px; margin:0 auto; padding:44px 16px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-end; gap:14px; flex-wrap:wrap;">
+        <div style="max-width:720px;">
+          <div style="font-size:12px; letter-spacing:0.08em; text-transform:uppercase; opacity:0.8;">Upcoming Events</div>
+          <h2 style="margin:10px 0 8px 0; font-size:30px; letter-spacing:-0.01em;">What’s on</h2>
+          <p style="margin:0; opacity:0.84;">Events are rendered from a small JSON list in the script at the bottom. Replace with your real schedule.</p>
+        </div>
+
+        <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+          <button type="button"
+                  id="eventsFilterAll"
+                  style="cursor:pointer; border:1px solid rgba(255,255,255,0.16); background:rgba(255,255,255,0.08); color:#f2f2f2; padding:9px 12px; border-radius:999px; font-weight:600; font-size:13px;"
+                  aria-pressed="true">
+            All
+          </button>
+          <button type="button"
+                  id="eventsFilterLive"
+                  style="cursor:pointer; border:1px solid rgba(255,255,255,0.16); background:rgba(255,255,255,0.02); color:#f2f2f2; padding:9px 12px; border-radius:999px; font-weight:600; font-size:13px;"
+                  aria-pressed="false">
+            Live
+          </button>
+          <button type="button"
+                  id="eventsFilterSpecial"
+                  style="cursor:pointer; border:1px solid rgba(255,255,255,0.16); background:rgba(255,255,255,0.02); color:#f2f2f2; padding:9px 12px; border-radius:999px; font-weight:600; font-size:13px;"
+                  aria-pressed="false">
+            Specials
+          </button>
+        </div>
+      </div>
+
+      <div id="eventsGrid" style="margin-top:18px; display:flex; gap:14px; flex-wrap:wrap;">
+        <!-- JS inserts event cards here -->
+      </div>
+
+      <div style="margin-top:18px; opacity:0.75; font-size:13px;">
+        <span style="display:inline-block; padding:10px 12px; border-radius:14px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08);">
+          Tip: keep event artwork as consistent exports (same aspect ratio) and this layout will stay clean.
+        </span>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" style="border-top:1px solid rgba(255,255,255,0.08); background:rgba(255,255,255,0.02);">
+      <div style="max-width:1180px; margin:0 auto; padding:44px 16px; display:flex; gap:18px; flex-wrap:wrap; align-items:flex-start;">
+        <div style="flex:1 1 420px; min-width:280px;">
+          <div style="font-size:12px; letter-spacing:0.08em; text-transform:uppercase; opacity:0.8;">About</div>
+          <h2 style="margin:10px 0 10px 0; font-size:30px; letter-spacing:-0.01em;">The venue</h2>
+          <p style="margin:0 0 12px 0; opacity:0.86;">
+            Replace this section with your final copy. The structure supports long-form text without looking like a wall.
+          </p>
+          <p style="margin:0; opacity:0.86;">
+            Add details: vibe, music policy, food, opening hours, accessibility notes, and any house rules you want clearly stated.
+          </p>
+        </div>
+
+        <div style="flex:1 1 520px; min-width:280px;">
+          <div style="display:flex; gap:14px; flex-wrap:wrap;">
+            <!-- Artwork tiles (replace images) -->
+            <button type="button"
+                    data-lightbox-src="assets/artwork-1.jpg"
+                    data-lightbox-alt="Artwork 1"
+                    style="cursor:pointer; flex:1 1 240px; border:1px solid rgba(255,255,255,0.10); background:rgba(255,255,255,0.03); border-radius:18px; padding:0; overflow:hidden;">
+              <img src="assets/artwork-1.jpg" alt="Artwork 1" style="width:100%; height:240px; object-fit:cover; display:block;" />
+            </button>
+
+            <button type="button"
+                    data-lightbox-src="assets/artwork-2.jpg"
+                    data-lightbox-alt="Artwork 2"
+                    style="cursor:pointer; flex:1 1 240px; border:1px solid rgba(255,255,255,0.10); background:rgba(255,255,255,0.03); border-radius:18px; padding:0; overflow:hidden;">
+              <img src="assets/artwork-2.jpg" alt="Artwork 2" style="width:100%; height:240px; object-fit:cover; display:block;" />
+            </button>
+
+            <div style="flex:1 1 100%; padding:14px; border-radius:18px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08);">
+              <div style="font-size:12px; letter-spacing:0.08em; text-transform:uppercase; opacity:0.8;">Gallery note</div>
+              <div style="margin-top:8px; opacity:0.86;">
+                These tiles open a lightbox (native <code style="background:rgba(255,255,255,0.08); padding:2px 6px; border-radius:8px;">dialog</code>).
+                Replace the images with your exported artwork and it will “just work”.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" style="max-width:1180px; margin:0 auto; padding:44px 16px;">
+      <div style="display:flex; gap:18px; flex-wrap:wrap; align-items:flex-start;">
+        <div style="flex:1 1 420px; min-width:280px;">
+          <div style="font-size:12px; letter-spacing:0.08em; text-transform:uppercase; opacity:0.8;">Contact</div>
+          <h2 style="margin:10px 0 10px 0; font-size:30px; letter-spacing:-0.01em;">Find us / book / enquiries</h2>
+
+          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
+            <a href="tel:+440000000000"
+               style="text-decoration:none; color:#0b0f11; background:#f2f2f2; padding:10px 14px; border-radius:12px; font-weight:700; font-size:14px;">
+              Call
+            </a>
+            <a href="mailto:hello@snuffbar.co.uk"
+               style="text-decoration:none; color:#f2f2f2; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.16); padding:10px 14px; border-radius:12px; font-weight:700; font-size:14px;">
+              Email
+            </a>
+          </div>
+
+          <div style="margin-top:14px; padding:14px; border-radius:18px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08);">
+            <div style="font-size:12px; letter-spacing:0.08em; text-transform:uppercase; opacity:0.8;">Address</div>
+            <div style="margin-top:8px; opacity:0.9;">
+              The Snuff Bar<br/>
+              Street, Town, Postcode
+            </div>
+
+            <div style="margin-top:12px; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; opacity:0.8;">Opening hours</div>
+            <div style="margin-top:8px; opacity:0.9;">
+              Mon–Thu: 12:00–23:00<br/>
+              Fri–Sat: 12:00–01:00<br/>
+              Sun: 12:00–22:30
+            </div>
+          </div>
+        </div>
+
+        <div style="flex:1 1 520px; min-width:280px;">
+          <div style="border-radius:18px; overflow:hidden; border:1px solid rgba(255,255,255,0.10); background:rgba(255,255,255,0.03);">
+            <!-- Replace with your embed; kept as placeholder to avoid third-party load until you decide -->
+            <div style="padding:16px;">
+              <div style="font-size:12px; letter-spacing:0.08em; text-transform:uppercase; opacity:0.8;">Map placeholder</div>
+              <div style="margin-top:8px; opacity:0.86;">
+                When you want it, you can drop in a Google Maps / OpenStreetMap embed here.
+              </div>
+              <div style="margin-top:12px; opacity:0.86;">
+                <span style="display:inline-block; padding:10px 12px; border-radius:14px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08);">
+                  Keeping it as a placeholder avoids unnecessary third-party requests during build.
+                </span>
+              </div>
+            </div>
+            <div style="height:240px; background:linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer style="border-top:1px solid rgba(255,255,255,0.08); background:rgba(255,255,255,0.02);">
+    <div style="max-width:1180px; margin:0 auto; padding:22px 16px; display:flex; gap:12px; flex-wrap:wrap; justify-content:space-between; align-items:center;">
+      <div style="opacity:0.8; font-size:13px;">
+        © <span id="year"></span> The Snuff Bar
+      </div>
+      <div style="opacity:0.72; font-size:13px; display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="#home" style="color:#f2f2f2; text-decoration:none; opacity:0.9;">Home</a>
+        <a href="#events" style="color:#f2f2f2; text-decoration:none; opacity:0.9;">Events</a>
+        <a href="#about" style="color:#f2f2f2; text-decoration:none; opacity:0.9;">About</a>
+        <a href="#contact" style="color:#f2f2f2; text-decoration:none; opacity:0.9;">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- LIGHTBOX (native dialog) -->
+  <dialog id="lightbox"
+          style="border:none; padding:0; width:min(1040px, 94vw); background:rgba(11,15,17,0.98); border-radius:18px; overflow:hidden;">
+    <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; padding:12px 12px; border-bottom:1px solid rgba(255,255,255,0.10);">
+      <div id="lightboxTitle" style="font-size:13px; letter-spacing:0.06em; opacity:0.9; padding-left:6px;">Artwork</div>
+      <button type="button" id="lightboxClose"
+              style="cursor:pointer; border:1px solid rgba(255,255,255,0.16); background:rgba(255,255,255,0.06); color:#f2f2f2; padding:8px 10px; border-radius:12px; font-weight:700; font-size:13px;">
+        Close
+      </button>
+    </div>
+    <img id="lightboxImg" alt="" style="width:100%; height:auto; display:block; max-height:78vh; object-fit:contain; background:#0b0f11;" />
+  </dialog>
+
+  <script>
+    // Smooth-ish anchor behaviour (keeps URL anchors; no CSS needed)
+    (function () {
+      const links = document.querySelectorAll('a[href^="#"]');
+      for (const a of links) {
+        a.addEventListener('click', (e) => {
+          const id = a.getAttribute('href').slice(1);
+          const el = document.getElementById(id);
+          if (!el) return;
+          e.preventDefault();
+          history.pushState(null, "", "#" + id);
+          el.scrollIntoView({ behavior: "smooth", block: "start" });
+          // focus for accessibility
+          el.setAttribute("tabindex", "-1");
+          el.focus({ preventScroll: true });
+        });
+      }
+    })();
+
+    // Footer year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Events (replace with your real data)
+    const EVENTS = [
+      { title: "Live Music — Session Night", date: "2026-01-10", time: "20:30", tag: "Live", note: "Local set. Good atmosphere.", image: "assets/event-1.jpg" },
+      { title: "Special — Guest Tap / Feature", date: "2026-01-17", time: "18:00", tag: "Specials", note: "Details here.", image: "assets/event-2.jpg" },
+      { title: "Live — Acoustic Corner", date: "2026-01-24", time: "19:30", tag: "Live", note: "Short sets, relaxed.", image: "assets/event-3.jpg" }
+    ];
+
+    function fmtDate(iso) {
+      const d = new Date(iso + "T00:00:00");
+      return d.toLocaleDateString("en-GB", { weekday:"short", day:"2-digit", month:"short", year:"numeric" });
+    }
+
+    function renderEvents(filterTag) {
+      const grid = document.getElementById("eventsGrid");
+      grid.innerHTML = "";
+      const list = filterTag ? EVENTS.filter(e => e.tag === filterTag) : EVENTS;
+
+      for (const ev of list) {
+        const card = document.createElement("article");
+        card.setAttribute("style",
+          "flex:1 1 320px; min-width:260px; border-radius:18px; overflow:hidden; " +
+          "background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.10);"
+        );
+
+        const img = document.createElement("img");
+        img.src = ev.image;
+        img.alt = ev.title;
+        img.setAttribute("style","width:100%; height:180px; object-fit:cover; display:block; background:#0b0f11;");
+        img.loading = "lazy";
+
+        const body = document.createElement("div");
+        body.setAttribute("style","padding:14px;");
+
+        const pill = document.createElement("div");
+        pill.textContent = ev.tag;
+        pill.setAttribute("style",
+          "display:inline-block; padding:6px 10px; border-radius:999px; " +
+          "background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.14); " +
+          "font-size:12px; letter-spacing:0.06em; text-transform:uppercase; opacity:0.95;"
+        );
+
+        const h = document.createElement("h3");
+        h.textContent = ev.title;
+        h.setAttribute("style","margin:10px 0 8px 0; font-size:18px; letter-spacing:-0.01em;");
+
+        const meta = document.createElement("div");
+        meta.textContent = `${fmtDate(ev.date)} • ${ev.time}`;
+        meta.setAttribute("style","opacity:0.82; font-size:13px;");
+
+        const p = document.createElement("p");
+        p.textContent = ev.note;
+        p.setAttribute("style","margin:10px 0 0 0; opacity:0.86; font-size:14px;");
+
+        body.appendChild(pill);
+        body.appendChild(h);
+        body.appendChild(meta);
+        body.appendChild(p);
+
+        card.appendChild(img);
+        card.appendChild(body);
+        grid.appendChild(card);
+      }
+    }
+
+    function setPressed(activeBtnId) {
+      const ids = ["eventsFilterAll","eventsFilterLive","eventsFilterSpecial"];
+      for (const id of ids) {
+        const b = document.getElementById(id);
+        const pressed = (id === activeBtnId);
+        b.setAttribute("aria-pressed", pressed ? "true" : "false");
+        b.style.background = pressed ? "rgba(255,255,255,0.08)" : "rgba(255,255,255,0.02)";
+      }
+    }
+
+    document.getElementById("eventsFilterAll").addEventListener("click", () => { setPressed("eventsFilterAll"); renderEvents(null); });
+    document.getElementById("eventsFilterLive").addEventListener("click", () => { setPressed("eventsFilterLive"); renderEvents("Live"); });
+    document.getElementById("eventsFilterSpecial").addEventListener("click", () => { setPressed("eventsFilterSpecial"); renderEvents("Specials"); });
+
+    renderEvents(null);
+
+    // Lightbox
+    (function () {
+      const dlg = document.getElementById("lightbox");
+      const img = document.getElementById("lightboxImg");
+      const title = document.getElementById("lightboxTitle");
+      const close = document.getElementById("lightboxClose");
+
+      function open(src, alt) {
+        img.src = src;
+        img.alt = alt || "";
+        title.textContent = alt || "Artwork";
+        if (typeof dlg.showModal === "function") dlg.showModal();
+      }
+
+      document.addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-lightbox-src]");
+        if (!btn) return;
+        open(btn.getAttribute("data-lightbox-src"), btn.getAttribute("data-lightbox-alt"));
+      });
+
+      close.addEventListener("click", () => dlg.close());
+      dlg.addEventListener("click", (e) => {
+        const rect = dlg.getBoundingClientRect();
+        const inDialog = (rect.top <= e.clientY && e.clientY <= rect.top + rect.height &&
+                          rect.left <= e.clientX && e.clientX <= rect.left + rect.width);
+        if (!inDialog) dlg.close();
+      });
+    })();
+  </script>
+</body>
 </html>
