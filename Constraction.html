@@ -1,109 +1,162 @@
 <!DOCTYPE html>
 <html lang="en-GB">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Snuff Bar | Kendal</title>
 
-<title>The Snuff Bar | Kendal</title>
+  <link rel="icon" type="image/png" href="assets/images/TheSnuffBarFavicon.png">
 
-<style>
+  <style>
+    body{
+      margin:0;
+      padding:0;
+    }
 
-  /* ---------- RESET ---------- */
-*,
-*::before,
-*::after{ box-sizing:border-box; }
+    .site-header{
+      width:100vw;
+    }
 
-body{
-  margin:0;
-  background:#000;
-}
+    .site-header img{
+      display:block;
+      width:100%;
+      height:20vh;
+      object-fit: cover;
+      object-position: center;
+    }
 
-/* ---------- HEADER ---------- */
-.site-header{
-  position: relative;
-  width: 100%;
-  height: clamp(170px, 28vw, 260px);  /* desktop-first, stable */
-  overflow: hidden;
-}
-
-/* TOP SECTION (horizontal needle lines) */
-.header-top{
-  height: calc(100% - 20px);
-  background:
-    repeating-linear-gradient(
-      0deg,               /* 0deg = horizontal lines */
-      #E1AD48 0px,
-      #E1AD48 1px,
-      #F6C96B 1px,
-      #F6C96B 7px
-    );
-}
-
-/* BOTTOM SECTION (20px band, horizontal needle lines) */
-.header-bottom{
-  height: 20px;
-  background:
-    repeating-linear-gradient(
-      0deg,               /* horizontal lines */
-      #A81A16 0px,
-      #A81A16 1px,
-      #321507 1px,
-      #321507 7px
-    );
-}
-
-/* ---------- LOGO ---------- */
-.brand-mark{
-  position:absolute;
-  left:50%;
-  top: calc(100% - 20px);            /* sits on the join */
-  transform: translate(-50%, -50%);
-  width: clamp(190px, 24vw, 360px);
-  aspect-ratio: 1 / 1;
-  z-index: 10;
-  pointer-events: none;
+    .brand-mark{
+  position: fixed;
+  left: 50px;
+  top: 50px;
+  width: 280px;
+  height: 280px;
+  z-index: 9999;
 }
 
 .brand-mark img{
-  width:100%;
-  height:100%;
-  display:block;
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
-/* ---------- HERO ---------- */
-.hero img{
-  display:block;
-  width:100%;
-  height:auto;
+.hero-image{
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
-
-/* ---------- FUTURE MOBILE HOOK ---------- */
-/*
-@media (max-width: 600px){
+      @media (max-width: 1366px){
   .site-header{
-    aspect-ratio: 4 / 3;
+    height: 15vh;
+    overflow: hidden;
   }
-}
-*/
 
-</style>
+  .site-header img{
+      display:block;
+      width:100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+
+  }
+
+  .brand-mark{
+    left: 50%;
+    top: 20vh;
+    width: 380px;
+    height: 380px;
+    transform: translate(-50%, -50%);
+  }
+      
+  .hero-image{
+    width: 100%;
+    height: 50vh;
+    object-fit: cover;
+    object-position: center;
+  }
+    }
+    
+
+       @media (max-width: 900px){
+  .site-header{
+    height: 15vh;
+    overflow: hidden;
+  }
+
+  .site-header img{
+      display:block;
+      width:100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+
+  }
+
+  .brand-mark{
+    left: 50%;
+    top: 20vh;
+    width: 380px;
+    height: 380px;
+    transform: translate(-50%, -50%);
+  }
+      
+  .hero-image{
+    width: 100%;
+    height: 60vh;
+    object-fit: cover;
+    object-position: center;
+  }
+    }
+
+    @media (max-width: 600px){
+  .site-header{
+    height: 15vh;
+    overflow: hidden;
+  }
+
+  .site-header img{
+      display:block;
+      width:100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+  }
+
+  .brand-mark{
+    left: 50%;
+    top: 20vh;
+    width: 240px;
+    height: 240px;
+    transform: translate(-50%, -50%);
+  }
+      
+  .hero-image{
+    width: 100%;
+    height: 40vh;
+    object-fit: cover;
+    object-position: center;
+  }
+    }
+    
+  </style>
 </head>
 
+  
 <body>
 
-<header class="site-header">
-  <div class="header-top"></div>
-  <div class="header-bottom"></div>
-
+  <header class="site-header">
+    <img src="assets/images/TheSnuffBarHeader.png" alt="The Snuff Bar">
+    
   <div class="brand-mark">
-    <img src="assets/images/TheSnuffBarLogo.png" alt="The Snuff Bar">
-  </div>
-</header>
+  <img src="assets/images/TheSnuffBarLogo.png" alt="The Snuff Bar">
+</div> 
+    
+    </header>
+  
+<img class="hero-image" src="assets/images/TheSnuffBarHero.png" alt="The Snuff Bar">
 
-<section class="hero">
-  <img src="assets/images/TheSnuffBarHero.png" alt="The Snuff Bar">
-</section>
+
 
 </body>
 </html>
