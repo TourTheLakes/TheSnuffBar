@@ -9,8 +9,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
-
+  
   <style>
+
     body{
       margin:0;
       padding:0;
@@ -36,444 +37,410 @@
     }
 
     .brand-mark{
-      position: fixed;
-      left: 50px;
-      top: 50px;
-      width: 280px;
-      height: 280px;
-      z-index: 9999;
-      /* smooth both ways */
-      transition: left .55s ease, top .55s ease, width .55s ease, height .55s ease, transform .55s ease;
-      will-change: left, top, width, height, transform;
-    }
+  position: fixed;
+  left: 50px;
+  top: 50px;
+  width: 280px;
+  height: 280px;
+  z-index: 9999;
+}
 
-    .brand-mark img{
-      width: 100%;
-      height: 100%;
-      display: block;
-    }
+.brand-mark img{
+  width: 100%;
+  height: 100%;
+  display: block;
+}
 
-    .hero-wrap{
-      position: relative;
-    }
 
-    .hero-image{
-      display: block;
-      width: 100%;
-      height: auto;
-    }
 
-    .hero-wrap::after{
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35));
-      pointer-events: none;
-    }
+.hero-wrap{
+  position: relative;
+}
+    
+ .hero-image{
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.hero-wrap::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      rgba(255,255,255,0.35),
+      rgba(255,255,255,0.35)
+    );
+  pointer-events: none;
+}
 
     .events-box p{
       margin:0 0 18px 0;
       line-height: 1.6;
     }
 
-    .events-box strong{ font-weight: 700; }
-
-    .events-box{
-      font-family: "Cinzel", serif;
-      font-size: 20px;
-      background:#321507;
-      color:#F6C96B;
-      margin:0;
-      width:100%;
+    .events-box strong{
+      font-weight: 700;
     }
 
+  .events-box{
+    font-family: "Cinzel", serif;
+    font-size: 20px;
+     background:#321507;
+     color:#F6C96B;
+     margin:0;
+     width:100%;
+  
+}
     .events-inner{
       padding: 50px 52px;
       box-sizing: border-box;
     }
 
-    .events-box h2{
-      margin:0 0 22px 0;
-      font-size: 28px;
-      letter-spacing: 0.14em;
-    }
+.events-box h2{
+  margin:0 0 22px 0;
+  font-size: 28px;
+  letter-spacing: 0.14em;
+}
 
-    .events-box p:last-child{ margin:0; }
+.events-box p:last-child{
+  margin:0;
+}  
 
-    .about-box{
-      font-family: "Cinzel", serif;
-      font-size: 20px;
-      background:#F6C96B;
-      color:#321507;
-      margin:0;
-      width:100%;
-    }
+ .about-box{
+  font-family: "Cinzel", serif;
+  font-size: 20px; 
+  background:#F6C96B;
+  color:#321507;
+  margin:0;
+  width:100%;
+}
 
-    .about-inner{
-      padding: 50px 52px;
-      box-sizing: border-box;
-    }
+.about-inner{
+  padding: 50px 52px;
+  box-sizing: border-box;
+}
 
-    .about-box h2{
-      margin:0 0 22px 0;
-      font-size: 28px;
-      letter-spacing: 0.14em;
-    }
+.about-box h2{
+  margin:0 0 22px 0;
+  font-size: 28px;
+  letter-spacing: 0.14em;
+}
 
-    .about-box p{
-      margin:0 0 18px 0;
-      line-height: 1.6;
-    }
+.about-box p{
+  margin:0 0 18px 0;
+  line-height: 1.6;
+}
 
-    .about-box p:last-child{ margin:0; }
+.about-box p:last-child{
+  margin:0;
+}   
+        footer.site-footer{
+  background:#F6C96B;
+  color:#321507;
+  font-family:"Cinzel", serif;
+  font-size:18px;
+  width:100%;
+}
 
-    footer.site-footer{
-      background:#F6C96B;
-      color:#321507;
-      font-family:"Cinzel", serif;
-      font-size:18px;
-      width:100%;
-    }
+.footer-inner{
+  padding:50px 52px;
+  box-sizing:border-box;
+}
 
-    .footer-inner{
-      padding:50px 52px;
-      box-sizing:border-box;
-    }
+footer.site-footer h2{
+  margin:0 0 22px 0;
+  font-size:28px;
+  letter-spacing:0.14em;
+}
 
-    footer.site-footer h2{
-      margin:0 0 22px 0;
-      font-size:28px;
-      letter-spacing:0.14em;
-    }
+footer.site-footer p{
+  margin:0 0 18px 0;
+  line-height:1.6;
+}
 
-    footer.site-footer p{
-      margin:0 0 18px 0;
-      line-height:1.6;
-    }
+footer.site-footer p:last-child{
+  margin:0;
+}
+    /* --- STAGE 1: target marker for the SMALL-logo end point (base only) --- */
+.logo-target{
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  background: #00ff2a;
+  z-index: 10000;
+  pointer-events: none;
 
-    footer.site-footer p:last-child{ margin:0; }
-
-    /* --- your destination coordinates live here --- */
-    .logo-target{
-      position: fixed;
-      width: 10px;
-      height: 10px;
-      background: #00ff2a;
-      z-index: 10000;
-      pointer-events: none;
-
-      /* BASE (desktop) target position */
-      left: 1150px;
-      top: 20vh;
-    }
-
+  /* BASE (desktop) target position — YOU ADJUST THESE TWO */
+  left: 1150px;     /* same longitude as logo origin by default */
+  top: 20vh;      /* start guess: between header & hero */
+}
+    
     @media (max-width: 1024px){
-      body{ padding-top: 15vh; }
-
-      .site-header{
-        height: 15vh;
-        overflow: hidden;
-      }
-
-      .site-header img{
-        width:100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center top;
-      }
-
-      .brand-mark{
-        left: 50%;
-        top: 20vh;
-        width: 340px;
-        height: 340px;
-        transform: translate(-50%, -50%);
-      }
-
-      .hero-image{
-        width: 100%;
-        height: 30vh;
-        object-fit: cover;
-        object-position: center;
-      }
-
-      .events-inner{ padding: 40px 40px; }
-      .about-inner{ padding: 40px 40px; }
-      .footer-inner{ padding: 40px 40px; }
-
-      .logo-target{
-        left: 700px;
-        top: 15vh;
-      }
+    body{
+      padding-top: 15vh;
     }
+      
+  .site-header{
+    height: 15vh;
+    overflow: hidden;
+  }
 
-    @media (max-width: 700px){
-      body{ padding-top: 20vh; }
+  .site-header img{
+      display:block;
+      width:100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
 
-      .site-header{
-        height: 20vh;
-        overflow: hidden;
+  }
+
+  .brand-mark{
+    left: 50%;
+    top: 20vh;
+    width: 340px;
+    height: 340px;
+    transform: translate(-50%, -50%);
+  }
+      
+  .hero-image{
+    width: 100%;
+    height: 30vh;
+    object-fit: cover;
+    object-position: center;
+  }
+      .events-inner{
+        padding: 40px 40px;
       }
 
-      .site-header img{
-        width:100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center top;
+      .about-inner{
+        padding:40px 40px;
       }
-
-      .brand-mark{
-        left: 50%;
-        top: 28vh;
-        width: 300px;
-        height: 300px;
-        transform: translate(-50%, -50%);
+      .footer-inner{
+        padding: 40px 40px
       }
+              .logo-target{
+          left: 700px;
+          top: 15vh;
+        }
+   }
 
-      .hero-image{
-        width: 100%;
-        height: 45vh;
-        object-fit: cover;
-        object-position: center;
-      }
-
-      .events-inner{ padding: 34px 28px; }
-      .about-inner{ padding: 34px 28px; }
-      .footer-inner{ padding: 34px 28px; }
-
-      .logo-target{
-        left: 600px;
-        top: 20vh;
-      }
+      @media (max-width: 700px){
+       body{
+      padding-top: 20vh;
     }
+        
+  .site-header{
+    height: 20vh;
+    overflow: hidden;
+  }
+
+  .site-header img{
+      display:block;
+      width:100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+
+  }
+
+  .brand-mark{
+    left: 50%;
+    top: 28vh;
+    width: 300px;
+    height: 300px;
+    transform: translate(-50%, -50%);
+  }
+      
+  .hero-image{
+    width: 100%;
+    height: 45vh;
+    object-fit: cover;
+    object-position: center;
+  }  
+      .events-inner{
+        padding: 34px 28px;
+      }
+      .about-inner{
+        padding:34px 28px;
+      }
+        .footer-inner{
+          padding:34px 28px;
+        }
+        .logo-target{
+          left: 600px;
+          top: 20vh;
+        }
+         }
 
     @media (max-width: 600px){
-      body{ padding-top: 15vh; }
-
-      .site-header{
-        height: 15vh;
-        overflow: hidden;
-      }
-
-      .site-header img{
-        width:100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center top;
-      }
-
-      .brand-mark{
-        left: 50%;
-        top: 22vh;
-        width: 240px;
-        height: 240px;
-        transform: translate(-50%, -50%);
-      }
-
-      .hero-image{
-        width: 100%;
-        height: 35vh;
-        object-fit: cover;
-        object-position: center;
-      }
-
-      .events-inner{ padding: 40px 40px; }
-      .events-box{ font-size: 18px; }
-      .events-box h2{ font-size: 24px; }
-
-      .about-inner{ padding: 40px 40px; }
-      .about-box{ font-size: 18px; }
-      .about-box h2{ font-size: 24px; }
-
-      footer.site-footer h2{ font-size: 24px; }
-      .footer-inner{ padding: 40px 40px; }
-
-      .logo-target{
-        left: 350px;
-        top: 15vh;
-      }
+       body{
+       padding-top: 15vh;
     }
+      
+  .site-header{
+    height: 15vh;
+    overflow: hidden;
+  }
+
+  .site-header img{
+      display:block;
+      width:100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+  }
+
+  .brand-mark{
+    left: 50%;
+    top: 22vh;
+    width: 240px;
+    height: 240px;
+    transform: translate(-50%, -50%);
+  }
+      
+  .hero-image{
+    width: 100%;
+    height: 35vh;
+    object-fit: cover;
+    object-position: center;
+  }     
+
+   .events-inner{
+    padding: 40px 40px;
+      }   
+      
+      .events-box h2{
+       font-size: 24px;
+      }
+      .events-box{
+        font-size: 18px;
+      }
+      .about-inner{
+        padding:40px 40px;
+      }
+      .about-box h2{
+        font-size:24px;
+      }
+      .about-box{
+        font-size: 18px;
+      }
+      
+      footer.site-footer h2{
+        font-size:24px;
+      }
+      
+        .footer-inner{
+          padding:40px 40px;
+      }
+        .logo-target{
+          left: 350px;
+          top: 15vh;
+        }
+    }
+
+
+    
   </style>
 </head>
 
+  
 <body>
 
   <header class="site-header">
     <img src="assets/images/TheSnuffBarHeader.png" alt="The Snuff Bar">
-
-    <div class="brand-mark">
-      <img src="assets/images/TheSnuffBarLogo.png" alt="The Snuff Bar">
-    </div>
+    
+  <div class="brand-mark">
+  <img src="assets/images/TheSnuffBarLogo.png" alt="The Snuff Bar">
+</div> 
 
     <div class="logo-target" aria-hidden="true"></div>
-  </header>
-
-  <div class="hero-wrap">
-    <img class="hero-image" src="assets/images/TheSnuffBarHero.png" alt="The Snuff Bar">
-  </div>
+    
+    </header>
+  
+<div class="hero-wrap">
+  <img class="hero-image" src="assets/images/TheSnuffBarHero.png" alt="The Snuff Bar">
+</div>
 
   <section id="events" class="events-box">
     <div class="events-inner">
-      <h2>EVENTS</h2>
-      <p><strong>Darts & games:</strong> We host a local darts team, alongside a wide selection of games for friendly competition.</p>
-      <p><strong>Upstairs function room:</strong> Our function room has been home to choirs, meetings, parties and more. It’s available to book for private events, with cold food provided on request.</p>
-      <p><strong>Coming in 2026:</strong> Regular live music nights, quizzes and games evenings — more reasons to gather, enjoy and return.</p>
+  <h2>EVENTS</h2>
+
+  <p><strong>Darts & games:</strong> We host a local darts team, alongside a wide selection of games for friendly competition.</p>
+
+  <p><strong>Upstairs function room:</strong> Our function room has been home to choirs, meetings, parties and more. It’s available to book for private events, with cold food provided on request.</p>
+
+  <p><strong>Coming in 2026:</strong> Regular live music nights, quizzes and games evenings — more reasons to gather, enjoy and return.</p>
     </div>
   </section>
 
-  <section id="about" class="about-box">
-    <div class="about-inner">
-      <h2>ABOUT</h2>
+<section id="about" class="about-box">
+  <div class="about-inner">
+    <h2>ABOUT</h2>
 
-      <p><strong>Old Craft. New Spirit.</strong></p>
+    <p><strong>Old Craft. New Spirit.</strong></p>
 
-      <p>
-        Tucked away on Kent Street, our bar is proudly family run — a labour of love led by mum and her two daughters, with a shared belief that a great bar is about far more than what’s in the glass.
-      </p>
+    <p>
+      Tucked away on Kent Street, our bar is proudly family run — a labour of love led by mum and her two daughters, with a shared belief that a great bar is about far more than what’s in the glass.
+    </p>
 
-      <p>
-        Our roots reach deep into Kendal’s past. With a nod to the town’s historic snuff production, you’ll find traces of old craft woven throughout the space: a table fashioned from an original snuff press, and a small but characterful collection of antique snuff boxes behind the bar. It’s history you can sit with, drink beside, and enjoy — not behind a glass, but as part of the atmosphere.
-      </p>
+    <p>
+      Our roots reach deep into Kendal’s past. With a nod to the town’s historic snuff production, you’ll find traces of old craft woven throughout the space: a table fashioned from an original snuff press, and a small but characterful collection of antique snuff boxes behind the bar. It’s history you can sit with, drink beside, and enjoy — not behind a glass, but as part of the atmosphere.
+    </p>
 
-      <p>
-        Behind the scenes (and often out front), Rosie is our licensee and resident wine selector, personally choosing every bottle for quality and genuine value for money. Our drinks menu champions a great range of beers, spirits and wines, including several produced locally — because we believe the best things are often made close to home.
-      </p>
+    <p>
+      Behind the scenes (and often out front), Rosie is our licensee and resident wine selector, personally choosing every bottle for quality and genuine value for money. Our drinks menu champions a great range of beers, spirits and wines, including several produced locally — because we believe the best things are often made close to home.
+    </p>
 
-      <p>
-        Mily brings the energy, taking care of social media and entertainment, while Lottie is the welcoming face of the bar, front of house and making sure everyone feels at ease the moment they walk in. Together, all three of us are committed to creating a warm, relaxed, memorable experience — whether you’re popping in for a quiet drink or settling in for the evening.
-      </p>
+    <p>
+      Mily brings the energy, taking care of social media and entertainment, while Lottie is the welcoming face of the bar, front of house and making sure everyone feels at ease the moment they walk in. Together, all three of us are committed to creating a warm, relaxed, memorable experience — whether you’re popping in for a quiet drink or settling in for the evening.
+    </p>
 
-      <p>
-        Above all, our focus is simple: a pleasant experience, an atmospheric setting, and a bar that feels like it belongs to the people who drink in it.
-      </p>
-    </div>
-  </section>
+    <p>
+      Above all, our focus is simple: a pleasant experience, an atmospheric setting, and a bar that feels like it belongs to the people who drink in it.
+    </p>
+  </div>
+</section>
 
   <section id="contact" class="events-box">
-    <div class="events-inner">
-      <h2>CONTACT</h2>
+  <div class="events-inner">
+    <h2>CONTACT</h2>
 
-      <p>
-        <strong>Email:</strong>
-        <a href="mailto:thesnuffbar@gmail.com" style="color:inherit; text-decoration:none;">
-          thesnuffbar@gmail.com
-        </a>
-      </p>
+    <p>
+      <strong>Email:</strong>
+      <a href="mailto:thesnuffbar@gmail.com" style="color:inherit; text-decoration:none;">
+        thesnuffbar@gmail.com
+      </a>
+    </p>
 
-      <p>
-        <strong>Address:</strong><br>
-        14 Kent Street, Kendal, LA9 4AT
-      </p>
+    <p>
+      <strong>Address:</strong><br>
+      14 Kent Street, Kendal, LA9 4AT
+    </p>
 
-      <p>
-        <strong>Opening hours:</strong><br>
-        Monday – Friday: 5.30pm – 11pm<br>
-        Saturday & Sunday: 3pm – 11pm
-      </p>
-    </div>
+    <p>
+      <strong>Opening hours:</strong><br>
+      Monday – Friday: 5.30pm – 11pm<br>
+      Saturday & Sunday: 3pm – 11pm
+    </p>
+  </div>
   </section>
 
   <footer class="site-footer">
-    <div class="footer-inner">
-      <h2>THE SNUFF BAR</h2>
+  <div class="footer-inner">
+    <h2>THE SNUFF BAR</h2>
 
-      <p>
-        A family-run bar in the heart of Kendal, rooted in old craft and shaped by new spirit.
-        A place to gather, enjoy, and feel at home.
-      </p>
+    <p>
+      A family-run bar in the heart of Kendal, rooted in old craft and shaped by new spirit.
+      A place to gather, enjoy, and feel at home.
+    </p>
 
-      <p>© The Snuff Bar — Kendal</p>
-    </div>
+    <p>
+      © The Snuff Bar — Kendal
+    </p>
+  </div>
   </footer>
-
-  <script>
-    (() => {
-      const brand = document.querySelector('.brand-mark');
-      const hero  = document.querySelector('.hero-wrap');
-      const dot   = document.querySelector('.logo-target');
-
-      if (!brand || !hero || !dot) return;
-
-      // Snapshot of the CURRENT breakpoint "home" styles
-      let home = null;
-      let small = null;
-
-      function px(n){ return `${n}px`; }
-
-      function readRect(el){
-        const r = el.getBoundingClientRect();
-        return { left: r.left, top: r.top, width: r.width, height: r.height };
-      }
-
-      function setHome(){
-        // read computed home from current breakpoint
-        const r = readRect(brand);
-        const cs = getComputedStyle(brand);
-
-        home = {
-          left:  r.left,
-          top:   r.top,
-          width: r.width,
-          height:r.height,
-          transform: cs.transform === 'none' ? '' : cs.transform
-        };
-
-        // read destination from green dot and derive "50% smaller" size from current home size
-        const d = readRect(dot);
-        small = {
-          left: d.left,
-          top: d.top,
-          width: home.width * 0.5,
-          height: home.height * 0.5,
-          // IMPORTANT: force no translate at destination, so it lands exactly on your dot coords
-          transform: 'none'
-        };
-      }
-
-      function applyState(state){
-        brand.style.left = px(state.left);
-        brand.style.top = px(state.top);
-        brand.style.width = px(state.width);
-        brand.style.height = px(state.height);
-        brand.style.transform = state.transform;
-      }
-
-      function restoreHome(){
-        // clear inline styles so CSS breakpoint home becomes authoritative again
-        brand.style.left = '';
-        brand.style.top = '';
-        brand.style.width = '';
-        brand.style.height = '';
-        brand.style.transform = '';
-      }
-
-      function onScroll(){
-        // trigger: halfway through hero (document position)
-        const rect = hero.getBoundingClientRect();
-        const heroTopDoc = rect.top + window.scrollY;
-        const trigger = heroTopDoc + rect.height / 2;
-
-        if (window.scrollY >= trigger) {
-          applyState(small);
-        } else {
-          applyState(home);
-        }
-      }
-
-      function onResize(){
-        // On resize, reset and recalc so it always returns to correct breakpoint origin
-        restoreHome();
-        setHome();
-        onScroll();
-      }
-
-      // Init
-      setHome();
-      window.addEventListener('scroll', onScroll, { passive:true });
-      window.addEventListener('resize', onResize);
-      onScroll();
-    })();
-  </script>
 
 </body>
 </html>
