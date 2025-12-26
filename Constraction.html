@@ -51,21 +51,6 @@
   display: block;
 }
 
-  /* --- Docked logo state (after you scroll halfway through hero) --- */
-  .brand-mark{
-    will-change: transform;
-  }
-
-  .brand-mark.is-docked{
-    left: auto !important;
-    right: 24px !important;
-    top: 24px !important;
-
-    /* 20% of whatever size it currently is (per breakpoint) */
-    transform: scale(0.20) !important;
-    transform-origin: top right;
-  }
-
 .hero-wrap{
   position: relative;
 }
@@ -425,63 +410,6 @@ footer.site-footer p:last-child{
     </p>
   </div>
   </footer>
-
-  <script>
-  (function () {
-    const logo = document.querySelector('.brand-mark');
-    const hero = document.querySelector('.hero-wrap');
-    if (!logo || !hero) return;
-
-    let docked = false;
-    let ticking = false;
-
-    function setDock(next) {
-      if (next === docked) return;
-
-      // FLIP animation (smoothly move + scale between layout states)
-      const first = logo.getBoundingClientRect();
-
-      docked = next;
-      logo.classList.toggle('is-docked', docked);
-
-      const last = logo.getBoundingClientRect();
-
-      const dx = first.left - last.left;
-      const dy = first.top - last.top;
-      const sx = first.width / last.width;
-      const sy = first.height / last.height;
-
-      logo.animate(
-        [
-          { transform: `translate(${dx}px, ${dy}px) scale(${sx}, ${sy})` },
-          { transform: `translate(0px, 0px) scale(1, 1)` }
-        ],
-        { duration: 520, easing: 'cubic-bezier(.2,.9,.2,1)', fill: 'both' }
-      );
-    }
-
-    function onScroll() {
-      const heroTop = hero.offsetTop;
-      const heroHalf = heroTop + (hero.offsetHeight / 2);
-
-      // trigger when page scroll passes halfway point of hero
-      const shouldDock = window.scrollY >= heroHalf;
-
-      setDock(shouldDock);
-      ticking = false;
-    }
-
-    window.addEventListener('scroll', function () {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(onScroll);
-      }
-    }, { passive: true });
-
-    // run once on load (if page is refreshed mid-scroll)
-    onScroll();
-  })();
-  </script>
 
 </body>
 </html>
