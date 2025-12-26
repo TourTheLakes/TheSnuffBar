@@ -161,6 +161,19 @@ footer.site-footer p{
 footer.site-footer p:last-child{
   margin:0;
 }
+    /* --- STAGE 1: target marker for the SMALL-logo end point (base only) --- */
+.logo-target{
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  background: #00ff2a;
+  z-index: 10000;
+  pointer-events: none;
+
+  /* BASE (desktop) target position — YOU ADJUST THESE TWO */
+  left: 50px;     /* same longitude as logo origin by default */
+  top: 20vh;      /* start guess: between header & hero */
+}
     
     @media (max-width: 1024px){
     body{
@@ -325,6 +338,8 @@ footer.site-footer p:last-child{
   <div class="brand-mark">
   <img src="assets/images/TheSnuffBarLogo.png" alt="The Snuff Bar">
 </div> 
+
+    <div class="logo-target" aria-hidden="true"></div>
     
     </header>
   
