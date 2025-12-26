@@ -442,7 +442,123 @@ footer.site-footer p:last-child{
   </div>
   </footer>
 
+<script>
+(() => {
+  const brand = document.querySelector('.brand-mark');
+  const target = document.querySelector('.logo-target');
+  const hero = document.querySelector('.hero-wrap');
+  if (!brand || !target || !hero) return;
 
+  // Smooth both ways
+  brand.style.transition =
+    'left .55s ease, top .55s ease, width .55s ease, height .55s ease, transform .55s ease';
+
+  let home = null;
+  let small = null;
+  let isSmall = false;
+
+  function px(n){ return `${Math.round(n)}px`; }
+
+  function rect(el){
+    const r = el.getBoundingClientRect();
+    return { left: r.left, top: r.top, width: r.width, height: r.height };
+  }
+
+  function clearInline(){
+    brand.style.left = '';
+    brand.style.top = '';
+    brand.style.width = '';
+    brand.style.height = '';
+    brand.style.transform = '';
+  }
+
+  function captureHome(){
+    // Let CSS define true breakpoint home first
+    clearInline();
+
+    const r = rect(brand);
+    const cs = getComputedStyle(brand);
+    home = {
+      left: r.left,
+      top: r.top,
+      width: r.width,
+      height: r.height,
+      transform: cs.transform === 'none' ? '' : cs.transform
+    };
+
+    // Destination = GREEN DOT AS CENTRE of the small logo (your assumption)
+    const t = rect(target);
+    const w = r.width * 0.5;   // 50% smaller
+    const h = r.height * 0.5;
+
+    small = {
+      left: (t.left + t.width / 2) - (w / 2),
+      top:  (t.top  + t.height / 2) - (h / 2),
+      width: w,
+      height: h,
+      transform: home.transform
+    };
+  }
+
+  function applySmall(){
+    brand.style.left = px(small.left);
+    brand.style.top = px(small.top);
+    brand.style.width = px(small.width);
+    brand.style.height = px(small.height);
+    brand.style.transform = small.transform;
+  }
+
+  function applyHomeThenReturnControlToCSS(){
+    // Animate back to the captured home (px), then hand back to CSS
+    brand.style.left = px(home.left);
+    brand.style.top = px(home.top);
+    brand.style.width = px(home.width);
+    brand.style.height = px(home.height);
+    brand.style.transform = home.transform;
+
+    const done = () => {
+      brand.removeEventListener('transitionend', done);
+      clearInline(); // CSS now fully in charge again for this breakpoint
+      isSmall = false;
+    };
+    brand.addEventListener('transitionend', done);
+  }
+
+  function triggerPoint(){
+    const r = hero.getBoundingClientRect();
+    const heroTopDoc = r.top + window.scrollY;
+    return heroTopDoc + (r.height / 2);
+  }
+
+  function onScroll(){
+    if (!home || !small) return;
+
+    const shouldBeSmall = window.scrollY >= triggerPoint();
+
+    if (shouldBeSmall && !isSmall){
+      applySmall();
+      isSmall = true;
+    } else if (!shouldBeSmall && isSmall){
+      applyHomeThenReturnControlToCSS();
+    }
+  }
+
+  function onResize(){
+    // Re-evaluate home + target for the new breakpoint
+    captureHome();
+
+    // If currently past trigger, re-apply small using new breakpoint target
+    isSmall = false;
+    onScroll();
+  }
+
+  // Init
+  captureHome();
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onResize);
+})();
+</script>
   
 </body>
 </html>
