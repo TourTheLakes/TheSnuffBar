@@ -73,28 +73,31 @@
   pointer-events: none;
 }
 
+  .events-box{ font-family: "Cinzel", serif; }
+
   .events-box{
      background:#321507;
      color:#F6C96B;
      margin:0;
      width:100%;
-     padding: 0;
-     border-radius:0;
-     box-sizing:border-box;
-     font-family:"Cinzel", serif;
   
 }
+    .events-inner{
+      padding: 48px 50px;
+      box-sizing: border-box;
+    }
 
-.events-box{ font-family: "Cinzel", serif; }
+
 
 .events-box h2{
-  margin:0 0 10px 0;
-  font-size: 22px;
-  letter-spacing: 0.12em;
+  margin:0 0 22px 0;
+  font-size: 24px;
+  letter-spacing: 0.14em;
 }
 
 .events-box p{
-  margin:0 0 12px 0;
+  margin:0 0 18px 0;
+  line-height: 1.6;
 }
 
 .events-box p:last-child{
@@ -134,6 +137,9 @@
     object-fit: cover;
     object-position: center;
   }
+      .events-inner{
+        padding: 40px 40px;
+      }
    }
 
       @media (max-width: 700px){
@@ -169,6 +175,9 @@
     object-fit: cover;
     object-position: center;
   }  
+          .events-inner{
+        padding: 34px 28px;
+      }
      }
 
     @media (max-width: 600px){
@@ -203,6 +212,13 @@
     object-fit: cover;
     object-position: center;
   }     
+
+   .events-inner{
+        padding: 40px 40px;
+      }   
+      .events-box h2{
+        font-size: 20px;
+      }
     }
     
   </style>
@@ -225,6 +241,7 @@
 </div>
 
   <section id="events" class="events-box">
+    <div class="events-inner">
   <h2>EVENTS</h2>
 
   <p><strong>Darts & games:</strong> We host a local darts team, alongside a wide selection of games for friendly competition.</p>
@@ -232,6 +249,7 @@
   <p><strong>Upstairs function room:</strong> Our function room has been home to choirs, meetings, parties and more. It’s available to book for private events, with cold food provided on request.</p>
 
   <p><strong>Coming in 2026:</strong> Regular live music nights, quizzes and games evenings — more reasons to gather, enjoy and return.</p>
+    </div>
   </section>
 
 
