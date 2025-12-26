@@ -9,9 +9,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
-  
-  <style>
 
+  <style>
     body{
       margin:0;
       padding:0;
@@ -36,45 +35,55 @@
       object-position: center;
     }
 
+    /* ---- BRAND (unchanged layout) ---- */
     .brand-mark{
-  position: fixed;
-  left: 50px;
-  top: 50px;
-  width: 280px;
-  height: 280px;
-  z-index: 9999;
-}
+      position: fixed;
+      left: 50px;
+      top: 50px;
+      width: 280px;
+      height: 280px;
+      z-index: 9999;
 
-.brand-mark img{
-  width: 100%;
-  height: 100%;
-  display: block;
-}
+      /* Stage 5: allow smooth move/scale */
+      transform-origin: top left;
+      will-change: transform;
+      transition: transform 520ms ease;
+    }
 
+    .brand-mark img{
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
 
+    /* Stage 5: “small state” is applied by JS */
+    .brand-mark.is-small{
+      /* JS sets the full transform, this is just a marker class */
+    }
 
-.hero-wrap{
-  position: relative;
-}
-    
- .hero-image{
-  display: block;
-  width: 100%;
-  height: auto;
-}
+    /* ---- HERO ---- */
+    .hero-wrap{
+      position: relative;
+    }
 
-.hero-wrap::after{
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(
-      rgba(255,255,255,0.35),
-      rgba(255,255,255,0.35)
-    );
-  pointer-events: none;
-}
+    .hero-image{
+      display: block;
+      width: 100%;
+      height: auto;
+    }
 
+    .hero-wrap::after{
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        rgba(255,255,255,0.35),
+        rgba(255,255,255,0.35)
+      );
+      pointer-events: none;
+    }
+
+    /* ---- SECTIONS ---- */
     .events-box p{
       margin:0 0 18px 0;
       line-height: 1.6;
@@ -84,363 +93,423 @@
       font-weight: 700;
     }
 
-  .events-box{
-    font-family: "Cinzel", serif;
-    font-size: 20px;
-     background:#321507;
-     color:#F6C96B;
-     margin:0;
-     width:100%;
-  
-}
+    .events-box{
+      font-family: "Cinzel", serif;
+      font-size: 20px;
+      background:#321507;
+      color:#F6C96B;
+      margin:0;
+      width:100%;
+    }
+
     .events-inner{
       padding: 50px 52px;
       box-sizing: border-box;
     }
 
-.events-box h2{
-  margin:0 0 22px 0;
-  font-size: 28px;
-  letter-spacing: 0.14em;
-}
+    .events-box h2{
+      margin:0 0 22px 0;
+      font-size: 28px;
+      letter-spacing: 0.14em;
+    }
 
-.events-box p:last-child{
-  margin:0;
-}  
+    .events-box p:last-child{
+      margin:0;
+    }
 
- .about-box{
-  font-family: "Cinzel", serif;
-  font-size: 20px; 
-  background:#F6C96B;
-  color:#321507;
-  margin:0;
-  width:100%;
-}
+    .about-box{
+      font-family: "Cinzel", serif;
+      font-size: 20px;
+      background:#F6C96B;
+      color:#321507;
+      margin:0;
+      width:100%;
+    }
 
-.about-inner{
-  padding: 50px 52px;
-  box-sizing: border-box;
-}
+    .about-inner{
+      padding: 50px 52px;
+      box-sizing: border-box;
+    }
 
-.about-box h2{
-  margin:0 0 22px 0;
-  font-size: 28px;
-  letter-spacing: 0.14em;
-}
+    .about-box h2{
+      margin:0 0 22px 0;
+      font-size: 28px;
+      letter-spacing: 0.14em;
+    }
 
-.about-box p{
-  margin:0 0 18px 0;
-  line-height: 1.6;
-}
+    .about-box p{
+      margin:0 0 18px 0;
+      line-height: 1.6;
+    }
 
-.about-box p:last-child{
-  margin:0;
-}   
-        footer.site-footer{
-  background:#F6C96B;
-  color:#321507;
-  font-family:"Cinzel", serif;
-  font-size:18px;
-  width:100%;
-}
+    .about-box p:last-child{
+      margin:0;
+    }
 
-.footer-inner{
-  padding:50px 52px;
-  box-sizing:border-box;
-}
+    footer.site-footer{
+      background:#F6C96B;
+      color:#321507;
+      font-family:"Cinzel", serif;
+      font-size:18px;
+      width:100%;
+    }
 
-footer.site-footer h2{
-  margin:0 0 22px 0;
-  font-size:28px;
-  letter-spacing:0.14em;
-}
+    .footer-inner{
+      padding:50px 52px;
+      box-sizing:border-box;
+    }
 
-footer.site-footer p{
-  margin:0 0 18px 0;
-  line-height:1.6;
-}
+    footer.site-footer h2{
+      margin:0 0 22px 0;
+      font-size:28px;
+      letter-spacing:0.14em;
+    }
 
-footer.site-footer p:last-child{
-  margin:0;
-}
-    /* --- STAGE 1: target marker for the SMALL-logo end point (base only) --- */
-.logo-target{
-  position: fixed;
-  width: 10px;
-  height: 10px;
-  background: #00ff2a;
-  z-index: 10000;
-  pointer-events: none;
+    footer.site-footer p{
+      margin:0 0 18px 0;
+      line-height:1.6;
+    }
 
-  /* BASE (desktop) target position — YOU ADJUST THESE TWO */
-  left: 1150px;     /* same longitude as logo origin by default */
-  top: 20vh;      /* start guess: between header & hero */
-}
-    
+    footer.site-footer p:last-child{
+      margin:0;
+    }
+
+    /* ---- TARGET COORDS (Stage 5) ----
+       Use these to tell JS where the “small logo” should land.
+       Matches your green-dot values exactly.
+    */
+    :root{
+      --target-left: 1150px;
+      --target-top: 20vh;
+    }
+
     @media (max-width: 1024px){
-    body{
-      padding-top: 15vh;
+      body{ padding-top: 15vh; }
+
+      .site-header{ height: 15vh; overflow: hidden; }
+      .site-header img{
+        display:block; width:100%; height: 100%;
+        object-fit: cover; object-position: center top;
+      }
+
+      .brand-mark{
+        left: 50%;
+        top: 20vh;
+        width: 340px;
+        height: 340px;
+        transform: translate(-50%, -50%); /* your existing layout */
+        transition: transform 520ms ease; /* keep smooth */
+      }
+
+      .hero-image{
+        width: 100%;
+        height: 30vh;
+        object-fit: cover;
+        object-position: center;
+      }
+
+      .events-inner{ padding: 40px 40px; }
+      .about-inner{ padding:40px 40px; }
+      .footer-inner{ padding: 40px 40px; }
+
+      :root{
+        --target-left: 700px;
+        --target-top: 15vh;
+      }
     }
-      
-  .site-header{
-    height: 15vh;
-    overflow: hidden;
-  }
 
-  .site-header img{
-      display:block;
-      width:100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center top;
+    @media (max-width: 700px){
+      body{ padding-top: 20vh; }
 
-  }
-
-  .brand-mark{
-    left: 50%;
-    top: 20vh;
-    width: 340px;
-    height: 340px;
-    transform: translate(-50%, -50%);
-  }
-      
-  .hero-image{
-    width: 100%;
-    height: 30vh;
-    object-fit: cover;
-    object-position: center;
-  }
-      .events-inner{
-        padding: 40px 40px;
+      .site-header{ height: 20vh; overflow: hidden; }
+      .site-header img{
+        display:block; width:100%; height: 100%;
+        object-fit: cover; object-position: center top;
       }
 
-      .about-inner{
-        padding:40px 40px;
+      .brand-mark{
+        left: 50%;
+        top: 28vh;
+        width: 300px;
+        height: 300px;
+        transform: translate(-50%, -50%);
+        transition: transform 520ms ease;
       }
-      .footer-inner{
-        padding: 40px 40px
-      }
-              .logo-target{
-          left: 700px;
-          top: 15vh;
-        }
-   }
 
-      @media (max-width: 700px){
-       body{
-      padding-top: 20vh;
+      .hero-image{
+        width: 100%;
+        height: 45vh;
+        object-fit: cover;
+        object-position: center;
+      }
+
+      .events-inner{ padding: 34px 28px; }
+      .about-inner{ padding:34px 28px; }
+      .footer-inner{ padding:34px 28px; }
+
+      :root{
+        --target-left: 600px;
+        --target-top: 20vh;
+      }
     }
-        
-  .site-header{
-    height: 20vh;
-    overflow: hidden;
-  }
-
-  .site-header img{
-      display:block;
-      width:100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center top;
-
-  }
-
-  .brand-mark{
-    left: 50%;
-    top: 28vh;
-    width: 300px;
-    height: 300px;
-    transform: translate(-50%, -50%);
-  }
-      
-  .hero-image{
-    width: 100%;
-    height: 45vh;
-    object-fit: cover;
-    object-position: center;
-  }  
-      .events-inner{
-        padding: 34px 28px;
-      }
-      .about-inner{
-        padding:34px 28px;
-      }
-        .footer-inner{
-          padding:34px 28px;
-        }
-        .logo-target{
-          left: 600px;
-          top: 20vh;
-        }
-         }
 
     @media (max-width: 600px){
-       body{
-       padding-top: 15vh;
+      body{ padding-top: 15vh; }
+
+      .site-header{ height: 15vh; overflow: hidden; }
+      .site-header img{
+        display:block; width:100%; height: 100%;
+        object-fit: cover; object-position: center top;
+      }
+
+      .brand-mark{
+        left: 50%;
+        top: 22vh;
+        width: 240px;
+        height: 240px;
+        transform: translate(-50%, -50%);
+        transition: transform 520ms ease;
+      }
+
+      .hero-image{
+        width: 100%;
+        height: 35vh;
+        object-fit: cover;
+        object-position: center;
+      }
+
+      .events-inner{ padding: 40px 40px; }
+      .events-box h2{ font-size: 24px; }
+      .events-box{ font-size: 18px; }
+
+      .about-inner{ padding:40px 40px; }
+      .about-box h2{ font-size:24px; }
+      .about-box{ font-size: 18px; }
+
+      footer.site-footer h2{ font-size:24px; }
+      .footer-inner{ padding:40px 40px; }
+
+      :root{
+        --target-left: 350px;
+        --target-top: 15vh;
+      }
     }
-      
-  .site-header{
-    height: 15vh;
-    overflow: hidden;
-  }
-
-  .site-header img{
-      display:block;
-      width:100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center top;
-  }
-
-  .brand-mark{
-    left: 50%;
-    top: 22vh;
-    width: 240px;
-    height: 240px;
-    transform: translate(-50%, -50%);
-  }
-      
-  .hero-image{
-    width: 100%;
-    height: 35vh;
-    object-fit: cover;
-    object-position: center;
-  }     
-
-   .events-inner{
-    padding: 40px 40px;
-      }   
-      
-      .events-box h2{
-       font-size: 24px;
-      }
-      .events-box{
-        font-size: 18px;
-      }
-      .about-inner{
-        padding:40px 40px;
-      }
-      .about-box h2{
-        font-size:24px;
-      }
-      .about-box{
-        font-size: 18px;
-      }
-      
-      footer.site-footer h2{
-        font-size:24px;
-      }
-      
-        .footer-inner{
-          padding:40px 40px;
-      }
-        .logo-target{
-          left: 350px;
-          top: 15vh;
-        }
-    }
-
-
-    
   </style>
 </head>
 
-  
 <body>
 
   <header class="site-header">
     <img src="assets/images/TheSnuffBarHeader.png" alt="The Snuff Bar">
-    
-  <div class="brand-mark">
-  <img src="assets/images/TheSnuffBarLogo.png" alt="The Snuff Bar">
-</div> 
 
-    <div class="logo-target" aria-hidden="true"></div>
-    
-    </header>
-  
-<div class="hero-wrap">
-  <img class="hero-image" src="assets/images/TheSnuffBarHero.png" alt="The Snuff Bar">
-</div>
+    <div class="brand-mark" id="brandMark">
+      <img src="assets/images/TheSnuffBarLogo.png" alt="The Snuff Bar">
+    </div>
+  </header>
+
+  <div class="hero-wrap" id="heroWrap">
+    <img class="hero-image" src="assets/images/TheSnuffBarHero.png" alt="The Snuff Bar">
+  </div>
 
   <section id="events" class="events-box">
     <div class="events-inner">
-  <h2>EVENTS</h2>
+      <h2>EVENTS</h2>
 
-  <p><strong>Darts & games:</strong> We host a local darts team, alongside a wide selection of games for friendly competition.</p>
+      <p><strong>Darts & games:</strong> We host a local darts team, alongside a wide selection of games for friendly competition.</p>
 
-  <p><strong>Upstairs function room:</strong> Our function room has been home to choirs, meetings, parties and more. It’s available to book for private events, with cold food provided on request.</p>
+      <p><strong>Upstairs function room:</strong> Our function room has been home to choirs, meetings, parties and more. It’s available to book for private events, with cold food provided on request.</p>
 
-  <p><strong>Coming in 2026:</strong> Regular live music nights, quizzes and games evenings — more reasons to gather, enjoy and return.</p>
+      <p><strong>Coming in 2026:</strong> Regular live music nights, quizzes and games evenings — more reasons to gather, enjoy and return.</p>
     </div>
   </section>
 
-<section id="about" class="about-box">
-  <div class="about-inner">
-    <h2>ABOUT</h2>
+  <section id="about" class="about-box">
+    <div class="about-inner">
+      <h2>ABOUT</h2>
 
-    <p><strong>Old Craft. New Spirit.</strong></p>
+      <p><strong>Old Craft. New Spirit.</strong></p>
 
-    <p>
-      Tucked away on Kent Street, our bar is proudly family run — a labour of love led by mum and her two daughters, with a shared belief that a great bar is about far more than what’s in the glass.
-    </p>
+      <p>
+        Tucked away on Kent Street, our bar is proudly family run — a labour of love led by mum and her two daughters, with a shared belief that a great bar is about far more than what’s in the glass.
+      </p>
 
-    <p>
-      Our roots reach deep into Kendal’s past. With a nod to the town’s historic snuff production, you’ll find traces of old craft woven throughout the space: a table fashioned from an original snuff press, and a small but characterful collection of antique snuff boxes behind the bar. It’s history you can sit with, drink beside, and enjoy — not behind a glass, but as part of the atmosphere.
-    </p>
+      <p>
+        Our roots reach deep into Kendal’s past. With a nod to the town’s historic snuff production, you’ll find traces of old craft woven throughout the space: a table fashioned from an original snuff press, and a small but characterful collection of antique snuff boxes behind the bar. It’s history you can sit with, drink beside, and enjoy — not behind a glass, but as part of the atmosphere.
+      </p>
 
-    <p>
-      Behind the scenes (and often out front), Rosie is our licensee and resident wine selector, personally choosing every bottle for quality and genuine value for money. Our drinks menu champions a great range of beers, spirits and wines, including several produced locally — because we believe the best things are often made close to home.
-    </p>
+      <p>
+        Behind the scenes (and often out front), Rosie is our licensee and resident wine selector, personally choosing every bottle for quality and genuine value for money. Our drinks menu champions a great range of beers, spirits and wines, including several produced locally — because we believe the best things are often made close to home.
+      </p>
 
-    <p>
-      Mily brings the energy, taking care of social media and entertainment, while Lottie is the welcoming face of the bar, front of house and making sure everyone feels at ease the moment they walk in. Together, all three of us are committed to creating a warm, relaxed, memorable experience — whether you’re popping in for a quiet drink or settling in for the evening.
-    </p>
+      <p>
+        Mily brings the energy, taking care of social media and entertainment, while Lottie is the welcoming face of the bar, front of house and making sure everyone feels at ease the moment they walk in. Together, all three of us are committed to creating a warm, relaxed, memorable experience — whether you’re popping in for a quiet drink or settling in for the evening.
+      </p>
 
-    <p>
-      Above all, our focus is simple: a pleasant experience, an atmospheric setting, and a bar that feels like it belongs to the people who drink in it.
-    </p>
-  </div>
-</section>
+      <p>
+        Above all, our focus is simple: a pleasant experience, an atmospheric setting, and a bar that feels like it belongs to the people who drink in it.
+      </p>
+    </div>
+  </section>
 
   <section id="contact" class="events-box">
-  <div class="events-inner">
-    <h2>CONTACT</h2>
+    <div class="events-inner">
+      <h2>CONTACT</h2>
 
-    <p>
-      <strong>Email:</strong>
-      <a href="mailto:thesnuffbar@gmail.com" style="color:inherit; text-decoration:none;">
-        thesnuffbar@gmail.com
-      </a>
-    </p>
+      <p>
+        <strong>Email:</strong>
+        <a href="mailto:thesnuffbar@gmail.com" style="color:inherit; text-decoration:none;">
+          thesnuffbar@gmail.com
+        </a>
+      </p>
 
-    <p>
-      <strong>Address:</strong><br>
-      14 Kent Street, Kendal, LA9 4AT
-    </p>
+      <p>
+        <strong>Address:</strong><br>
+        14 Kent Street, Kendal, LA9 4AT
+      </p>
 
-    <p>
-      <strong>Opening hours:</strong><br>
-      Monday – Friday: 5.30pm – 11pm<br>
-      Saturday & Sunday: 3pm – 11pm
-    </p>
-  </div>
+      <p>
+        <strong>Opening hours:</strong><br>
+        Monday – Friday: 5.30pm – 11pm<br>
+        Saturday & Sunday: 3pm – 11pm
+      </p>
+    </div>
   </section>
 
   <footer class="site-footer">
-  <div class="footer-inner">
-    <h2>THE SNUFF BAR</h2>
+    <div class="footer-inner">
+      <h2>THE SNUFF BAR</h2>
 
-    <p>
-      A family-run bar in the heart of Kendal, rooted in old craft and shaped by new spirit.
-      A place to gather, enjoy, and feel at home.
-    </p>
+      <p>
+        A family-run bar in the heart of Kendal, rooted in old craft and shaped by new spirit.
+        A place to gather, enjoy, and feel at home.
+      </p>
 
-    <p>
-      © The Snuff Bar — Kendal
-    </p>
-  </div>
+      <p>
+        © The Snuff Bar — Kendal
+      </p>
+    </div>
   </footer>
+
+  <script>
+    (function(){
+      const brand = document.getElementById('brandMark');
+      const hero  = document.getElementById('heroWrap');
+
+      // Scale: “50% smaller” => 0.5
+      const SMALL_SCALE = 0.5;
+
+      // Cache the “home/origin” transform per breakpoint (your CSS sets it)
+      let homeTransform = '';
+      let isSmall = false;
+
+      function getTargetPx(){
+        const cs = getComputedStyle(document.documentElement);
+
+        // left is stored as px in your variables
+        const leftStr = cs.getPropertyValue('--target-left').trim(); // e.g. "1150px"
+        const leftPx  = parseFloat(leftStr) || 0;
+
+        // top may be vh in your variables, convert to px
+        const topStr = cs.getPropertyValue('--target-top').trim();   // e.g. "20vh" or "120px"
+        let topPx = 0;
+
+        if (topStr.endsWith('vh')) {
+          const vh = parseFloat(topStr) || 0;
+          topPx = window.innerHeight * (vh / 100);
+        } else if (topStr.endsWith('px')) {
+          topPx = parseFloat(topStr) || 0;
+        } else {
+          // fallback: try parsing as px
+          topPx = parseFloat(topStr) || 0;
+        }
+
+        return { leftPx, topPx };
+      }
+
+      function setHome(){
+        // Store whatever CSS currently applies (differs per breakpoint)
+        homeTransform = getComputedStyle(brand).transform;
+        // If none/matrix? We'll just reset by clearing inline style later.
+      }
+
+      function applySmall(){
+        const { leftPx, topPx } = getTargetPx();
+
+        // Current position of brand in viewport
+        const r = brand.getBoundingClientRect();
+
+        // We want its TOP-LEFT corner to land at (leftPx, topPx)
+        const dx = leftPx - r.left;
+        const dy = topPx  - r.top;
+
+        // Keep your existing CSS transform (e.g. translate(-50%,-50%)) AND add translate+scale.
+        // If CSS transform is "none", treat as identity.
+        // We do it by applying an inline transform that composes the CSS one.
+        // Easiest/robust: read computed transform matrix, but we just reapply by clearing first, measuring, then applying.
+        // So: make sure we are starting from CSS state (no inline), then apply movement.
+        brand.style.transform = ''; // back to CSS transform
+        const r2 = brand.getBoundingClientRect();
+        const dx2 = leftPx - r2.left;
+        const dy2 = topPx  - r2.top;
+
+        // Compose: existing CSS transform + translate(px) + scale
+        const base = (getComputedStyle(brand).transform === 'none') ? '' : getComputedStyle(brand).transform;
+
+        // If base is a matrix, we can’t safely concatenate it as a string for transform functions.
+        // Instead: rely on CSS transform being handled by the element itself, and use translate/scale via CSS variables? Not using :root per your preference.
+        // Practical approach: wrap the image — but you said no structural changes.
+        // So: we avoid matrices by ensuring the CSS transform is only translate(-50%,-50%) in breakpoints.
+        // We'll rebuild that explicitly for small state based on breakpoint.
+        const w = window.innerWidth;
+        let baseFn = 'translate(0,0)';
+
+        if (w <= 1024) baseFn = 'translate(-50%, -50%)';
+        if (w <= 700)  baseFn = 'translate(-50%, -50%)';
+        if (w <= 600)  baseFn = 'translate(-50%, -50%)';
+
+        // Desktop uses no translate in your CSS (left/top px), so baseFn stays translate(0,0)
+        brand.style.transform = `${baseFn} translate(${dx2}px, ${dy2}px) scale(${SMALL_SCALE})`;
+        brand.classList.add('is-small');
+        isSmall = true;
+      }
+
+      function restoreHome(){
+        brand.classList.remove('is-small');
+        // Clear inline transform so it returns to pure CSS origin
+        brand.style.transform = '';
+        isSmall = false;
+      }
+
+      function halfwayTriggerPassed(){
+        // “Halfway through hero”: when scrollY reaches heroTop + heroHeight/2
+        const heroTop = hero.offsetTop;
+        const heroH   = hero.offsetHeight;
+        const trigger = heroTop + (heroH / 2);
+
+        return window.scrollY >= trigger;
+      }
+
+      function onScroll(){
+        const shouldSmall = halfwayTriggerPassed();
+
+        if (shouldSmall && !isSmall) applySmall();
+        if (!shouldSmall && isSmall) restoreHome();
+      }
+
+      function onResize(){
+        // On resize, reset and recalc so it always returns to correct breakpoint origin
+        restoreHome();
+        setHome();
+        onScroll();
+      }
+
+      // Init
+      setHome();
+      window.addEventListener('scroll', onScroll, { passive:true });
+      window.addEventListener('resize', onResize);
+      onScroll();
+    })();
+  </script>
 
 </body>
 </html>
