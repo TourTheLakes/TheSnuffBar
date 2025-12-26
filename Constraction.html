@@ -48,7 +48,78 @@
   display: block;
 }
 
+.hero-wrap{
+  position: relative;
+  isolation: isolate;
+}
 
+.hero-image{
+  display:block;
+  width:100%;
+  height:auto;
+}
+
+/* Fog layer */
+.hero-fog{
+  position:absolute;
+  inset:0;
+  background: rgba(255,255,255,0.45);
+  pointer-events:none;
+  z-index: 1;
+}
+
+/* The “etch” becomes a MASK SOURCE (not visible itself) */
+.hero-etch{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:2rem;
+
+  font-size:4rem;
+  font-weight:600;
+  letter-spacing:0.3em;
+  text-transform:uppercase;
+
+  z-index: 2;
+  pointer-events:none;
+
+  /* IMPORTANT: the text itself is not shown */
+  opacity: 0;
+}
+
+/* Cut the fog where the text is (WebKit/Blink) */
+.hero-fog{
+  -webkit-mask-image: none;
+  -webkit-mask-composite: destination-out;
+}
+
+/* Use the etched text as the destination-out mask */
+.hero-fog{
+  -webkit-mask-image: linear-gradient(#000,#000);
+}
+
+/* This is the key: make the fog use the etch text as a mask by duplicating it via a pseudo element */
+.hero-fog::before{
+  content: "✦ WELCOME ✦";
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-size:4rem;
+  font-weight:600;
+  letter-spacing:0.3em;
+  text-transform:uppercase;
+
+  /* This “draws” the mask */
+  color:#000;
+  background: transparent;
+
+  -webkit-mask-composite: destination-out;
+}
     
     @media (max-width: 1024px){
     body{
