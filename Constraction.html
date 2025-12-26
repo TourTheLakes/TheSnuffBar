@@ -35,7 +35,6 @@
       object-position: center;
     }
 
-    /* ---- BRAND (unchanged layout) ---- */
     .brand-mark{
       position: fixed;
       left: 50px;
@@ -43,11 +42,9 @@
       width: 280px;
       height: 280px;
       z-index: 9999;
-
-      /* Stage 5: allow smooth move/scale */
-      transform-origin: top left;
-      will-change: transform;
-      transition: transform 520ms ease;
+      /* smooth both ways */
+      transition: left .55s ease, top .55s ease, width .55s ease, height .55s ease, transform .55s ease;
+      will-change: left, top, width, height, transform;
     }
 
     .brand-mark img{
@@ -56,12 +53,6 @@
       display: block;
     }
 
-    /* Stage 5: “small state” is applied by JS */
-    .brand-mark.is-small{
-      /* JS sets the full transform, this is just a marker class */
-    }
-
-    /* ---- HERO ---- */
     .hero-wrap{
       position: relative;
     }
@@ -76,22 +67,16 @@
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(
-        rgba(255,255,255,0.35),
-        rgba(255,255,255,0.35)
-      );
+      background: linear-gradient(rgba(255,255,255,0.35), rgba(255,255,255,0.35));
       pointer-events: none;
     }
 
-    /* ---- SECTIONS ---- */
     .events-box p{
       margin:0 0 18px 0;
       line-height: 1.6;
     }
 
-    .events-box strong{
-      font-weight: 700;
-    }
+    .events-box strong{ font-weight: 700; }
 
     .events-box{
       font-family: "Cinzel", serif;
@@ -113,9 +98,7 @@
       letter-spacing: 0.14em;
     }
 
-    .events-box p:last-child{
-      margin:0;
-    }
+    .events-box p:last-child{ margin:0; }
 
     .about-box{
       font-family: "Cinzel", serif;
@@ -142,9 +125,7 @@
       line-height: 1.6;
     }
 
-    .about-box p:last-child{
-      margin:0;
-    }
+    .about-box p:last-child{ margin:0; }
 
     footer.site-footer{
       background:#F6C96B;
@@ -170,26 +151,35 @@
       line-height:1.6;
     }
 
-    footer.site-footer p:last-child{
-      margin:0;
-    }
+    footer.site-footer p:last-child{ margin:0; }
 
-    /* ---- TARGET COORDS (Stage 5) ----
-       Use these to tell JS where the “small logo” should land.
-       Matches your green-dot values exactly.
-    */
-    :root{
-      --target-left: 1150px;
-      --target-top: 20vh;
+    /* --- your destination coordinates live here --- */
+    .logo-target{
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background: #00ff2a;
+      z-index: 10000;
+      pointer-events: none;
+
+      /* BASE (desktop) target position */
+      left: 1150px;
+      top: 20vh;
     }
 
     @media (max-width: 1024px){
       body{ padding-top: 15vh; }
 
-      .site-header{ height: 15vh; overflow: hidden; }
+      .site-header{
+        height: 15vh;
+        overflow: hidden;
+      }
+
       .site-header img{
-        display:block; width:100%; height: 100%;
-        object-fit: cover; object-position: center top;
+        width:100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center top;
       }
 
       .brand-mark{
@@ -197,8 +187,7 @@
         top: 20vh;
         width: 340px;
         height: 340px;
-        transform: translate(-50%, -50%); /* your existing layout */
-        transition: transform 520ms ease; /* keep smooth */
+        transform: translate(-50%, -50%);
       }
 
       .hero-image{
@@ -209,22 +198,28 @@
       }
 
       .events-inner{ padding: 40px 40px; }
-      .about-inner{ padding:40px 40px; }
+      .about-inner{ padding: 40px 40px; }
       .footer-inner{ padding: 40px 40px; }
 
-      :root{
-        --target-left: 700px;
-        --target-top: 15vh;
+      .logo-target{
+        left: 700px;
+        top: 15vh;
       }
     }
 
     @media (max-width: 700px){
       body{ padding-top: 20vh; }
 
-      .site-header{ height: 20vh; overflow: hidden; }
+      .site-header{
+        height: 20vh;
+        overflow: hidden;
+      }
+
       .site-header img{
-        display:block; width:100%; height: 100%;
-        object-fit: cover; object-position: center top;
+        width:100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center top;
       }
 
       .brand-mark{
@@ -233,7 +228,6 @@
         width: 300px;
         height: 300px;
         transform: translate(-50%, -50%);
-        transition: transform 520ms ease;
       }
 
       .hero-image{
@@ -244,22 +238,28 @@
       }
 
       .events-inner{ padding: 34px 28px; }
-      .about-inner{ padding:34px 28px; }
-      .footer-inner{ padding:34px 28px; }
+      .about-inner{ padding: 34px 28px; }
+      .footer-inner{ padding: 34px 28px; }
 
-      :root{
-        --target-left: 600px;
-        --target-top: 20vh;
+      .logo-target{
+        left: 600px;
+        top: 20vh;
       }
     }
 
     @media (max-width: 600px){
       body{ padding-top: 15vh; }
 
-      .site-header{ height: 15vh; overflow: hidden; }
+      .site-header{
+        height: 15vh;
+        overflow: hidden;
+      }
+
       .site-header img{
-        display:block; width:100%; height: 100%;
-        object-fit: cover; object-position: center top;
+        width:100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center top;
       }
 
       .brand-mark{
@@ -268,7 +268,6 @@
         width: 240px;
         height: 240px;
         transform: translate(-50%, -50%);
-        transition: transform 520ms ease;
       }
 
       .hero-image{
@@ -279,19 +278,19 @@
       }
 
       .events-inner{ padding: 40px 40px; }
-      .events-box h2{ font-size: 24px; }
       .events-box{ font-size: 18px; }
+      .events-box h2{ font-size: 24px; }
 
-      .about-inner{ padding:40px 40px; }
-      .about-box h2{ font-size:24px; }
+      .about-inner{ padding: 40px 40px; }
       .about-box{ font-size: 18px; }
+      .about-box h2{ font-size: 24px; }
 
-      footer.site-footer h2{ font-size:24px; }
-      .footer-inner{ padding:40px 40px; }
+      footer.site-footer h2{ font-size: 24px; }
+      .footer-inner{ padding: 40px 40px; }
 
-      :root{
-        --target-left: 350px;
-        --target-top: 15vh;
+      .logo-target{
+        left: 350px;
+        top: 15vh;
       }
     }
   </style>
@@ -302,23 +301,22 @@
   <header class="site-header">
     <img src="assets/images/TheSnuffBarHeader.png" alt="The Snuff Bar">
 
-    <div class="brand-mark" id="brandMark">
+    <div class="brand-mark">
       <img src="assets/images/TheSnuffBarLogo.png" alt="The Snuff Bar">
     </div>
+
+    <div class="logo-target" aria-hidden="true"></div>
   </header>
 
-  <div class="hero-wrap" id="heroWrap">
+  <div class="hero-wrap">
     <img class="hero-image" src="assets/images/TheSnuffBarHero.png" alt="The Snuff Bar">
   </div>
 
   <section id="events" class="events-box">
     <div class="events-inner">
       <h2>EVENTS</h2>
-
       <p><strong>Darts & games:</strong> We host a local darts team, alongside a wide selection of games for friendly competition.</p>
-
       <p><strong>Upstairs function room:</strong> Our function room has been home to choirs, meetings, parties and more. It’s available to book for private events, with cold food provided on request.</p>
-
       <p><strong>Coming in 2026:</strong> Regular live music nights, quizzes and games evenings — more reasons to gather, enjoy and return.</p>
     </div>
   </section>
@@ -384,116 +382,82 @@
         A place to gather, enjoy, and feel at home.
       </p>
 
-      <p>
-        © The Snuff Bar — Kendal
-      </p>
+      <p>© The Snuff Bar — Kendal</p>
     </div>
   </footer>
 
   <script>
-    (function(){
-      const brand = document.getElementById('brandMark');
-      const hero  = document.getElementById('heroWrap');
+    (() => {
+      const brand = document.querySelector('.brand-mark');
+      const hero  = document.querySelector('.hero-wrap');
+      const dot   = document.querySelector('.logo-target');
 
-      // Scale: “50% smaller” => 0.5
-      const SMALL_SCALE = 0.5;
+      if (!brand || !hero || !dot) return;
 
-      // Cache the “home/origin” transform per breakpoint (your CSS sets it)
-      let homeTransform = '';
-      let isSmall = false;
+      // Snapshot of the CURRENT breakpoint "home" styles
+      let home = null;
+      let small = null;
 
-      function getTargetPx(){
-        const cs = getComputedStyle(document.documentElement);
+      function px(n){ return `${n}px`; }
 
-        // left is stored as px in your variables
-        const leftStr = cs.getPropertyValue('--target-left').trim(); // e.g. "1150px"
-        const leftPx  = parseFloat(leftStr) || 0;
-
-        // top may be vh in your variables, convert to px
-        const topStr = cs.getPropertyValue('--target-top').trim();   // e.g. "20vh" or "120px"
-        let topPx = 0;
-
-        if (topStr.endsWith('vh')) {
-          const vh = parseFloat(topStr) || 0;
-          topPx = window.innerHeight * (vh / 100);
-        } else if (topStr.endsWith('px')) {
-          topPx = parseFloat(topStr) || 0;
-        } else {
-          // fallback: try parsing as px
-          topPx = parseFloat(topStr) || 0;
-        }
-
-        return { leftPx, topPx };
+      function readRect(el){
+        const r = el.getBoundingClientRect();
+        return { left: r.left, top: r.top, width: r.width, height: r.height };
       }
 
       function setHome(){
-        // Store whatever CSS currently applies (differs per breakpoint)
-        homeTransform = getComputedStyle(brand).transform;
-        // If none/matrix? We'll just reset by clearing inline style later.
+        // read computed home from current breakpoint
+        const r = readRect(brand);
+        const cs = getComputedStyle(brand);
+
+        home = {
+          left:  r.left,
+          top:   r.top,
+          width: r.width,
+          height:r.height,
+          transform: cs.transform === 'none' ? '' : cs.transform
+        };
+
+        // read destination from green dot and derive "50% smaller" size from current home size
+        const d = readRect(dot);
+        small = {
+          left: d.left,
+          top: d.top,
+          width: home.width * 0.5,
+          height: home.height * 0.5,
+          // IMPORTANT: force no translate at destination, so it lands exactly on your dot coords
+          transform: 'none'
+        };
       }
 
-      function applySmall(){
-        const { leftPx, topPx } = getTargetPx();
-
-        // Current position of brand in viewport
-        const r = brand.getBoundingClientRect();
-
-        // We want its TOP-LEFT corner to land at (leftPx, topPx)
-        const dx = leftPx - r.left;
-        const dy = topPx  - r.top;
-
-        // Keep your existing CSS transform (e.g. translate(-50%,-50%)) AND add translate+scale.
-        // If CSS transform is "none", treat as identity.
-        // We do it by applying an inline transform that composes the CSS one.
-        // Easiest/robust: read computed transform matrix, but we just reapply by clearing first, measuring, then applying.
-        // So: make sure we are starting from CSS state (no inline), then apply movement.
-        brand.style.transform = ''; // back to CSS transform
-        const r2 = brand.getBoundingClientRect();
-        const dx2 = leftPx - r2.left;
-        const dy2 = topPx  - r2.top;
-
-        // Compose: existing CSS transform + translate(px) + scale
-        const base = (getComputedStyle(brand).transform === 'none') ? '' : getComputedStyle(brand).transform;
-
-        // If base is a matrix, we can’t safely concatenate it as a string for transform functions.
-        // Instead: rely on CSS transform being handled by the element itself, and use translate/scale via CSS variables? Not using :root per your preference.
-        // Practical approach: wrap the image — but you said no structural changes.
-        // So: we avoid matrices by ensuring the CSS transform is only translate(-50%,-50%) in breakpoints.
-        // We'll rebuild that explicitly for small state based on breakpoint.
-        const w = window.innerWidth;
-        let baseFn = 'translate(0,0)';
-
-        if (w <= 1024) baseFn = 'translate(-50%, -50%)';
-        if (w <= 700)  baseFn = 'translate(-50%, -50%)';
-        if (w <= 600)  baseFn = 'translate(-50%, -50%)';
-
-        // Desktop uses no translate in your CSS (left/top px), so baseFn stays translate(0,0)
-        brand.style.transform = `${baseFn} translate(${dx2}px, ${dy2}px) scale(${SMALL_SCALE})`;
-        brand.classList.add('is-small');
-        isSmall = true;
+      function applyState(state){
+        brand.style.left = px(state.left);
+        brand.style.top = px(state.top);
+        brand.style.width = px(state.width);
+        brand.style.height = px(state.height);
+        brand.style.transform = state.transform;
       }
 
       function restoreHome(){
-        brand.classList.remove('is-small');
-        // Clear inline transform so it returns to pure CSS origin
+        // clear inline styles so CSS breakpoint home becomes authoritative again
+        brand.style.left = '';
+        brand.style.top = '';
+        brand.style.width = '';
+        brand.style.height = '';
         brand.style.transform = '';
-        isSmall = false;
-      }
-
-      function halfwayTriggerPassed(){
-        // “Halfway through hero”: when scrollY reaches heroTop + heroHeight/2
-        const heroTop = hero.offsetTop;
-        const heroH   = hero.offsetHeight;
-        const trigger = heroTop + (heroH / 2);
-
-        return window.scrollY >= trigger;
       }
 
       function onScroll(){
-        const shouldSmall = halfwayTriggerPassed();
+        // trigger: halfway through hero (document position)
+        const rect = hero.getBoundingClientRect();
+        const heroTopDoc = rect.top + window.scrollY;
+        const trigger = heroTopDoc + rect.height / 2;
 
-        if (shouldSmall && !isSmall) applySmall();
-        if (!shouldSmall && isSmall) restoreHome();
+        if (window.scrollY >= trigger) {
+          applyState(small);
+        } else {
+          applyState(home);
+        }
       }
 
       function onResize(){
