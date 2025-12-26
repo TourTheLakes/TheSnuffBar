@@ -48,42 +48,7 @@
   display: block;
 }
 
-.hero-wrap{
-  position: relative;
-}
-    
- .hero-image{
-  display: block;
-  width: 100%;
-  height: auto;
-}
 
-.hero-wrap::after{
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(255,255,255,0.35);
-  pointer-events: none;
-
-  mask-image: radial-gradient(circle at center, black 55%, transparent 56%);
-}
-
-.hero-etch{
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 2rem;
-
-  font-size: 4rem;
-  font-weight: 500;
-  letter-spacing: 0.3em;
-
-  color: black;
-  mix-blend-mode: destination-out;
-  pointer-events: none;
-}
     
     @media (max-width: 1024px){
     body{
