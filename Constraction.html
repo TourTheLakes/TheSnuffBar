@@ -446,7 +446,119 @@ footer.site-footer p:last-child{
   </div>
   </footer>
 
+<script>
+(() => {
+  const brand  = document.querySelector('.brand-mark');
+  const target = document.querySelector('.logo-target');
+  const hero   = document.querySelector('.hero-wrap');
+  if (!brand || !target || !hero) return;
 
+  // Smooth both ways
+  brand.style.transition =
+    'left .55s ease, top .55s ease, width .55s ease, height .55s ease, transform .55s ease';
+
+  let home = null;
+  let small = null;
+  let isSmall = false;
+
+  const px = n => `${Math.round(n)}px`;
+  const rect = el => {
+    const r = el.getBoundingClientRect();
+    return { left: r.left, top: r.top, width: r.width, height: r.height };
+  };
+
+  function clearInline(){
+    brand.style.left = '';
+    brand.style.top = '';
+    brand.style.width = '';
+    brand.style.height = '';
+    brand.style.transform = '';
+  }
+
+  function capturePositions(){
+    // Let CSS fully control the breakpoint "home" first
+    clearInline();
+
+    const r = rect(brand);
+    const cs = getComputedStyle(brand);
+
+    home = {
+      left: r.left,
+      top: r.top,
+      width: r.width,
+      height: r.height,
+      // Critical: preserve translate(-50%, -50%) on 1024/700/600
+      transform: (cs.transform === 'none') ? '' : cs.transform
+    };
+
+    const t = rect(target);
+    const w = r.width * 0.5;   // 50% smaller (your requirement)
+    const h = r.height * 0.5;
+
+    // DOT CENTRE = LOGO CENTRE
+    small = {
+      left: (t.left + t.width / 2) - (w / 2),
+      top:  (t.top  + t.height / 2) - (h / 2),
+      width: w,
+      height: h,
+      // Critical: keep the SAME transform as home so it never "kicks out"
+      transform: home.transform
+    };
+  }
+
+  function applyState(state){
+    brand.style.left = px(state.left);
+    brand.style.top = px(state.top);
+    brand.style.width = px(state.width);
+    brand.style.height = px(state.height);
+    brand.style.transform = state.transform;
+  }
+
+  function triggerPoint(){
+    const r = hero.getBoundingClientRect();
+    const heroTopDoc = r.top + window.scrollY;
+    return heroTopDoc + (r.height / 2); // halfway down hero
+  }
+
+  function onScroll(){
+    if (!home || !small) return;
+    const shouldBeSmall = window.scrollY >= triggerPoint();
+
+    if (shouldBeSmall && !isSmall){
+      applyState(small);
+      isSmall = true;
+    } else if (!shouldBeSmall && isSmall){
+      // Return cleanly to the measured home (no recapture on transition end)
+      applyState(home);
+      isSmall = false;
+    }
+  }
+
+  function refreshForBreakpoint(){
+    // Re-learn home + dot positions for the current breakpoint
+    capturePositions();
+    // Then apply correct state for current scroll
+    isSmall = false;
+    onScroll();
+  }
+
+  // Keep your per-breakpoint control
+  const mq1024 = window.matchMedia('(max-width: 1024px)');
+  const mq700  = window.matchMedia('(max-width: 700px)');
+  const mq600  = window.matchMedia('(max-width: 600px)');
+
+  [mq1024, mq700, mq600].forEach(mq => {
+    mq.addEventListener?.('change', refreshForBreakpoint);
+    mq.addListener?.(refreshForBreakpoint); // older Safari
+  });
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', refreshForBreakpoint);
+
+  // Init
+  refreshForBreakpoint();
+})();
+</script>
   
 </body>
 </html>
