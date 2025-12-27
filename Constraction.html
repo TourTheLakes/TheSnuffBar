@@ -51,8 +51,6 @@
   display: block;
 }
 
-
-
 .hero-wrap{
   position: relative;
 }
@@ -163,7 +161,7 @@ footer.site-footer p{
 footer.site-footer p:last-child{
   margin:0;
 }
-    /* --- STAGE 1: target marker for the SMALL-logo end point (base only) --- */
+
 .logo-target{
   position: fixed;
   width: 10px;
@@ -172,9 +170,8 @@ footer.site-footer p:last-child{
   z-index: 10000;
   pointer-events: none;
 
-  /* BASE (desktop) target position — YOU ADJUST THESE TWO */
-  left: 1150px;     /* same longitude as logo origin by default */
-  top: 20vh;      /* start guess: between header & hero */
+  left: 1150px;  
+  top: 20vh; 
 }
     
     @media (max-width: 1024px){
@@ -221,7 +218,7 @@ footer.site-footer p:last-child{
         padding: 40px 40px
       }
               .logo-target{
-          left: 700px;
+          left: 650px;
           top: 15vh;
         }
    }
@@ -269,7 +266,7 @@ footer.site-footer p:last-child{
           padding:34px 28px;
         }
         .logo-target{
-          left: 600px;
+          left: 550px;
           top: 20vh;
         }
          }
@@ -340,7 +337,7 @@ footer.site-footer p:last-child{
   }
 
   .logo-target{
-    left: 350px;
+    left: 300px;
     top: 15vh;
   }
   }
