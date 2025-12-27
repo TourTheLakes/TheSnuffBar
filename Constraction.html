@@ -445,7 +445,241 @@ footer.site-footer p:last-child{
     </p>
   </div>
   </footer>
+<script>
+(() => {
+  const brand  = document.querySelector('.brand-mark');
+  const target = document.querySelector('.logo-target');
+  const hero   = document.querySelector('.hero-wrap');
+  if (!brand || !target || !hero) return;
 
+  const TRANSITION =
+    'left .55s ease, top .55s ease, width .55s ease, height .55s ease, transform .55s ease';
+
+  let home = null;
+  let small = null;
+  let isSmall = false;
+
+  // Track which breakpoint we're in (so resize-on-scroll doesn't re-calc)
+  let bpKey = '';
+
+  function px(n){ return `${Math.round(n)}px`; }
+
+  function rect(el){
+    const r = el.getBoundingClientRect();
+    return { left: r.left, top: r.top, width: r.width, height: r.height };
+  }
+
+  function clearInline(){
+    brand.style.left = '';
+    brand.style.top = '';
+    brand.style.width = '';
+    brand.style.height = '';
+    brand.style.transform = '';
+  }
+
+  function getBpKey(){
+    const w = window.innerWidth;
+    if (w <= 600) return '600';
+    if (w <= 700) return '700';
+    if (w <= 1024) return '1024';
+    return 'base';
+  }
+
+  function triggerPoint(){
+    const r = hero.getBoundingClientRect();
+    const heroTopDoc = r.top + window.scrollY;
+    return heroTopDoc + (r.height / 2);
+  }
+
+  // --- helpers you asked about ---
+  function isMobileish(){
+    return window.innerWidth <= 1024;
+  }
+
+  function clamp(n, min, max){
+    return Math.max(min, Math.min(max, n));
+  }
+
+  // Measure ONLY when layout is stable and logo is at CSS-home (no inline styles)
+  function recalcPositionsStable(){
+    // Temporarily disable transitions so any “restore” doesn’t animate
+    brand.style.transition = 'none';
+    clearInline();
+
+    // Two RAFs guarantees styles/layout have settled
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        const r = rect(brand);
+        const cs = getComputedStyle(brand);
+
+        home = {
+          left: r.left,
+          top: r.top,
+          width: r.width,
+          height: r.height,
+          transform: (cs.transform === 'none') ? '' : cs.transform
+        };
+
+        const t = rect(target);
+        const w = r.width * 0.5;
+        const h = r.height * 0.5;
+
+        // DOT CENTRE = LOGO CENTRE (same rule you liked)
+        small = {
+          left: (t.left + t.width / 2) - (w / 2),
+          top:  (t.top  + t.height / 2) - (h / 2),
+          width: w,
+          height: h,
+          transform: '' // keep simple
+        };
+
+        // Re-enable transitions after measurement
+        brand.style.transition = TRANSITION;
+
+        // Apply correct state immediately after recalculation
+        isSmall = false;
+        onScroll();
+      });
+    });
+  }
+
+  function applySmall(){
+    brand.style.left = px(small.left);
+    brand.style.top = px(small.top);
+    brand.style.width = px(small.width);
+    brand.style.height = px(small.height);
+    brand.style.transform = small.transform;
+  }
+
+  function applyHome(){
+    brand.style.left = px(home.left);
+    brand.style.top = px(home.top);
+    brand.style.width = px(home.width);
+    brand.style.height = px(home.height);
+    brand.style.transform = home.transform;
+  }
+
+  // --- REPLACED: returnToHome now does smooth on base, bounded bounce on <=1024 ---
+  function returnToHome(){
+    // On base: keep it perfectly smooth (your current behaviour)
+    if (!isMobileish()){
+      applyHome();
+
+      let finished = false;
+      const finish = () => {
+        if (finished) return;
+        finished = true;
+        brand.removeEventListener('transitionend', onEnd);
+
+        brand.style.transition = 'none';
+        clearInline();
+        requestAnimationFrame(() => {
+          brand.style.transition = TRANSITION;
+          isSmall = false;
+          recalcPositionsStable();
+        });
+      };
+
+      const onEnd = (e) => { if (e.target === brand) finish(); };
+      brand.addEventListener('transitionend', onEnd);
+      setTimeout(finish, 650);
+      return;
+    }
+
+    // <=1024: intentional, bounded “chaotic” bounce return (never off-screen)
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+
+    const margin = 6;
+
+    // small chaos (tweak these if you want more/less)
+    const overshootX = home.left + (Math.random() > 0.5 ? 1 : -1) * 24;
+    const overshootY = home.top  - 18;
+
+    const ox = clamp(overshootX, margin, vw - home.width  - margin);
+    const oy = clamp(overshootY, margin, vh - home.height - margin);
+
+    // Phase 1: quick “kick”
+    brand.style.transition =
+      'left .18s ease-out, top .18s ease-out, width .18s ease-out, height .18s ease-out, transform .18s ease-out';
+
+    brand.style.left = px(ox);
+    brand.style.top = px(oy);
+    brand.style.width = px(home.width);
+    brand.style.height = px(home.height);
+    brand.style.transform = home.transform;
+
+    // Phase 2: settle into home with bounce curve
+    const settle = () => {
+      brand.removeEventListener('transitionend', settle);
+
+      brand.style.transition =
+        'left .55s cubic-bezier(.20, 1.35, .30, 1), top .55s cubic-bezier(.20, 1.35, .30, 1), width .55s cubic-bezier(.20, 1.35, .30, 1), height .55s cubic-bezier(.20, 1.35, .30, 1), transform .55s cubic-bezier(.20, 1.35, .30, 1)';
+
+      applyHome();
+
+      const finish = () => {
+        brand.removeEventListener('transitionend', finish);
+
+        brand.style.transition = 'none';
+        clearInline();
+        requestAnimationFrame(() => {
+          brand.style.transition = TRANSITION;
+          isSmall = false;
+          recalcPositionsStable();
+        });
+      };
+
+      brand.addEventListener('transitionend', finish);
+      setTimeout(finish, 750);
+    };
+
+    brand.addEventListener('transitionend', settle);
+    setTimeout(() => {
+      brand.removeEventListener('transitionend', settle);
+      settle();
+    }, 240);
+  }
+
+  function onScroll(){
+    if (!home || !small) return;
+
+    const shouldBeSmall = window.scrollY >= triggerPoint();
+
+    if (shouldBeSmall && !isSmall){
+      applySmall();
+      isSmall = true;
+    } else if (!shouldBeSmall && isSmall){
+      returnToHome();
+    }
+  }
+
+  // Only recalc when breakpoint actually changes
+  function checkBreakpoint(){
+    const next = getBpKey();
+    if (next === bpKey) return;     // ignore resize-on-scroll
+    bpKey = next;
+    recalcPositionsStable();
+  }
+
+  // Init
+  bpKey = getBpKey();
+  brand.style.transition = TRANSITION;
+  recalcPositionsStable();
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', checkBreakpoint);
+
+  // Also listen explicitly for breakpoint changes
+  const mq1024 = matchMedia('(max-width: 1024px)');
+  const mq700  = matchMedia('(max-width: 700px)');
+  const mq600  = matchMedia('(max-width: 600px)');
+  [mq1024, mq700, mq600].forEach(mq => {
+    mq.addEventListener?.('change', checkBreakpoint);
+    mq.addListener?.(checkBreakpoint);
+  });
+})();
+</script>
   
 </body>
 </html>
