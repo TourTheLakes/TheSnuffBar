@@ -517,7 +517,6 @@ footer.site-footer p:last-child{
 
     const done = () => {
       brand.removeEventListener('transitionend', done);
-      clearInline(); // hand control back to CSS for this breakpoint
       isSmall = false;
       // IMPORTANT: after clearing, re-capture so home stays correct
       captureHome();
