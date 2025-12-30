@@ -176,6 +176,34 @@ footer.site-footer p:last-child{
   top: 10vh; 
 }
 
+ /* GALLERY: hero-identical sizing + no gaps */
+#gallery { margin: 0; padding: 0; }
+
+.gallery-viewport{
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  outline: none;
+}
+
+/* Key change: slides are NOT absolute. Only active slide exists in layout. */
+.gallery-slide{
+  display: none;
+  margin: 0;          /* kills default <figure> margins */
+  padding: 0;
+}
+
+.gallery-slide.is-active{ display: block; }
+
+.gallery-slide img,
+.gallery-slide video{
+  display: block;     /* kills baseline whitespace under images */
+  width: 100%;
+  height: auto;
+  max-height: 70vh;   /* matches your hero constraint */
+  object-fit: cover;
+}   
 
     
     @media (max-width: 1024px){
@@ -380,7 +408,21 @@ footer.site-footer p:last-child{
     </div>
   </section>
 
+<section id="gallery" aria-label="Gallery">
+  <div id="galleryViewport" class="gallery-viewport" tabindex="0">
+    <div id="galleryTrack">
+      <figure class="gallery-slide is-active" data-type="image">
+        <img src="assets/images/TheSnuffBarHero.jpeg" alt="The Snuff Bar">
+      </figure>
 
+      <!-- later:
+      <figure class="gallery-slide" data-type="image">
+        <img src="assets/images/another.jpg" alt="">
+      </figure>
+      -->
+    </div>
+  </div>
+</section>
 
 <section id="about" class="about-box">
   <div class="about-inner">
