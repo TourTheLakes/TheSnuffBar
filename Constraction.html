@@ -176,42 +176,7 @@ footer.site-footer p:last-child{
   top: 10vh; 
 }
 
-.gallery-viewport{
-  position:relative;
-  width:100%;
-  height: 75vh;
-  overflow:hidden;
-  outline:none;
-}
 
-.gallery-track{
-  position:relative;
-  width:100%;
-  height:100%;
-}
-
-.gallery-slide{
-  position:absolute;
-  height:100%;
-  max-height:none;
-  inset:0;
-  opacity:0;
-  transition: opacity .45s ease;
-  margin:0;
-}
-
-.gallery-slide.is-active{
-  opacity:1;
-}
-
-.gallery-slide img,
-.gallery-slide video{
-  display: block;
-  width: 100%;
-  height: auto;
-  max-height: 70vh;
-  object-fit: cover;
-} 
     
     @media (max-width: 1024px){
     body{
@@ -415,33 +380,7 @@ footer.site-footer p:last-child{
     </div>
   </section>
 
-   <section id="gallery" class="gallery-box" aria-label="Gallery">
-  <div class="gallery-viewport" id="galleryViewport" tabindex="0">
-    <div class="gallery-track" id="galleryTrack">
-      <!-- Slide 1 (your current hero image) -->
-      <figure class="gallery-slide is-active" data-type="image">
-        <img src="assets/images/TheSnuffBarHero.jpeg" alt="The Snuff Bar">
-      </figure>
 
-      <!-- Add more later:
-      <figure class="gallery-slide" data-type="image">
-        <img src="assets/images/another.jpg" alt="">
-      </figure>
-
-      <figure class="gallery-slide" data-type="video">
-        <video
-          src="assets/videos/clip1.mp4"
-          muted
-          playsinline
-          autoplay
-          loop
-          preload="metadata"
-        ></video>
-      </figure>
-      -->
-    </div>
-  </div>
-  </section>
 
 <section id="about" class="about-box">
   <div class="about-inner">
