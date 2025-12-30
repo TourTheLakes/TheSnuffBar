@@ -175,6 +175,55 @@ footer.site-footer p:last-child{
   left: 1100px;  
   top: 10vh; 
 }
+
+ .gallery-box{
+  background:#321507;          /* match events */
+  margin:0;
+  width:100%;
+}
+
+.gallery-viewport{
+  position:relative;
+  width:100%;
+  height: 55vh;                /* base height; tweak if you want */
+  overflow:hidden;
+  outline:none;
+}
+
+.gallery-track{
+  position:relative;
+  width:100%;
+  height:100%;
+}
+
+.gallery-slide{
+  position:absolute;
+  inset:0;
+  opacity:0;
+  transition: opacity .45s ease;
+}
+
+.gallery-slide.is-active{
+  opacity:1;
+}
+
+.gallery-slide img,
+.gallery-slide video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+@media (max-width: 1024px){
+  .gallery-viewport{ height: 30vh; }
+}
+@media (max-width: 700px){
+  .gallery-viewport{ height: 45vh; }
+}
+@media (max-width: 600px){
+  .gallery-viewport{ height: 35vh; }
+}   
     
     @media (max-width: 1024px){
     body{
@@ -406,6 +455,34 @@ footer.site-footer p:last-child{
   </div>
 </section>
 
+  <section id="gallery" class="gallery-box" aria-label="Gallery">
+  <div class="gallery-viewport" id="galleryViewport" tabindex="0">
+    <div class="gallery-track" id="galleryTrack">
+      <!-- Slide 1 (your current hero image) -->
+      <figure class="gallery-slide is-active" data-type="image">
+        <img src="assets/images/TheSnuffBarHero.jpeg" alt="The Snuff Bar">
+      </figure>
+
+      <!-- Add more later:
+      <figure class="gallery-slide" data-type="image">
+        <img src="assets/images/another.jpg" alt="">
+      </figure>
+
+      <figure class="gallery-slide" data-type="video">
+        <video
+          src="assets/videos/clip1.mp4"
+          muted
+          playsinline
+          autoplay
+          loop
+          preload="metadata"
+        ></video>
+      </figure>
+      -->
+    </div>
+  </div>
+  </section>
+
   <section id="contact" class="events-box">
   <div class="events-inner">
     <h2>CONTACT</h2>
@@ -605,6 +682,121 @@ footer.site-footer p:last-child{
       mq.addListener?.(checkBreakpoint);
     });
 })();
+
+/* -------------------------
+     GALLERY (between Events & About)
+  -------------------------- */
+  const galleryViewport = document.getElementById('galleryViewport');
+  const galleryTrack = document.getElementById('galleryTrack');
+
+  if (galleryViewport && galleryTrack){
+    const slides = Array.from(galleryTrack.querySelectorAll('.gallery-slide'));
+    let idx = slides.findIndex(s => s.classList.contains('is-active'));
+    if (idx < 0) idx = 0;
+
+    const HOLD_AFTER_INTERACT_MS = 5000;
+    const IMAGE_INTERVAL_MS = 3000;
+    const VIDEO_INTERVAL_MS = 2000;
+
+    let timer = null;
+    let resumeAt = 0;
+
+    function now(){ return Date.now(); }
+
+    function isVideoSlide(slide){
+      return (slide?.dataset?.type === 'video') || !!slide.querySelector('video');
+    }
+
+    function intervalForSlide(slide){
+      return isVideoSlide(slide) ? VIDEO_INTERVAL_MS : IMAGE_INTERVAL_MS;
+    }
+
+    function stopAllVideos(){
+      slides.forEach(s => {
+        const v = s.querySelector('video');
+        if (!v) return;
+        v.muted = true;
+        try { v.pause(); } catch(e){}
+        try { v.currentTime = 0; } catch(e){}
+      });
+    }
+
+    function playActiveVideo(slide){
+      const v = slide.querySelector('video');
+      if (!v) return;
+      v.muted = true;
+      v.loop = true;
+      v.autoplay = true;
+      v.playsInline = true;
+      const p = v.play();
+      if (p && typeof p.catch === 'function') p.catch(() => {});
+    }
+
+    function setActive(nextIdx){
+      slides[idx].classList.remove('is-active');
+      idx = (nextIdx + slides.length) % slides.length;
+      slides[idx].classList.add('is-active');
+
+      stopAllVideos();
+      playActiveVideo(slides[idx]);
+
+      scheduleNext();
+    }
+
+    function next(){ setActive(idx + 1); }
+    function prev(){ setActive(idx - 1); }
+
+    function clearTimer(){
+      if (timer){ clearTimeout(timer); timer = null; }
+    }
+
+    function scheduleNext(){
+      clearTimer();
+
+      const wait = Math.max(resumeAt - now(), 0);
+      const baseInterval = intervalForSlide(slides[idx]);
+
+      timer = setTimeout(() => {
+        // If an interaction hold is still in effect, reschedule cleanly
+        if (now() < resumeAt){
+          scheduleNext();
+          return;
+        }
+        next();
+      }, wait || baseInterval);
+    }
+
+    function userInteracted(){
+      resumeAt = now() + HOLD_AFTER_INTERACT_MS;
+    }
+
+    function handlePointer(e){
+      const r = galleryViewport.getBoundingClientRect();
+      const x = (e.clientX != null) ? e.clientX : (e.touches && e.touches[0] ? e.touches[0].clientX : null);
+      if (x == null) return;
+
+      userInteracted();
+
+      const mid = r.left + r.width / 2;
+      if (x < mid) prev();
+      else next();
+    }
+
+    // Click/tap: left half = prev, right half = next
+    galleryViewport.addEventListener('click', handlePointer);
+
+    // Keyboard support (optional but clean)
+    galleryViewport.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft'){ userInteracted(); prev(); }
+      if (e.key === 'ArrowRight'){ userInteracted(); next(); }
+    });
+
+    // Ensure first active slide behaves (especially if it’s a video later)
+    stopAllVideos();
+    playActiveVideo(slides[idx]);
+    scheduleNext();
+  }
+  
 </script>
   
 </body>
