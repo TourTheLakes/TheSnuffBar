@@ -779,6 +779,52 @@ footer.site-footer p:last-child{
     scheduleNext();
   }
 
+if (window.innerWidth > 1024) {
+  const viewport = document.getElementById('galleryViewport');
+  const track = document.getElementById('galleryTrack');
+  let slides = Array.from(track.children);
+
+  if (viewport && track && slides.length >= 3) {
+
+    /* ---- force base layout ---- */
+    slides.forEach(slide => {
+      slide.classList.remove('is-active');
+      slide.style.display = 'block';
+      slide.style.flex = '0 0 33.3334%';
+    });
+
+    track.style.display = 'flex';
+    track.style.transition = 'transform .6s ease';
+    viewport.style.overflow = 'hidden';
+
+    /* ---- clone first 3 slides for seamless loop ---- */
+    const CLONE_COUNT = 3;
+    for (let i = 0; i < CLONE_COUNT; i++) {
+      track.appendChild(slides[i].cloneNode(true));
+    }
+
+    slides = Array.from(track.children);
+    const maxIndex = slides.length - CLONE_COUNT - 3;
+    let index = 0;
+
+    function step(){
+      index++;
+      track.style.transform = `translateX(-${index * 33.3334}%)`;
+
+      if (index > maxIndex) {
+        setTimeout(() => {
+          track.style.transition = 'none';
+          index = 0;
+          track.style.transform = 'translateX(0)';
+          track.offsetHeight; // force reflow
+          track.style.transition = 'transform .6s ease';
+        }, 650);
+      }
+    }
+
+    setInterval(step, 3500);
+  }
+}
 })();
   </script>
   
