@@ -9,9 +9,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
-  
-  <style>
 
+  <style>
     body{
       margin:0;
       padding:0;
@@ -37,476 +36,430 @@
     }
 
     .brand-mark{
-  position: fixed;
-  left: 50px;
-  top: 50px;
-  width: 280px;
-  height: 280px;
-  z-index: 9999;
-}
+      position: fixed;
+      left: 50px;
+      top: 50px;
+      width: 280px;
+      height: 280px;
+      z-index: 9999;
+    }
 
-.brand-mark img{
-  width: 100%;
-  height: 100%;
-  display: block;
-}
+    .brand-mark img{
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
 
-.hero-wrap{
-  position: relative;
-}
-    
- .hero-image{
-  display: block;
-  width: 100%;
-  height: auto;
-  max-height: 70vh;
-  object-fit: cover;
-}
+    .hero-wrap{
+      position: relative;
+    }
 
-.hero-wrap::after{
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(
-      rgba(255,255,255,0.05),
-      rgba(255,255,255,0.05)
-    );
-  pointer-events: none;
-}
+    .hero-image{
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: 70vh;
+      object-fit: cover;
+    }
+
+    .hero-wrap::after{
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(rgba(255,255,255,0.05), rgba(255,255,255,0.05));
+      pointer-events: none;
+    }
 
     .events-box p{
       margin:0 0 18px 0;
       line-height: 1.6;
     }
 
-    .events-box strong{
-      font-weight: 700;
+    .events-box strong{ font-weight: 700; }
+
+    .events-box{
+      font-family: "Cinzel", serif;
+      font-size: 20px;
+      background:#321507;
+      color:#F6C96B;
+      margin:0;
+      width:100%;
     }
 
-  .events-box{
-    font-family: "Cinzel", serif;
-    font-size: 20px;
-     background:#321507;
-     color:#F6C96B;
-     margin:0;
-     width:100%;
-  
-}
     .events-inner{
       padding: 50px 52px;
       box-sizing: border-box;
     }
 
-.events-box h2{
-  margin:0 0 22px 0;
-  font-size: 28px;
-  letter-spacing: 0.14em;
-}
+    .events-box h2{
+      margin:0 0 22px 0;
+      font-size: 28px;
+      letter-spacing: 0.14em;
+    }
 
-.events-box p:last-child{
-  margin:0;
-}  
+    .events-box p:last-child{ margin:0; }
 
- .about-box{
-  font-family: "Cinzel", serif;
-  font-size: 20px; 
-  background:#F6C96B;
-  color:#321507;
-  margin:0;
-  width:100%;
-}
+    .about-box{
+      font-family: "Cinzel", serif;
+      font-size: 20px;
+      background:#F6C96B;
+      color:#321507;
+      margin:0;
+      width:100%;
+    }
 
-.about-inner{
-  padding: 50px 52px;
-  box-sizing: border-box;
-}
+    .about-inner{
+      padding: 50px 52px;
+      box-sizing: border-box;
+    }
 
-.about-box h2{
-  margin:0 0 22px 0;
-  font-size: 28px;
-  letter-spacing: 0.14em;
-}
+    .about-box h2{
+      margin:0 0 22px 0;
+      font-size: 28px;
+      letter-spacing: 0.14em;
+    }
 
-.about-box p{
-  margin:0 0 18px 0;
-  line-height: 1.6;
-}
+    .about-box p{
+      margin:0 0 18px 0;
+      line-height: 1.6;
+    }
 
-.about-box p:last-child{
-  margin:0;
-}   
-        footer.site-footer{
-  background:#F6C96B;
-  color:#321507;
-  font-family:"Cinzel", serif;
-  font-size:18px;
-  width:100%;
-}
+    .about-box p:last-child{ margin:0; }
 
-.footer-inner{
-  padding:50px 52px;
-  box-sizing:border-box;
-}
+    footer.site-footer{
+      background:#F6C96B;
+      color:#321507;
+      font-family:"Cinzel", serif;
+      font-size:18px;
+      width:100%;
+    }
 
-footer.site-footer h2{
-  margin:0 0 22px 0;
-  font-size:28px;
-  letter-spacing:0.14em;
-}
+    .footer-inner{
+      padding:50px 52px;
+      box-sizing:border-box;
+    }
 
-footer.site-footer p{
-  margin:0 0 18px 0;
-  line-height:1.6;
-}
+    footer.site-footer h2{
+      margin:0 0 22px 0;
+      font-size:28px;
+      letter-spacing:0.14em;
+    }
 
-footer.site-footer p:last-child{
-  margin:0;
-}
+    footer.site-footer p{
+      margin:0 0 18px 0;
+      line-height:1.6;
+    }
 
-.logo-target{
-  position: fixed;
-  width: 0;
-  height: 0;
-  background: transparent;
-  z-index: -1;
-  pointer-events: none;
+    footer.site-footer p:last-child{ margin:0; }
 
-  left: 1100px;  
-  top: 10vh; 
-}
+    .logo-target{
+      position: fixed;
+      width: 0;
+      height: 0;
+      background: transparent;
+      z-index: -1;
+      pointer-events: none;
+      left: 1100px;
+      top: 10vh;
+    }
 
-#gallery { margin: 0; padding: 0; }
+    /* ===== GALLERY (default = base layout will be overridden below) ===== */
+    #gallery { margin: 0; padding: 0; }
 
-.gallery-viewport{
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-  outline: none;
-}
+    .gallery-viewport{
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      outline: none;
+    }
 
-.gallery-slide{
-  display: none;
-  margin: 0;
-  padding: 0;
-}
+    .gallery-slide{
+      display: none;
+      margin: 0;
+      padding: 0;
+    }
 
-.gallery-slide.is-active{ display: block; }
+    .gallery-slide.is-active{ display: block; }
 
-.gallery-slide img,
-.gallery-slide video{
-  display: block;
-  width: 100%;
-  height: auto;
-  max-height: 70vh;
-  object-fit: cover;
-}   
+    .gallery-slide img{
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: 70vh;
+      object-fit: cover;
+    }
 
-    
+    /* ===== BASE (>1024): NO GALLERY FEATURE, show a 2x2 image grid instead ===== */
+    @media (min-width: 1025px){
+      .gallery-viewport{
+        height: auto;
+        overflow: visible;
+      }
+
+      #galleryTrack{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0;
+      }
+
+      .gallery-slide{
+        display: block;       /* show all 4 */
+      }
+
+      .gallery-slide img{
+        width: 100%;
+        height: auto;
+        max-height: none;
+        display: block;
+      }
+    }
+
     @media (max-width: 1024px){
-    body{
-      padding-top: 15vh;
+      body{ padding-top: 15vh; }
+
+      .site-header{ height: 15vh; overflow: hidden; }
+
+      .site-header img{
+        display:block;
+        width:100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center top;
+      }
+
+      .brand-mark{
+        left: 50%;
+        top: 20vh;
+        width: 340px;
+        height: 340px;
+        transform: translate(-50%, -50%);
+      }
+
+      .hero-image{
+        width: 100%;
+        height: 30vh;
+        object-fit: cover;
+        object-position: center;
+      }
+
+      .events-inner{ padding: 40px 40px; }
+      .about-inner{ padding:40px 40px; }
+      .footer-inner{ padding: 40px 40px; }
+
+      .logo-target{
+        left: 600px;
+        top: 15vh;
+      }
+
+      /* keep your 1024 fixed viewport height */
+      .gallery-viewport{
+        height: 70vh;
+        overflow: hidden;
+      }
     }
-      
-  .site-header{
-    height: 15vh;
-    overflow: hidden;
-  }
 
-  .site-header img{
-      display:block;
-      width:100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center top;
+    /* ===== <=700: NO GALLERY FEATURE (static: first image only) ===== */
+    @media (max-width: 700px){
+      body{ padding-top: 20vh; }
 
-  }
+      .site-header{ height: 20vh; overflow: hidden; }
 
-  .brand-mark{
-    left: 50%;
-    top: 20vh;
-    width: 340px;
-    height: 340px;
-    transform: translate(-50%, -50%);
-  }
-      
-  .hero-image{
-    width: 100%;
-    height: 30vh;
-    object-fit: cover;
-    object-position: center;
-  }
-      .events-inner{
-        padding: 40px 40px;
+      .site-header img{
+        display:block;
+        width:100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center top;
       }
 
-      .about-inner{
-        padding:40px 40px;
+      .brand-mark{
+        left: 50%;
+        top: 28vh;
+        width: 300px;
+        height: 300px;
+        transform: translate(-50%, -50%);
       }
-      .footer-inner{
-        padding: 40px 40px
-      }
-              .logo-target{
-          left: 600px;
-          top: 15vh;
-        }
-             .gallery-viewport{
-          height: 70vh;
-          overflow: hidden;
-        }
-     }
 
-      @media (max-width: 700px){
-       body{
-      padding-top: 20vh;
+      .hero-image{
+        width: 100%;
+        height: 45vh;
+        object-fit: cover;
+        object-position: center;
+      }
+
+      .events-inner{ padding: 34px 28px; }
+      .about-inner{ padding:34px 28px; }
+      .footer-inner{ padding:34px 28px; }
+
+      .logo-target{
+        left: 500px;
+        top: 20vh;
+      }
+
+      /* disable slideshow layout complexity: show only first image */
+      .gallery-viewport{
+        height: auto;
+        overflow: hidden;
+      }
+      .gallery-slide{ display:none; }
+      .gallery-slide.is-active{ display:block; }
     }
-        
-  .site-header{
-    height: 20vh;
-    overflow: hidden;
-  }
 
-  .site-header img{
-      display:block;
-      width:100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center top;
+    @media (max-width: 600px){
+      body{ padding-top: 15vh; }
 
-  }
+      .site-header{ height: 15vh; overflow: hidden; }
 
-  .brand-mark{
-    left: 50%;
-    top: 28vh;
-    width: 300px;
-    height: 300px;
-    transform: translate(-50%, -50%);
-  }
-      
-  .hero-image{
-    width: 100%;
-    height: 45vh;
-    object-fit: cover;
-    object-position: center;
-  }  
-      .events-inner{
-        padding: 34px 28px;
+      .site-header img{
+        display:block;
+        width:100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center top;
       }
-      .about-inner{
-        padding:34px 28px;
+
+      .brand-mark{
+        left: 50%;
+        top: 22vh;
+        width: 240px;
+        height: 240px;
+        transform: translate(-50%, -50%);
       }
-        .footer-inner{
-          padding:34px 28px;
-        }
-        .logo-target{
-          left: 500px;
-          top: 20vh;
-        }
-         }
 
-  @media (max-width: 600px){
-  body{
-    padding-top: 15vh;
-  }
+      .hero-image{
+        width: 100%;
+        height: 35vh;
+        object-fit: cover;
+        object-position: center;
+      }
 
-  .site-header{
-    height: 15vh;
-    overflow: hidden;
-  }
+      .events-inner{ padding: 40px 40px; }
+      .events-box{ font-size: 18px; }
+      .events-box h2{ font-size: 24px; }
 
-  .site-header img{
-    display:block;
-    width:100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center top;
-  }
+      .about-inner{ padding: 40px 40px; }
+      .about-box{ font-size: 18px; }
+      .about-box h2{ font-size: 24px; }
 
-  .brand-mark{
-    left: 50%;
-    top: 22vh;
-    width: 240px;
-    height: 240px;
-    transform: translate(-50%, -50%);
-  }
+      footer.site-footer h2{ font-size: 24px; }
+      .footer-inner{ padding: 40px 40px; }
 
-  .hero-image{
-    width: 100%;
-    height: 35vh;
-    object-fit: cover;
-    object-position: center;
-  }
+      .logo-target{
+        left: 200px;
+        top: 15vh;
+      }
 
-  .events-inner{
-    padding: 40px 40px;
-  }
-
-  .events-box{
-    font-size: 18px;
-  }
-
-  .events-box h2{
-    font-size: 24px;
-  }
-
-  .about-inner{
-    padding: 40px 40px;
-  }
-
-  .about-box{
-    font-size: 18px;
-  }
-
-  .about-box h2{
-    font-size: 24px;
-  }
-
-  footer.site-footer h2{
-    font-size: 24px;
-  }
-
-  .footer-inner{
-    padding: 40px 40px;
-  }
-
-  .logo-target{
-    left: 200px;
-    top: 15vh;
-  }
-            .gallery-viewport{
-          height: 65vh;
-          overflow: hidden;
-        }
-  }
-
-    
+      /* keep your 600 height if you still want it, but gallery feature is disabled by JS anyway */
+      .gallery-viewport{
+        height: 65vh;
+        overflow: hidden;
+      }
+    }
   </style>
 </head>
 
-  
 <body>
 
   <header class="site-header">
     <img src="assets/images/TheSnuffBarHeader.png" alt="The Snuff Bar">
-    
-  <div class="brand-mark">
-  <img src="assets/images/TheSnuffBarLogo.png" alt="The Snuff Bar">
-</div> 
+
+    <div class="brand-mark">
+      <img src="assets/images/TheSnuffBarLogo.png" alt="The Snuff Bar">
+    </div>
 
     <div class="logo-target" aria-hidden="true"></div>
-    
-    </header>
-  
-<div class="hero-wrap">
-  <img class="hero-image" src="assets/images/TheSnuffBarHero.jpeg" alt="The Snuff Bar">
-</div>
+  </header>
+
+  <div class="hero-wrap">
+    <img class="hero-image" src="assets/images/TheSnuffBarHero.jpeg" alt="The Snuff Bar">
+  </div>
 
   <section id="events" class="events-box">
     <div class="events-inner">
-  <h2>EVENTS</h2>
-
-  <p><strong>Darts & games:</strong> We host a local darts team, alongside a wide selection of games for friendly competition.</p>
-
-  <p><strong>Upstairs function room:</strong> Our function room has been home to choirs, meetings, parties and more. It’s available to book for private events, with cold food provided on request.</p>
-
-  <p><strong>Coming in 2026:</strong> Regular live music nights, quizzes and games evenings — more reasons to gather, enjoy and return.</p>
+      <h2>EVENTS</h2>
+      <p><strong>Darts & games:</strong> We host a local darts team, alongside a wide selection of games for friendly competition.</p>
+      <p><strong>Upstairs function room:</strong> Our function room has been home to choirs, meetings, parties and more. It’s available to book for private events, with cold food provided on request.</p>
+      <p><strong>Coming in 2026:</strong> Regular live music nights, quizzes and games evenings — more reasons to gather, enjoy and return.</p>
     </div>
   </section>
 
-<section id="gallery" aria-label="Gallery">
-  <div id="galleryViewport" class="gallery-viewport" tabindex="0">
-    <div id="galleryTrack">
+  <section id="gallery" aria-label="Gallery">
+    <div id="galleryViewport" class="gallery-viewport" tabindex="0">
+      <div id="galleryTrack">
+        <figure class="gallery-slide is-active" data-type="image">
+          <img src="assets/images/TheSnuffBar1.jpeg" alt="The Snuff Bar interior">
+        </figure>
 
-      <figure class="gallery-slide is-active" data-type="image">
-        <img src="assets/images/TheSnuffBar1.jpeg" alt="The Snuff Bar interior">
-      </figure>
+        <figure class="gallery-slide" data-type="image">
+          <img src="assets/images/TheSnuffBar2.jpeg" alt="The Snuff Bar interior">
+        </figure>
 
-      <figure class="gallery-slide" data-type="image">
-        <img src="assets/images/TheSnuffBar2.jpeg" alt="The Snuff Bar interior">
-      </figure>
+        <figure class="gallery-slide" data-type="image">
+          <img src="assets/images/TheSnuffBar3.jpeg" alt="The Snuff Bar interior">
+        </figure>
 
-      <figure class="gallery-slide" data-type="image">
-        <img src="assets/images/TheSnuffBar3.jpeg" alt="The Snuff Bar interior">
-      </figure>
-
-      <figure class="gallery-slide" data-type="image">
-        <img src="assets/images/TheSnuffBar4.jpeg" alt="The Snuff Bar interior">
-      </figure>
-
+        <figure class="gallery-slide" data-type="image">
+          <img src="assets/images/TheSnuffBar4.jpeg" alt="The Snuff Bar interior">
+        </figure>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section id="about" class="about-box">
-  <div class="about-inner">
-    <h2>ABOUT</h2>
-
-    <p><strong>Old Craft. New Spirit.</strong></p>
-
-    <p>
-      Tucked away on Kent Street, our bar is proudly family run — a labour of love led by mum and her two daughters, with a shared belief that a great bar is about far more than what’s in the glass.
-    </p>
-
-    <p>
-      Our roots reach deep into Kendal’s past. With a nod to the town’s historic snuff production, you’ll find traces of old craft woven throughout the space: a table fashioned from an original snuff press, and a small but characterful collection of antique snuff boxes behind the bar. It’s history you can sit with, drink beside, and enjoy — not behind a glass, but as part of the atmosphere.
-    </p>
-
-    <p>
-      Behind the scenes (and often out front), Rosie is our licensee and resident wine selector, personally choosing every bottle for quality and genuine value for money. Our drinks menu champions a great range of beers, spirits and wines, including several produced locally — because we believe the best things are often made close to home.
-    </p>
-
-    <p>
-      Mily brings the energy, taking care of social media and entertainment, while Lottie is the welcoming face of the bar, front of house and making sure everyone feels at ease the moment they walk in. Together, all three of us are committed to creating a warm, relaxed, memorable experience — whether you’re popping in for a quiet drink or settling in for the evening.
-    </p>
-
-    <p>
-      Above all, our focus is simple: a pleasant experience, an atmospheric setting, and a bar that feels like it belongs to the people who drink in it.
-    </p>
-  </div>
-</section>
+  <section id="about" class="about-box">
+    <div class="about-inner">
+      <h2>ABOUT</h2>
+      <p><strong>Old Craft. New Spirit.</strong></p>
+      <p>
+        Tucked away on Kent Street, our bar is proudly family run — a labour of love led by mum and her two daughters, with a shared belief that a great bar is about far more than what’s in the glass.
+      </p>
+      <p>
+        Our roots reach deep into Kendal’s past. With a nod to the town’s historic snuff production, you’ll find traces of old craft woven throughout the space: a table fashioned from an original snuff press, and a small but characterful collection of antique snuff boxes behind the bar.
+      </p>
+      <p>
+        Behind the scenes (and often out front), Rosie is our licensee and resident wine selector, personally choosing every bottle for quality and genuine value for money.
+      </p>
+      <p>
+        Mily brings the energy, taking care of social media and entertainment, while Lottie is the welcoming face of the bar, front of house and making sure everyone feels at ease the moment they walk in.
+      </p>
+      <p>
+        Above all, our focus is simple: a pleasant experience, an atmospheric setting, and a bar that feels like it belongs to the people who drink in it.
+      </p>
+    </div>
+  </section>
 
   <section id="contact" class="events-box">
-  <div class="events-inner">
-    <h2>CONTACT</h2>
-
-    <p>
-      <strong>Email:</strong>
-      <a href="mailto:thesnuffbar@gmail.com" style="color:inherit; text-decoration:none;">
-        thesnuffbar@gmail.com
-      </a>
-    </p>
-
-    <p>
-      <strong>Address:</strong><br>
-      14 Kent Street, Kendal, LA9 4AT
-    </p>
-
-    <p>
-      <strong>Opening hours:</strong><br>
-      Monday – Friday: 5.30pm – 11pm<br>
-      Saturday & Sunday: 3pm – 11pm
-    </p>
-  </div>
+    <div class="events-inner">
+      <h2>CONTACT</h2>
+      <p>
+        <strong>Email:</strong>
+        <a href="mailto:thesnuffbar@gmail.com" style="color:inherit; text-decoration:none;">
+          thesnuffbar@gmail.com
+        </a>
+      </p>
+      <p><strong>Address:</strong><br>14 Kent Street, Kendal, LA9 4AT</p>
+      <p>
+        <strong>Opening hours:</strong><br>
+        Monday – Friday: 5.30pm – 11pm<br>
+        Saturday & Sunday: 3pm – 11pm
+      </p>
+    </div>
   </section>
 
   <footer class="site-footer">
-  <div class="footer-inner">
-    <h2>THE SNUFF BAR</h2>
-
-    <p>
-      A family-run bar in the heart of Kendal, rooted in old craft and shaped by new spirit.
-      A place to gather, enjoy, and feel at home.
-    </p>
-
-    <p>
-      © The Snuff Bar — Kendal
-    </p>
-  </div>
+    <div class="footer-inner">
+      <h2>THE SNUFF BAR</h2>
+      <p>
+        A family-run bar in the heart of Kendal, rooted in old craft and shaped by new spirit.
+        A place to gather, enjoy, and feel at home.
+      </p>
+      <p>© The Snuff Bar — Kendal</p>
+    </div>
   </footer>
-  
-<script>
+
+  <script>
 (() => {
+  /* === Brand-mark shrink logic (unchanged) === */
   const brand  = document.querySelector('.brand-mark');
   const target = document.querySelector('.logo-target');
   const hero   = document.querySelector('.hero-wrap');
@@ -542,7 +495,7 @@ footer.site-footer p:last-child{
   }
 
   function isMobileish(){
-    return getBpKey() !== 'base'; // your breakpoints all use translate(-50%, -50%)
+    return getBpKey() !== 'base';
   }
 
   function triggerPoint(){
@@ -561,7 +514,6 @@ footer.site-footer p:last-child{
         const r = rect(brand);
 
         if (mobile){
-          // Store HOME as centre coords, and keep CSS-style transform constant
           home = {
             x: r.left + r.width / 2,
             y: r.top  + r.height / 2,
@@ -570,7 +522,6 @@ footer.site-footer p:last-child{
             transform: 'translate(-50%, -50%)'
           };
         } else {
-          // Base uses top-left anchoring with no transform
           home = {
             x: r.left,
             y: r.top,
@@ -604,7 +555,7 @@ footer.site-footer p:last-child{
     brand.style.top = px(state.y);
     brand.style.width = px(state.width);
     brand.style.height = px(state.height);
-    brand.style.transform = state.transform; // IMPORTANT: constant on mobile => no snap/bounce
+    brand.style.transform = state.transform;
   }
 
   function returnToHome(){
@@ -632,7 +583,6 @@ footer.site-footer p:last-child{
 
   function onScroll(){
     if (!home || !small) return;
-
     const shouldShrink = window.scrollY >= triggerPoint();
 
     if (shouldShrink && !isSmall){
@@ -648,9 +598,10 @@ footer.site-footer p:last-child{
     if (next === bpKey) return;
     bpKey = next;
     recalcPositions();
+    setupGalleryForViewport(); // keep gallery mode correct on resize
   }
 
-  // INIT
+  // INIT brand
   bpKey = getBpKey();
   brand.style.transition = TRANSITION;
   recalcPositions();
@@ -664,120 +615,118 @@ footer.site-footer p:last-child{
       mq.addEventListener?.('change', checkBreakpoint);
       mq.addListener?.(checkBreakpoint);
     });
+
+  /* === Gallery: ENABLE ONLY for 701–1024. Disable for BASE and <=700 === */
   const galleryViewport = document.getElementById('galleryViewport');
   const galleryTrack = document.getElementById('galleryTrack');
+  if (!galleryViewport || !galleryTrack) return;
 
-  if (galleryViewport && galleryTrack){
-    const slides = Array.from(galleryTrack.querySelectorAll('.gallery-slide'));
-    let idx = slides.findIndex(s => s.classList.contains('is-active'));
-    if (idx < 0) idx = 0;
+  const slides = Array.from(galleryTrack.querySelectorAll('.gallery-slide'));
 
-    const HOLD_AFTER_INTERACT_MS = 5000;
-    const IMAGE_INTERVAL_MS = 3000;
-    const VIDEO_INTERVAL_MS = 2000;
+  let idx = slides.findIndex(s => s.classList.contains('is-active'));
+  if (idx < 0) idx = 0;
 
-    let timer = null;
-    let resumeAt = 0;
+  const HOLD_AFTER_INTERACT_MS = 5000;
+  const IMAGE_INTERVAL_MS = 3000;
 
-    function now(){ return Date.now(); }
+  let timer = null;
+  let resumeAt = 0;
+  let enabled = false;
 
-    function isVideoSlide(slide){
-      return (slide?.dataset?.type === 'video') || !!slide.querySelector('video');
-    }
+  function now(){ return Date.now(); }
+  function clearTimer(){ if (timer){ clearTimeout(timer); timer = null; } }
 
-    function intervalForSlide(slide){
-      return isVideoSlide(slide) ? VIDEO_INTERVAL_MS : IMAGE_INTERVAL_MS;
-    }
+  function showOnly(i){
+    slides.forEach((s, n) => s.classList.toggle('is-active', n === i));
+    idx = i;
+  }
 
-    function stopAllVideos(){
-      slides.forEach(s => {
-        const v = s.querySelector('video');
-        if (!v) return;
-        v.muted = true;
-        try { v.pause(); } catch(e){}
-        try { v.currentTime = 0; } catch(e){}
-      });
-    }
+  function intervalForSlide(){ return IMAGE_INTERVAL_MS; }
 
-    function playActiveVideo(slide){
-      const v = slide.querySelector('video');
-      if (!v) return;
-      v.muted = true;
-      v.loop = true;
-      v.autoplay = true;
-      v.playsInline = true;
-      const p = v.play();
-      if (p && typeof p.catch === 'function') p.catch(() => {});
-    }
+  function scheduleNext(){
+    clearTimer();
+    const wait = Math.max(resumeAt - now(), 0);
+    const baseInterval = intervalForSlide();
 
-    function setActive(nextIdx){
-      slides[idx].classList.remove('is-active');
-      idx = (nextIdx + slides.length) % slides.length;
-      slides[idx].classList.add('is-active');
+    timer = setTimeout(() => {
+      if (!enabled) return;
+      if (now() < resumeAt){ scheduleNext(); return; }
+      setActive(idx + 1);
+    }, wait || baseInterval);
+  }
 
-      stopAllVideos();
-      playActiveVideo(slides[idx]);
-
-      scheduleNext();
-    }
-
-    function next(){ setActive(idx + 1); }
-    function prev(){ setActive(idx - 1); }
-
-    function clearTimer(){
-      if (timer){ clearTimeout(timer); timer = null; }
-    }
-
-    function scheduleNext(){
-      clearTimer();
-
-      const wait = Math.max(resumeAt - now(), 0);
-      const baseInterval = intervalForSlide(slides[idx]);
-
-      timer = setTimeout(() => {
-        // If an interaction hold is still in effect, reschedule cleanly
-        if (now() < resumeAt){
-          scheduleNext();
-          return;
-        }
-        next();
-      }, wait || baseInterval);
-    }
-
-    function userInteracted(){
-      resumeAt = now() + HOLD_AFTER_INTERACT_MS;
-    }
-
-    function handlePointer(e){
-      const r = galleryViewport.getBoundingClientRect();
-      const x = (e.clientX != null) ? e.clientX : (e.touches && e.touches[0] ? e.touches[0].clientX : null);
-      if (x == null) return;
-
-      userInteracted();
-
-      const mid = r.left + r.width / 2;
-      if (x < mid) prev();
-      else next();
-    }
-
-    // Click/tap: left half = prev, right half = next
-    galleryViewport.addEventListener('click', handlePointer);
-
-    // Keyboard support (optional but clean)
-    galleryViewport.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowLeft'){ userInteracted(); prev(); }
-      if (e.key === 'ArrowRight'){ userInteracted(); next(); }
-    });
-
-    // Ensure first active slide behaves (especially if it’s a video later)
-    stopAllVideos();
-    playActiveVideo(slides[idx]);
+  function setActive(nextIdx){
+    showOnly((nextIdx + slides.length) % slides.length);
     scheduleNext();
   }
+
+  function next(){ setActive(idx + 1); }
+  function prev(){ setActive(idx - 1); }
+
+  function userInteracted(){ resumeAt = now() + HOLD_AFTER_INTERACT_MS; }
+
+  function handlePointer(e){
+    if (!enabled) return;
+    const r = galleryViewport.getBoundingClientRect();
+    const x = (e.clientX != null) ? e.clientX : (e.touches && e.touches[0] ? e.touches[0].clientX : null);
+    if (x == null) return;
+
+    userInteracted();
+    const mid = r.left + r.width / 2;
+    if (x < mid) prev(); else next();
+  }
+
+  function handleKey(e){
+    if (!enabled) return;
+    if (e.key === 'ArrowLeft'){ userInteracted(); prev(); }
+    if (e.key === 'ArrowRight'){ userInteracted(); next(); }
+  }
+
+  function teardownGallery(){
+    enabled = false;
+    clearTimer();
+    galleryViewport.removeEventListener('click', handlePointer);
+    galleryViewport.removeEventListener('keydown', handleKey);
+    galleryViewport.removeAttribute('aria-roledescription');
+    galleryViewport.setAttribute('tabindex', '-1');
+
+    // static: first slide only for <=700; base CSS shows all as grid anyway
+    showOnly(0);
+  }
+
+  function initGallery(){
+    enabled = true;
+    galleryViewport.addEventListener('click', handlePointer);
+    galleryViewport.addEventListener('keydown', handleKey);
+    galleryViewport.setAttribute('tabindex', '0');
+    galleryViewport.setAttribute('aria-roledescription', 'carousel');
+    scheduleNext();
+  }
+
+  function shouldEnableGallery(){
+    const w = window.innerWidth;
+    return (w <= 1024 && w > 700);  // ONLY 701–1024
+  }
+
+  function setupGalleryForViewport(){
+    const want = shouldEnableGallery();
+
+    if (want && !enabled){
+      // ensure one active slide
+      if (!slides.some(s => s.classList.contains('is-active'))) showOnly(0);
+      initGallery();
+    } else if (!want && enabled){
+      teardownGallery();
+    } else if (!want && !enabled){
+      // make sure we're in a sane static state
+      showOnly(0);
+      galleryViewport.setAttribute('tabindex', '-1');
+    }
+  }
+
+  setupGalleryForViewport();
 })();
   </script>
-  
 
-  
 </body>
 </html>
