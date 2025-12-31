@@ -778,7 +778,79 @@ footer.site-footer p:last-child{
     playActiveVideo(slides[idx]);
     scheduleNext();
   }
+/* ===============================
+   BASE ONLY: 3-UP GALLERY LOOP (NO SNAP, EQUAL PAUSE)
+   =============================== */
 
+if (window.innerWidth > 1024) {
+  const viewport = document.getElementById('galleryViewport');
+  const track = document.getElementById('galleryTrack');
+
+  if (viewport && track) {
+    const originals = Array.from(track.children).filter(el => el.classList.contains('gallery-slide'));
+
+    if (originals.length >= 3) {
+      // --- timing (edit if you want) ---
+      const TRANS_MS = 600;   // move animation time
+      const PAUSE_MS = 3500;  // time each position is held
+
+      // --- force base layout: show ALL slides in a row ---
+      originals.forEach(slide => {
+        slide.classList.remove('is-active');
+        slide.style.display = 'block';
+        slide.style.flex = '0 0 33.3334%';
+      });
+
+      track.style.display = 'flex';
+      track.style.willChange = 'transform';
+      viewport.style.overflow = 'hidden';
+
+      // --- clone first 3 slides to create a seamless "bridge" ---
+      const clones = originals.slice(0, 3).map(s => s.cloneNode(true));
+      clones.forEach(c => {
+        c.classList.remove('is-active');
+        c.style.display = 'block';
+        c.style.flex = '0 0 33.3334%';
+        track.appendChild(c);
+      });
+
+      let index = 0;                         // window index
+      const maxIndex = originals.length - 3; // last real window
+      let timer = null;
+
+      function goTo(i, animate) {
+        track.style.transition = animate ? `transform ${TRANS_MS}ms ease` : 'none';
+        track.style.transform = `translateX(-${i * 33.3334}%)`;
+      }
+
+      // start position
+      goTo(0, false);
+
+      function step() {
+        index += 1;
+        goTo(index, true);
+
+        const bridgeIndex = maxIndex + 1; // first window that uses clones
+
+        if (index === bridgeIndex) {
+          // Hold on the clone-window for the normal pause,
+          // then snap back invisibly BEFORE the next move.
+          clearInterval(timer);
+
+          timer = setTimeout(() => {
+            index = 0;
+            goTo(index, false);
+            track.offsetHeight; // force reflow so the next transition applies cleanly
+            timer = setInterval(step, PAUSE_MS);
+          }, PAUSE_MS);
+        }
+      }
+
+      // run with equal pause at every position (including the loop point)
+      timer = setInterval(step, PAUSE_MS);
+    }
+  }
+}
 
 })();
   </script>
