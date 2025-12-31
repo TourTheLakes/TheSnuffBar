@@ -187,10 +187,9 @@ footer.site-footer p:last-child{
   outline: none;
 }
 
-/* Key change: slides are NOT absolute. Only active slide exists in layout. */
 .gallery-slide{
   display: none;
-  margin: 0;          /* kills default <figure> margins */
+  margin: 0;
   padding: 0;
 }
 
@@ -198,10 +197,10 @@ footer.site-footer p:last-child{
 
 .gallery-slide img,
 .gallery-slide video{
-  display: block;     /* kills baseline whitespace under images */
+  display: block;
   width: 100%;
   height: auto;
-  max-height: 70vh;   /* matches your hero constraint */
+  max-height: 70vh;
   object-fit: cover;
 }   
 
@@ -253,6 +252,19 @@ footer.site-footer p:last-child{
           left: 600px;
           top: 15vh;
         }
+             .gallery-viewport{
+          height: 30vh;
+          overflow: hidden;
+        }
+
+        .gallery-slide img{
+          height: 100%;
+          width: 100%;
+          max-height: none;
+          object-fit: cover;
+          displaay: block;
+        }
+      
    }
 
       @media (max-width: 700px){
@@ -303,7 +315,7 @@ footer.site-footer p:last-child{
         }
 
         .gallery-viewport{
-          height: 30vh;
+          height: 60vh;
           overflow: hidden;
         }
 
@@ -385,6 +397,18 @@ footer.site-footer p:last-child{
     left: 200px;
     top: 15vh;
   }
+            .gallery-viewport{
+          height: 60vh;
+          overflow: hidden;
+        }
+
+        .gallery-slide img{
+          height: 100%;
+          width: 100%;
+          max-height: none;
+          object-fit: cover;
+          displaay: block;
+        }
   }
 
     
