@@ -778,7 +778,127 @@ footer.site-footer p:last-child{
     playActiveVideo(slides[idx]);
     scheduleNext();
   }
+/* ===============================
+   BASE ONLY: 3-UP CLICK-THROUGH (NO AUTO)
+   - click LEFT half = prev
+   - click RIGHT half = next
+   - infinite loop without snapping
+   =============================== */
 
+if (window.innerWidth > 1024) {
+  const viewport = document.getElementById('galleryViewport');
+  const track = document.getElementById('galleryTrack');
+
+  if (viewport && track) {
+    const originals = Array.from(track.children).filter(el => el.classList.contains('gallery-slide'));
+    if (originals.length >= 3) {
+
+      const TRANS_MS = 600;
+      const STEP_PCT = 33.3334;
+
+      // --- force base layout: 3-up row ---
+      originals.forEach(slide => {
+        slide.classList.remove('is-active');
+        slide.style.display = 'block';
+        slide.style.flex = `0 0 ${STEP_PCT}%`;
+        slide.style.margin = '0';
+        slide.style.padding = '0';
+      });
+
+      track.style.display = 'flex';
+      track.style.willChange = 'transform';
+      track.style.transition = `transform ${TRANS_MS}ms ease`;
+      viewport.style.overflow = 'hidden';
+
+      // --- clone first 3 slides to create seamless forward bridge ---
+      // only once (prevents duplicate clones if script reruns)
+      if (!track.dataset.base3upReady) {
+        const clones = originals.slice(0, 3).map(s => s.cloneNode(true));
+        clones.forEach(c => {
+          c.classList.remove('is-active');
+          c.style.display = 'block';
+          c.style.flex = `0 0 ${STEP_PCT}%`;
+          c.style.margin = '0';
+          c.style.padding = '0';
+          track.appendChild(c);
+        });
+        track.dataset.base3upReady = '1';
+      }
+
+      const realCount = originals.length;
+      const maxIndex = realCount - 3;     // last real window
+      const bridgeIndex = maxIndex + 1;   // first window that uses clones
+
+      let index = 0; // current window index
+
+      function goTo(i, animate) {
+        track.style.transition = animate ? `transform ${TRANS_MS}ms ease` : 'none';
+        track.style.transform = `translateX(-${i * STEP_PCT}%)`;
+      }
+
+      function snapToRealStart() {
+        index = 0;
+        goTo(index, false);
+        track.offsetHeight; // reflow so next animate is clean
+        track.style.transition = `transform ${TRANS_MS}ms ease`;
+      }
+
+      function next() {
+        index += 1;
+        goTo(index, true);
+
+        // when we move onto the clone-window, after transition ends,
+        // snap back to the real start invisibly (no "bounce" feeling)
+        if (index === bridgeIndex) {
+          const onEnd = (e) => {
+            if (e.target !== track || e.propertyName !== 'transform') return;
+            track.removeEventListener('transitionend', onEnd);
+            snapToRealStart();
+          };
+          track.addEventListener('transitionend', onEnd);
+        }
+      }
+
+      function prev() {
+        // if at the start, jump (no animate) to an equivalent end position, then animate back one step
+        if (index === 0) {
+          index = maxIndex + 1; // the clone-window (visually equals the start)
+          goTo(index, false);
+          track.offsetHeight;   // reflow
+        }
+        index -= 1;
+        goTo(index, true);
+      }
+
+      // init position
+      goTo(0, false);
+
+      // click/tap: left half = prev, right half = next
+      function handlePointer(e) {
+        const r = viewport.getBoundingClientRect();
+        const x = (e.clientX != null) ? e.clientX : (e.touches && e.touches[0] ? e.touches[0].clientX : null);
+        if (x == null) return;
+
+        const mid = r.left + r.width / 2;
+        if (x < mid) prev();
+        else next();
+      }
+
+      // ensure we don't stack listeners if script reruns
+      if (!viewport.dataset.base3upBound) {
+        viewport.addEventListener('click', handlePointer);
+
+        // keyboard support (optional)
+        viewport.addEventListener('keydown', (e) => {
+          if (e.key === 'ArrowLeft') prev();
+          if (e.key === 'ArrowRight') next();
+        });
+
+        viewport.dataset.base3upBound = '1';
+      }
+    }
+  }
+}
 
 })();
   </script>
