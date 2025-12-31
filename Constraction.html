@@ -778,7 +778,87 @@ footer.site-footer p:last-child{
     playActiveVideo(slides[idx]);
     scheduleNext();
   }
+/* ===============================
+   BASE ONLY: 3-UP CLICK-THROUGH (NO LOOP, NO AUTO)
+   - click LEFT half = prev (until start, then stop)
+   - click RIGHT half = next (until end, then stop)
+   =============================== */
 
+if (window.innerWidth > 1024) {
+  const viewport = document.getElementById('galleryViewport');
+  const track = document.getElementById('galleryTrack');
+
+  if (viewport && track) {
+    const slides = Array.from(track.children).filter(el => el.classList.contains('gallery-slide'));
+    if (slides.length >= 3) {
+
+      const TRANS_MS = 600;
+      const STEP_PCT = 33.3334;
+
+      // Force base layout: show ALL slides in a row (3 visible at a time)
+      slides.forEach(slide => {
+        slide.classList.remove('is-active');
+        slide.style.display = 'block';
+        slide.style.flex = `0 0 ${STEP_PCT}%`;
+        slide.style.margin = '0';
+        slide.style.padding = '0';
+      });
+
+      track.style.display = 'flex';
+      track.style.willChange = 'transform';
+      track.style.transition = `transform ${TRANS_MS}ms ease`;
+      viewport.style.overflow = 'hidden';
+
+      let index = 0;
+      const maxIndex = slides.length - 3; // last valid 3-up window
+
+      function goTo(i) {
+        track.style.transform = `translateX(-${i * STEP_PCT}%)`;
+      }
+
+      function next() {
+        if (index >= maxIndex) return; // stop at end
+        index += 1;
+        goTo(index);
+      }
+
+      function prev() {
+        if (index <= 0) return; // stop at start
+        index -= 1;
+        goTo(index);
+      }
+
+      // init
+      goTo(0);
+
+      // Click/tap: left half = prev, right half = next
+      function handlePointer(e) {
+        const r = viewport.getBoundingClientRect();
+        const x = (e.clientX != null)
+          ? e.clientX
+          : (e.touches && e.touches[0] ? e.touches[0].clientX : null);
+        if (x == null) return;
+
+        const mid = r.left + r.width / 2;
+        if (x < mid) prev();
+        else next();
+      }
+
+      // bind once
+      if (!viewport.dataset.base3upBound) {
+        viewport.addEventListener('click', handlePointer);
+
+        // optional keyboard (base only)
+        viewport.addEventListener('keydown', (e) => {
+          if (e.key === 'ArrowLeft') prev();
+          if (e.key === 'ArrowRight') next();
+        });
+
+        viewport.dataset.base3upBound = '1';
+      }
+    }
+  }
+}
 
 })();
   </script>
