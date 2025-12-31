@@ -309,7 +309,7 @@ footer.site-footer p:last-child{
         }
          }
 
-  @media (max-width: 600px) and (min-aspect-ratio: 10/18) {
+  @media (max-width: 600px){
   body{
     padding-top: 15vh;
   }
@@ -380,6 +380,81 @@ footer.site-footer p:last-child{
   }
             .gallery-viewport{
           height: 65vh;
+          overflow: hidden;
+        }
+  }
+
+     @media (max-width: 420px){
+  body{
+    padding-top: 15vh;
+  }
+
+  .site-header{
+    height: 15vh;
+    overflow: hidden;
+  }
+
+  .site-header img{
+    display:block;
+    width:100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+
+  .brand-mark{
+    left: 50%;
+    top: 22vh;
+    width: 240px;
+    height: 240px;
+    transform: translate(-50%, -50%);
+  }
+
+  .hero-image{
+    width: 100%;
+    height: 35vh;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .events-inner{
+    padding: 40px 40px;
+  }
+
+  .events-box{
+    font-size: 18px;
+  }
+
+  .events-box h2{
+    font-size: 24px;
+  }
+
+  .about-inner{
+    padding: 40px 40px;
+  }
+
+  .about-box{
+    font-size: 18px;
+  }
+
+  .about-box h2{
+    font-size: 24px;
+  }
+
+  footer.site-footer h2{
+    font-size: 24px;
+  }
+
+  .footer-inner{
+    padding: 40px 40px;
+  }
+
+  .logo-target{
+    left: 200px;
+    top: 15vh;
+  }
+            .gallery-viewport{
+          height: 55vh;
           overflow: hidden;
         }
   }
