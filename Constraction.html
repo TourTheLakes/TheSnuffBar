@@ -853,6 +853,40 @@ footer.site-footer p:last-child{
     playActiveVideo(slides[idx]);
     scheduleNext();
   }
+  /* ===============================
+   BASE ONLY: 3-UP GALLERY LOOP
+   =============================== */
+
+if (window.innerWidth > 1024) {
+  const viewport = document.getElementById('galleryViewport');
+  const track = document.getElementById('galleryTrack');
+  const slides = Array.from(track.children);
+
+  if (viewport && track && slides.length >= 3) {
+
+    // --- force base layout ---
+    slides.forEach(slide => {
+      slide.classList.remove('is-active');
+      slide.style.display = 'block';
+      slide.style.flex = '0 0 33.3334%';
+    });
+
+    track.style.display = 'flex';
+    track.style.transition = 'transform .6s ease';
+    viewport.style.overflow = 'hidden';
+
+    let index = 0;
+    const maxIndex = slides.length - 3;
+
+    function step(){
+      index++;
+      if (index > maxIndex) index = 0;
+      track.style.transform = `translateX(-${index * 33.3334}%)`;
+    }
+
+    setInterval(step, 3500);
+  }
+}
 })();
   </script>
   
