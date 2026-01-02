@@ -562,7 +562,30 @@ footer.site-footer p:last-child{
     return data && !data.deletedAtMs && !isExpired(data);
   }
 
+  function formatWhen(dateText, timeText){
+  // dateText: "YYYY-MM-DD" (from your admin)
+  // timeText: "HH:MM"
+  const safeTime = (timeText ?? "").trim();
 
+  if (!dateText){
+    // no date: only show time if present
+    return safeTime ? `at ${esc(safeTime)}` : "";
+  }
+
+  const d = new Date(`${dateText}T00:00:00`);
+  if (isNaN(d.getTime())) return safeTime ? `at ${esc(safeTime)}` : "";
+
+  const weekday = d.toLocaleDateString("en-GB", { weekday: "long" });
+  const dayNum  = d.getDate(); // 1..31
+  const month   = d.toLocaleDateString("en-GB", { month: "long" });
+
+  const yy = String(d.getFullYear()).slice(-2); // "26"
+  const datePretty = `${weekday}, ${dayNum} of ${month} '${yy}`;
+
+  return safeTime
+    ? `${esc(datePretty)} at ${esc(safeTime)}`
+    : `${esc(datePretty)}`;
+}
 
   function formatPriceGBP(raw){
     const v = String(raw ?? "").trim();
