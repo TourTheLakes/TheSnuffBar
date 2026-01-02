@@ -512,7 +512,78 @@ footer.site-footer p:last-child{
   </div>
   </footer>
 
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
+  const firebaseConfig = {
+    apiKey: "AIzaSyA-XWjlAuoJlqHsExaAWavZ0DsMIOhAnic",
+    authDomain: "thesnuffbar-72041.firebaseapp.com",
+    databaseURL: "https://thesnuffbar-72041-default-rtdb.firebaseio.com",
+    projectId: "thesnuffbar-72041",
+    storageBucket: "thesnuffbar-72041.firebasestorage.app",
+    messagingSenderId: "392120935500",
+    appId: "1:392120935500:web:8f97de2b3dcddcdf5040e9",
+    measurementId: "G-SVXH2ETN49"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  const host = document.getElementById("liveEvents");
+  const EVENTS_PATH = "events";
+
+  function esc(s){
+    return String(s)
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+  }
+
+  function isExpired(data){
+    // If no date/time provided, don't auto-expire.
+    // If startAtMs exists and is in the past, hide it.
+    if (!data || !data.startAtMs) return false;
+    return data.startAtMs < Date.now();
+  }
+
+  function isLive(data){
+    return data && !data.deletedAtMs && !isExpired(data);
+  }
+
+  function render(items){
+    if (!items.length){
+      host.innerHTML = ""; // nothing visible at all
+      return;
+    }
+
+    const blocks = items.map(({ data }) => {
+      const parts = [];
+      if (data.dateText) parts.push(`<div><strong>Date:</strong> ${esc(data.dateText)}</div>`);
+      if (data.timeText) parts.push(`<div><strong>Time:</strong> ${esc(data.timeText)}</div>`);
+      if (data.price)    parts.push(`<div><strong>Price:</strong> ${esc(data.price)}</div>`);
+      if (data.description) parts.push(`<div><strong>Description:</strong> ${esc(data.description)}</div>`);
+
+      // Only show what exists — no blanks.
+      if (!parts.length) return "";
+      return `<div style="margin-top:18px;">${parts.join("")}</div>`;
+    }).filter(Boolean);
+
+    host.innerHTML = blocks.join("");
+  }
+
+  onValue(ref(db, EVENTS_PATH), (snap) => {
+    const val = snap.val() || {};
+    const items = Object.values(val)
+      .filter(isLive)
+      .map(data => ({ data }))
+      .sort((a,b) => (a.data.startAtMs ?? 9e18) - (b.data.startAtMs ?? 9e18));
+
+    render(items);
+  });
+</script>
 <script>
 (() => {
   const brand  = document.querySelector('.brand-mark');
