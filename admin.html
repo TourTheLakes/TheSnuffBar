@@ -139,10 +139,47 @@
 
     .muted{ opacity:.75; }
     .hidden{ display:none; }
+
+    /* ---- Login Gate ---- */
+    body.locked .wrap{ display:none; }
+
+    #loginScreen{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      box-sizing:border-box;
+    }
+
+    #loginCard{
+      max-width:520px;
+      width:100%;
+      border:1px solid var(--border);
+      background:var(--panel);
+      padding:18px;
+      box-sizing:border-box;
+    }
+
+    #loginTitle{
+      font-weight:700;
+      margin-bottom:8px;
+      letter-spacing:.08em;
+    }
   </style>
 </head>
 
-<body>
+<body class="locked">
+  <!-- Login Gate UI -->
+  <div id="loginScreen">
+    <div id="loginCard">
+      <div id="loginTitle">ADMIN ACCESS REQUIRED</div>
+      <div id="loginStatus" class="muted" style="margin-bottom:12px;">Checking sign-in…</div>
+      <button id="btnLogin" class="btn">Sign in with Google</button>
+    </div>
+  </div>
+
+  <!-- Admin UI (hidden until authorised) -->
   <div class="wrap">
     <div class="topbar">
       <div class="meta">
@@ -154,14 +191,12 @@
     </div>
 
     <h2>EVENTS</h2>
-
     <div class="panel">
       <div id="eventsList" class="list"></div>
       <div id="emptyList" class="muted hidden">No live events found.</div>
     </div>
 
     <h2>ADD / EDIT</h2>
-
     <div class="panel">
       <div class="row">
         <div class="col field">
@@ -193,325 +228,372 @@
     </div>
   </div>
 
- <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import {
-    getAuth,
-    GoogleAuthProvider,
-    signInWithPopup,
-    signOut,
-    onAuthStateChanged
-  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+  <script type="module">
+    // ---------------------------
+    // Firebase SDK (CDN modules)
+    // ---------------------------
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import {
+      getAuth,
+      GoogleAuthProvider,
+      signInWithPopup,
+      signOut,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-  import {
-    getDatabase,
-    ref,
-    push,
-    set,
-    update,
-    onValue
-  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+    import {
+      getDatabase,
+      ref,
+      push,
+      set,
+      update,
+      onValue
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyA-XWjlAuoJlqHsExaAWavZ0DsMIOhAnic",
-    authDomain: "thesnuffbar-72041.firebaseapp.com",
-    databaseURL: "https://thesnuffbar-72041-default-rtdb.firebaseio.com",
-    projectId: "thesnuffbar-72041",
-    storageBucket: "thesnuffbar-72041.firebasestorage.app",
-    messagingSenderId: "392120935500",
-    appId: "1:392120935500:web:8f97de2b3dcddcdf5040e9",
-    measurementId: "G-SVXH2ETN49"
-  };
-
-  const ALLOWED_EMAILS = new Set([
-    "info@tourthelakes.com"
-    // add two later
-  ]);
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getDatabase(app);
-
-  // UI
-  const whoEl = document.getElementById("who");
-  const countdownEl = document.getElementById("countdown");
-  const statusEl = document.getElementById("status");
-  const btnLogout = document.getElementById("btnLogout");
-
-  const eventsList = document.getElementById("eventsList");
-  const emptyList = document.getElementById("emptyList");
-
-  const dateEl = document.getElementById("date");
-  const timeEl = document.getElementById("time");
-  const priceEl = document.getElementById("price");
-  const descEl = document.getElementById("desc");
-  const btnSave = document.getElementById("btnSave");
-  const btnCancel = document.getElementById("btnCancel");
-  const formNote = document.getElementById("formNote");
-
-  // --- inactivity timer (10 mins) ---
-  const INACTIVITY_MS = 10 * 60 * 1000;
-  let lastActivity = Date.now();
-  let tickTimer = null;
-
-  function pad2(n){ return String(n).padStart(2,"0"); }
-  function setStatus(msg){ statusEl.textContent = msg || ""; }
-  function resetActivity(){ lastActivity = Date.now(); }
-
-  function startCountdown(){
-    stopCountdown();
-    tickTimer = setInterval(() => {
-      const left = Math.max(INACTIVITY_MS - (Date.now() - lastActivity), 0);
-      const mm = Math.floor(left / 60000);
-      const ss = Math.floor((left % 60000) / 1000);
-      countdownEl.textContent = `${pad2(mm)}:${pad2(ss)}`;
-      if (left <= 0) doLogout();
-    }, 250);
-  }
-
-  function stopCountdown(){
-    if (tickTimer) clearInterval(tickTimer);
-    tickTimer = null;
-    countdownEl.textContent = "—";
-  }
-
-  ["mousemove","mousedown","keydown","touchstart","scroll"].forEach(evt => {
-    window.addEventListener(evt, resetActivity, { passive:true });
-  });
-
-  async function ensureSignedIn(){
-    const user = auth.currentUser;
-    if (user) return user;
-    const provider = new GoogleAuthProvider();
-    const res = await signInWithPopup(auth, provider);
-    return res.user;
-  }
-
-  async function doLogout(){
-    try { await signOut(auth); } catch(e){}
-    stopCountdown();
-    whoEl.textContent = "—";
-    setStatus("Signed out.");
-    location.reload();
-  }
-
-  btnLogout.addEventListener("click", doLogout);
-
-  function textOrNull(s){
-    const v = (s || "").trim();
-    return v.length ? v : null;
-  }
-
-  function combineDateTimeMs(dateStr, timeStr){
-    if (!dateStr && !timeStr) return null;
-    const d = dateStr || new Date().toISOString().slice(0,10);
-    const t = timeStr || "00:00";
-    const dt = new Date(`${d}T${t}:00`);
-    return isNaN(dt.getTime()) ? null : dt.getTime();
-  }
-
-  let editingId = null;
-
-  function clearForm(){
-    dateEl.value = "";
-    timeEl.value = "";
-    priceEl.value = "";
-    descEl.value = "";
-    editingId = null;
-    formNote.textContent = "";
-  }
-
-  btnCancel.addEventListener("click", clearForm);
-
-  // Data model (RTDB):
-  // /events/{id} = {
-  //   dateText?, timeText?, price?, description?,
-  //   startAtMs?,           (number)
-  //   createdAtMs, createdBy,
-  //   updatedAtMs, updatedBy,
-  //   deletedAtMs, deletedBy,
-  //   purgeAfterMs          (number, for retention policy)
-  // }
-
-  const EVENTS_PATH = "events";
-
-  btnSave.addEventListener("click", async () => {
-    const user = auth.currentUser;
-    if (!user) return;
-
-    const email = user.email || "";
-    if (!ALLOWED_EMAILS.has(email)) {
-      setStatus("Not authorised.");
-      return;
-    }
-
-    const dateStr = dateEl.value;
-    const timeStr = timeEl.value;
-    const startAtMs = combineDateTimeMs(dateStr, timeStr);
-
-    const now = Date.now();
-    const payload = {
-      ...(textOrNull(dateStr) ? { dateText: dateStr } : { dateText: null }),
-      ...(textOrNull(timeStr) ? { timeText: timeStr } : { timeText: null }),
-      ...(textOrNull(priceEl.value) ? { price: textOrNull(priceEl.value) } : { price: null }),
-      ...(textOrNull(descEl.value) ? { description: textOrNull(descEl.value) } : { description: null }),
-      ...(startAtMs ? { startAtMs } : { startAtMs: null }),
-      updatedAtMs: now,
-      updatedBy: email
+    // ---------------------------
+    // Config
+    // ---------------------------
+    const firebaseConfig = {
+      apiKey: "AIzaSyA-XWjlAuoJlqHsExaAWavZ0DsMIOhAnic",
+      authDomain: "thesnuffbar-72041.firebaseapp.com",
+      databaseURL: "https://thesnuffbar-72041-default-rtdb.firebaseio.com",
+      projectId: "thesnuffbar-72041",
+      storageBucket: "thesnuffbar-72041.firebasestorage.app",
+      messagingSenderId: "392120935500",
+      appId: "1:392120935500:web:8f97de2b3dcddcdf5040e9",
+      measurementId: "G-SVXH2ETN49"
     };
 
-    try{
-      if (editingId){
-        await update(ref(db, `${EVENTS_PATH}/${editingId}`), payload);
-        formNote.textContent = "Saved changes.";
-      } else {
-        const newRef = push(ref(db, EVENTS_PATH));
-        await set(newRef, {
-          ...payload,
-          createdAtMs: now,
-          createdBy: email,
-          deletedAtMs: null,
-          deletedBy: null,
-          purgeAfterMs: null
-        });
-        formNote.textContent = "Saved new event.";
-      }
-      clearForm();
-      resetActivity();
-    } catch(e){
-      setStatus("Save failed. Check rules + console.");
-      console.error(e);
+    const ALLOWED_EMAILS = new Set([
+      "info@tourthelakes.com"
+      // add two later
+    ]);
+
+    const EVENTS_PATH = "events";
+    const INACTIVITY_MS = 10 * 60 * 1000; // 10 minutes
+
+    // ---------------------------
+    // Init
+    // ---------------------------
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getDatabase(app);
+
+    // ---------------------------
+    // UI refs
+    // ---------------------------
+    const loginStatusEl = document.getElementById("loginStatus");
+    const btnLogin = document.getElementById("btnLogin");
+
+    const whoEl = document.getElementById("who");
+    const countdownEl = document.getElementById("countdown");
+    const statusEl = document.getElementById("status");
+    const btnLogout = document.getElementById("btnLogout");
+
+    const eventsList = document.getElementById("eventsList");
+    const emptyList = document.getElementById("emptyList");
+
+    const dateEl = document.getElementById("date");
+    const timeEl = document.getElementById("time");
+    const priceEl = document.getElementById("price");
+    const descEl = document.getElementById("desc");
+    const btnSave = document.getElementById("btnSave");
+    const btnCancel = document.getElementById("btnCancel");
+    const formNote = document.getElementById("formNote");
+
+    function setStatus(msg){ statusEl.textContent = msg || ""; }
+    function lockUI(msg){
+      document.body.classList.add("locked");
+      loginStatusEl.textContent = msg || "";
     }
-  });
-
-  async function softDelete(id){
-    const user = auth.currentUser;
-    if (!user) return;
-
-    const email = user.email || "";
-    const now = Date.now();
-    const purgeAfterMs = now + (60 * 24 * 60 * 60 * 1000); // 60 days
-
-    try{
-      await update(ref(db, `${EVENTS_PATH}/${id}`), {
-        deletedAtMs: now,
-        deletedBy: email,
-        updatedAtMs: now,
-        updatedBy: email,
-        purgeAfterMs
-      });
-      resetActivity();
-    } catch(e){
-      setStatus("Delete failed. Check rules + console.");
-      console.error(e);
+    function unlockUI(){
+      document.body.classList.remove("locked");
+      const ls = document.getElementById("loginScreen");
+      if (ls) ls.style.display = "none";
     }
-  }
 
-  function fillFormFromEvent(id, data){
-    dateEl.value = data.dateText || "";
-    timeEl.value = data.timeText || "";
-    priceEl.value = data.price || "";
-    descEl.value = data.description || "";
-    editingId = id;
-    formNote.textContent = `Editing: ${id}`;
-    resetActivity();
-  }
+    // ---------------------------
+    // Inactivity timer
+    // ---------------------------
+    let lastActivity = Date.now();
+    let tickTimer = null;
 
-  function escapeHtml(s){
-    return String(s)
-      .replaceAll("&","&amp;")
-      .replaceAll("<","&lt;")
-      .replaceAll(">","&gt;")
-      .replaceAll('"',"&quot;")
-      .replaceAll("'","&#039;");
-  }
+    function pad2(n){ return String(n).padStart(2,"0"); }
+    function resetActivity(){ lastActivity = Date.now(); }
 
-  function formatLine(label, value){
-    if (!value) return "";
-    return `<div class="line"><strong>${label}:</strong> ${escapeHtml(value)}</div>`;
-  }
-
-  function renderList(items){
-    eventsList.innerHTML = "";
-
-    if (!items.length){
-      emptyList.classList.remove("hidden");
-      return;
+    function startCountdown(){
+      stopCountdown();
+      tickTimer = setInterval(() => {
+        const left = Math.max(INACTIVITY_MS - (Date.now() - lastActivity), 0);
+        const mm = Math.floor(left / 60000);
+        const ss = Math.floor((left % 60000) / 1000);
+        countdownEl.textContent = `${pad2(mm)}:${pad2(ss)}`;
+        if (left <= 0) doLogout();
+      }, 250);
     }
-    emptyList.classList.add("hidden");
 
-    for (const { id, data } of items){
-      const wrapper = document.createElement("div");
-      wrapper.className = "item";
-
-      const desc = data.description || "";
-      wrapper.innerHTML = `
-        <div class="title">${escapeHtml(desc || "Event")}</div>
-        ${formatLine("Date", data.dateText)}
-        ${formatLine("Time", data.timeText)}
-        ${formatLine("Price", data.price)}
-        <div class="item-actions">
-          <button class="btn" data-action="edit">Amend</button>
-          <button class="btn" data-action="delete">Delete</button>
-        </div>
-      `;
-
-      wrapper.querySelector('[data-action="edit"]').addEventListener("click", () => fillFormFromEvent(id, data));
-      wrapper.querySelector('[data-action="delete"]').addEventListener("click", () => softDelete(id));
-
-      eventsList.appendChild(wrapper);
+    function stopCountdown(){
+      if (tickTimer) clearInterval(tickTimer);
+      tickTimer = null;
+      countdownEl.textContent = "—";
     }
-  }
 
-  function isLiveEvent(data){
-    // not deleted, and if date exists and is in the past we still keep it until you delete
-    // (index.html will hide past events automatically if you want — we can enforce there)
-    return !data.deletedAtMs;
-  }
-
-  function subscribeEvents(){
-    const r = ref(db, EVENTS_PATH);
-
-    onValue(r, (snap) => {
-      const val = snap.val() || {};
-      const arr = Object.entries(val)
-        .map(([id, data]) => ({ id, data: data || {} }))
-        .filter(x => isLiveEvent(x.data))
-        .sort((a,b) => (a.data.startAtMs ?? 9e18) - (b.data.startAtMs ?? 9e18));
-
-      renderList(arr);
-    }, (err) => {
-      setStatus("Read failed. Check rules + console.");
-      console.error(err);
+    ["mousemove","mousedown","keydown","touchstart","scroll"].forEach(evt => {
+      window.addEventListener(evt, resetActivity, { passive:true });
     });
-  }
 
-  onAuthStateChanged(auth, async (user) => {
-    try{
-      if (!user){
-        setStatus("Signing in...");
-        user = await ensureSignedIn();
+    // ---------------------------
+    // Auth
+    // ---------------------------
+    async function doLogin(){
+      try{
+        lockUI("Opening Google sign-in… (allow popups)");
+        const provider = new GoogleAuthProvider();
+        await signInWithPopup(auth, provider);
+        // onAuthStateChanged will fire next
+      } catch(e){
+        console.error(e);
+        lockUI("Sign-in failed. Check: popups + Auth authorised domains.");
       }
+    }
+
+    async function doLogout(){
+      try { await signOut(auth); } catch(e){}
+      stopCountdown();
+      whoEl.textContent = "—";
+      setStatus("Signed out.");
+      // force clean state
+      location.reload();
+    }
+
+    btnLogin.addEventListener("click", doLogin);
+    btnLogout.addEventListener("click", doLogout);
+
+    // ---------------------------
+    // Helpers
+    // ---------------------------
+    function textOrNull(s){
+      const v = (s || "").trim();
+      return v.length ? v : null;
+    }
+
+    function combineDateTimeMs(dateStr, timeStr){
+      if (!dateStr && !timeStr) return null;
+      const d = dateStr || new Date().toISOString().slice(0,10);
+      const t = timeStr || "00:00";
+      const dt = new Date(`${d}T${t}:00`);
+      return isNaN(dt.getTime()) ? null : dt.getTime();
+    }
+
+    function clearForm(){
+      dateEl.value = "";
+      timeEl.value = "";
+      priceEl.value = "";
+      descEl.value = "";
+      editingId = null;
+      formNote.textContent = "";
+    }
+
+    function escapeHtml(s){
+      return String(s)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    function formatLine(label, value){
+      if (!value) return "";
+      return `<div class="line"><strong>${label}:</strong> ${escapeHtml(value)}</div>`;
+    }
+
+    function isLiveEvent(data){
+      return !data.deletedAtMs;
+    }
+
+    // ---------------------------
+    // Data (RTDB)
+    // ---------------------------
+    // /events/{id} = {
+    //   dateText?, timeText?, price?, description?,
+    //   startAtMs?,
+    //   createdAtMs, createdBy,
+    //   updatedAtMs, updatedBy,
+    //   deletedAtMs, deletedBy,
+    //   purgeAfterMs
+    // }
+    let editingId = null;
+
+    btnCancel.addEventListener("click", clearForm);
+
+    btnSave.addEventListener("click", async () => {
+      const user = auth.currentUser;
+      if (!user) return;
 
       const email = user.email || "";
-      whoEl.textContent = email || "—";
-
-      if (!ALLOWED_EMAILS.has(email)){
-        setStatus("Not authorised for admin.");
-        await doLogout();
+      if (!ALLOWED_EMAILS.has(email)) {
+        setStatus("Not authorised.");
         return;
       }
 
-      setStatus("");
-      resetActivity();
-      startCountdown();
-      subscribeEvents();
-    } catch(e){
-      setStatus("Auth failed.");
-      console.error(e);
+      const dateStr = dateEl.value;
+      const timeStr = timeEl.value;
+      const startAtMs = combineDateTimeMs(dateStr, timeStr);
+      const now = Date.now();
+
+      // IMPORTANT:
+      // We intentionally store null for blank fields, so the index/admin can ignore them.
+      const payload = {
+        dateText: textOrNull(dateStr),
+        timeText: textOrNull(timeStr),
+        price: textOrNull(priceEl.value),
+        description: textOrNull(descEl.value),
+        startAtMs: startAtMs,
+        updatedAtMs: now,
+        updatedBy: email
+      };
+
+      try{
+        if (editingId){
+          await update(ref(db, `${EVENTS_PATH}/${editingId}`), payload);
+          formNote.textContent = "Saved changes.";
+        } else {
+          const newRef = push(ref(db, EVENTS_PATH));
+          await set(newRef, {
+            ...payload,
+            createdAtMs: now,
+            createdBy: email,
+            deletedAtMs: null,
+            deletedBy: null,
+            purgeAfterMs: null
+          });
+          formNote.textContent = "Saved new event.";
+        }
+
+        clearForm();
+        resetActivity();
+      } catch(e){
+        console.error(e);
+        setStatus("Save failed. Check RTDB rules + console.");
+      }
+    });
+
+    async function softDelete(id){
+      const user = auth.currentUser;
+      if (!user) return;
+
+      const email = user.email || "";
+      const now = Date.now();
+      const purgeAfterMs = now + (60 * 24 * 60 * 60 * 1000); // 60 days
+
+      try{
+        await update(ref(db, `${EVENTS_PATH}/${id}`), {
+          deletedAtMs: now,
+          deletedBy: email,
+          updatedAtMs: now,
+          updatedBy: email,
+          purgeAfterMs
+        });
+        resetActivity();
+      } catch(e){
+        console.error(e);
+        setStatus("Delete failed. Check RTDB rules + console.");
+      }
     }
-  });
- </script> 
- 
+
+    function fillFormFromEvent(id, data){
+      dateEl.value = data.dateText || "";
+      timeEl.value = data.timeText || "";
+      priceEl.value = data.price || "";
+      descEl.value = data.description || "";
+      editingId = id;
+      formNote.textContent = `Editing: ${id}`;
+      resetActivity();
+    }
+
+    function renderList(items){
+      eventsList.innerHTML = "";
+
+      if (!items.length){
+        emptyList.classList.remove("hidden");
+        return;
+      }
+      emptyList.classList.add("hidden");
+
+      for (const { id, data } of items){
+        const wrapper = document.createElement("div");
+        wrapper.className = "item";
+
+        const desc = data.description || "";
+        wrapper.innerHTML = `
+          <div class="title">${escapeHtml(desc || "Event")}</div>
+          ${formatLine("Date", data.dateText)}
+          ${formatLine("Time", data.timeText)}
+          ${formatLine("Price", data.price)}
+          <div class="item-actions">
+            <button class="btn" data-action="edit">Amend</button>
+            <button class="btn" data-action="delete">Delete</button>
+          </div>
+        `;
+
+        wrapper.querySelector('[data-action="edit"]').addEventListener("click", () => fillFormFromEvent(id, data));
+        wrapper.querySelector('[data-action="delete"]').addEventListener("click", () => softDelete(id));
+
+        eventsList.appendChild(wrapper);
+      }
+    }
+
+    function subscribeEvents(){
+      const r = ref(db, EVENTS_PATH);
+
+      onValue(r, (snap) => {
+        const val = snap.val() || {};
+        const arr = Object.entries(val)
+          .map(([id, data]) => ({ id, data: data || {} }))
+          .filter(x => isLiveEvent(x.data))
+          .sort((a,b) => (a.data.startAtMs ?? 9e18) - (b.data.startAtMs ?? 9e18));
+
+        renderList(arr);
+      }, (err) => {
+        console.error(err);
+        setStatus("Read failed. Check RTDB rules + console.");
+      });
+    }
+
+    // ---------------------------
+    // Auth state gate
+    // ---------------------------
+    lockUI("Please sign in.");
+
+    onAuthStateChanged(auth, async (user) => {
+      try{
+        if (!user){
+          // stay locked, wait for button
+          whoEl.textContent = "—";
+          stopCountdown();
+          return;
+        }
+
+        const email = user.email || "";
+        whoEl.textContent = email || "—";
+
+        if (!ALLOWED_EMAILS.has(email)){
+          lockUI("Not authorised for admin.");
+          await doLogout();
+          return;
+        }
+
+        unlockUI();
+        setStatus("");
+        resetActivity();
+        startCountdown();
+        subscribeEvents();
+      } catch(e){
+        console.error(e);
+        lockUI("Auth failed. Check console.");
+      }
+    });
+  </script>
 </body>
 </html>
