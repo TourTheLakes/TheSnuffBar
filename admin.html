@@ -421,7 +421,20 @@
       const startAtMs = combineDateTimeMs(dateStr, timeStr);
       const now = Date.now();
 
+      const payload = {
+  dateText: textOrNull(dateStr),
+  timeText: textOrNull(timeStr),
 
+  price: textOrNull(priceEl.value)
+    ? `£${textOrNull(priceEl.value).replace(/^£\s*/, "")}`
+    : null,
+
+  description: textOrNull(descEl.value),
+
+  startAtMs: startAtMs ?? null,
+  updatedAtMs: now,
+  updatedBy: email
+};
 
       try{
         if (editingId){
