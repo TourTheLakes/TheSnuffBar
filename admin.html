@@ -193,7 +193,325 @@
     </div>
   </div>
 
-  
+ <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import {
+    getAuth,
+    GoogleAuthProvider,
+    signInWithPopup,
+    signOut,
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+  import {
+    getDatabase,
+    ref,
+    push,
+    set,
+    update,
+    onValue
+  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyA-XWjlAuoJlqHsExaAWavZ0DsMIOhAnic",
+    authDomain: "thesnuffbar-72041.firebaseapp.com",
+    databaseURL: "https://thesnuffbar-72041-default-rtdb.firebaseio.com",
+    projectId: "thesnuffbar-72041",
+    storageBucket: "thesnuffbar-72041.firebasestorage.app",
+    messagingSenderId: "392120935500",
+    appId: "1:392120935500:web:8f97de2b3dcddcdf5040e9",
+    measurementId: "G-SVXH2ETN49"
+  };
+
+  const ALLOWED_EMAILS = new Set([
+    "info@tourthelakes.com"
+    // add two later
+  ]);
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getDatabase(app);
+
+  // UI
+  const whoEl = document.getElementById("who");
+  const countdownEl = document.getElementById("countdown");
+  const statusEl = document.getElementById("status");
+  const btnLogout = document.getElementById("btnLogout");
+
+  const eventsList = document.getElementById("eventsList");
+  const emptyList = document.getElementById("emptyList");
+
+  const dateEl = document.getElementById("date");
+  const timeEl = document.getElementById("time");
+  const priceEl = document.getElementById("price");
+  const descEl = document.getElementById("desc");
+  const btnSave = document.getElementById("btnSave");
+  const btnCancel = document.getElementById("btnCancel");
+  const formNote = document.getElementById("formNote");
+
+  // --- inactivity timer (10 mins) ---
+  const INACTIVITY_MS = 10 * 60 * 1000;
+  let lastActivity = Date.now();
+  let tickTimer = null;
+
+  function pad2(n){ return String(n).padStart(2,"0"); }
+  function setStatus(msg){ statusEl.textContent = msg || ""; }
+  function resetActivity(){ lastActivity = Date.now(); }
+
+  function startCountdown(){
+    stopCountdown();
+    tickTimer = setInterval(() => {
+      const left = Math.max(INACTIVITY_MS - (Date.now() - lastActivity), 0);
+      const mm = Math.floor(left / 60000);
+      const ss = Math.floor((left % 60000) / 1000);
+      countdownEl.textContent = `${pad2(mm)}:${pad2(ss)}`;
+      if (left <= 0) doLogout();
+    }, 250);
+  }
+
+  function stopCountdown(){
+    if (tickTimer) clearInterval(tickTimer);
+    tickTimer = null;
+    countdownEl.textContent = "—";
+  }
+
+  ["mousemove","mousedown","keydown","touchstart","scroll"].forEach(evt => {
+    window.addEventListener(evt, resetActivity, { passive:true });
+  });
+
+  async function ensureSignedIn(){
+    const user = auth.currentUser;
+    if (user) return user;
+    const provider = new GoogleAuthProvider();
+    const res = await signInWithPopup(auth, provider);
+    return res.user;
+  }
+
+  async function doLogout(){
+    try { await signOut(auth); } catch(e){}
+    stopCountdown();
+    whoEl.textContent = "—";
+    setStatus("Signed out.");
+    location.reload();
+  }
+
+  btnLogout.addEventListener("click", doLogout);
+
+  function textOrNull(s){
+    const v = (s || "").trim();
+    return v.length ? v : null;
+  }
+
+  function combineDateTimeMs(dateStr, timeStr){
+    if (!dateStr && !timeStr) return null;
+    const d = dateStr || new Date().toISOString().slice(0,10);
+    const t = timeStr || "00:00";
+    const dt = new Date(`${d}T${t}:00`);
+    return isNaN(dt.getTime()) ? null : dt.getTime();
+  }
+
+  let editingId = null;
+
+  function clearForm(){
+    dateEl.value = "";
+    timeEl.value = "";
+    priceEl.value = "";
+    descEl.value = "";
+    editingId = null;
+    formNote.textContent = "";
+  }
+
+  btnCancel.addEventListener("click", clearForm);
+
+  // Data model (RTDB):
+  // /events/{id} = {
+  //   dateText?, timeText?, price?, description?,
+  //   startAtMs?,           (number)
+  //   createdAtMs, createdBy,
+  //   updatedAtMs, updatedBy,
+  //   deletedAtMs, deletedBy,
+  //   purgeAfterMs          (number, for retention policy)
+  // }
+
+  const EVENTS_PATH = "events";
+
+  btnSave.addEventListener("click", async () => {
+    const user = auth.currentUser;
+    if (!user) return;
+
+    const email = user.email || "";
+    if (!ALLOWED_EMAILS.has(email)) {
+      setStatus("Not authorised.");
+      return;
+    }
+
+    const dateStr = dateEl.value;
+    const timeStr = timeEl.value;
+    const startAtMs = combineDateTimeMs(dateStr, timeStr);
+
+    const now = Date.now();
+    const payload = {
+      ...(textOrNull(dateStr) ? { dateText: dateStr } : { dateText: null }),
+      ...(textOrNull(timeStr) ? { timeText: timeStr } : { timeText: null }),
+      ...(textOrNull(priceEl.value) ? { price: textOrNull(priceEl.value) } : { price: null }),
+      ...(textOrNull(descEl.value) ? { description: textOrNull(descEl.value) } : { description: null }),
+      ...(startAtMs ? { startAtMs } : { startAtMs: null }),
+      updatedAtMs: now,
+      updatedBy: email
+    };
+
+    try{
+      if (editingId){
+        await update(ref(db, `${EVENTS_PATH}/${editingId}`), payload);
+        formNote.textContent = "Saved changes.";
+      } else {
+        const newRef = push(ref(db, EVENTS_PATH));
+        await set(newRef, {
+          ...payload,
+          createdAtMs: now,
+          createdBy: email,
+          deletedAtMs: null,
+          deletedBy: null,
+          purgeAfterMs: null
+        });
+        formNote.textContent = "Saved new event.";
+      }
+      clearForm();
+      resetActivity();
+    } catch(e){
+      setStatus("Save failed. Check rules + console.");
+      console.error(e);
+    }
+  });
+
+  async function softDelete(id){
+    const user = auth.currentUser;
+    if (!user) return;
+
+    const email = user.email || "";
+    const now = Date.now();
+    const purgeAfterMs = now + (60 * 24 * 60 * 60 * 1000); // 60 days
+
+    try{
+      await update(ref(db, `${EVENTS_PATH}/${id}`), {
+        deletedAtMs: now,
+        deletedBy: email,
+        updatedAtMs: now,
+        updatedBy: email,
+        purgeAfterMs
+      });
+      resetActivity();
+    } catch(e){
+      setStatus("Delete failed. Check rules + console.");
+      console.error(e);
+    }
+  }
+
+  function fillFormFromEvent(id, data){
+    dateEl.value = data.dateText || "";
+    timeEl.value = data.timeText || "";
+    priceEl.value = data.price || "";
+    descEl.value = data.description || "";
+    editingId = id;
+    formNote.textContent = `Editing: ${id}`;
+    resetActivity();
+  }
+
+  function escapeHtml(s){
+    return String(s)
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#039;");
+  }
+
+  function formatLine(label, value){
+    if (!value) return "";
+    return `<div class="line"><strong>${label}:</strong> ${escapeHtml(value)}</div>`;
+  }
+
+  function renderList(items){
+    eventsList.innerHTML = "";
+
+    if (!items.length){
+      emptyList.classList.remove("hidden");
+      return;
+    }
+    emptyList.classList.add("hidden");
+
+    for (const { id, data } of items){
+      const wrapper = document.createElement("div");
+      wrapper.className = "item";
+
+      const desc = data.description || "";
+      wrapper.innerHTML = `
+        <div class="title">${escapeHtml(desc || "Event")}</div>
+        ${formatLine("Date", data.dateText)}
+        ${formatLine("Time", data.timeText)}
+        ${formatLine("Price", data.price)}
+        <div class="item-actions">
+          <button class="btn" data-action="edit">Amend</button>
+          <button class="btn" data-action="delete">Delete</button>
+        </div>
+      `;
+
+      wrapper.querySelector('[data-action="edit"]').addEventListener("click", () => fillFormFromEvent(id, data));
+      wrapper.querySelector('[data-action="delete"]').addEventListener("click", () => softDelete(id));
+
+      eventsList.appendChild(wrapper);
+    }
+  }
+
+  function isLiveEvent(data){
+    // not deleted, and if date exists and is in the past we still keep it until you delete
+    // (index.html will hide past events automatically if you want — we can enforce there)
+    return !data.deletedAtMs;
+  }
+
+  function subscribeEvents(){
+    const r = ref(db, EVENTS_PATH);
+
+    onValue(r, (snap) => {
+      const val = snap.val() || {};
+      const arr = Object.entries(val)
+        .map(([id, data]) => ({ id, data: data || {} }))
+        .filter(x => isLiveEvent(x.data))
+        .sort((a,b) => (a.data.startAtMs ?? 9e18) - (b.data.startAtMs ?? 9e18));
+
+      renderList(arr);
+    }, (err) => {
+      setStatus("Read failed. Check rules + console.");
+      console.error(err);
+    });
+  }
+
+  onAuthStateChanged(auth, async (user) => {
+    try{
+      if (!user){
+        setStatus("Signing in...");
+        user = await ensureSignedIn();
+      }
+
+      const email = user.email || "";
+      whoEl.textContent = email || "—";
+
+      if (!ALLOWED_EMAILS.has(email)){
+        setStatus("Not authorised for admin.");
+        await doLogout();
+        return;
+      }
+
+      setStatus("");
+      resetActivity();
+      startCountdown();
+      subscribeEvents();
+    } catch(e){
+      setStatus("Auth failed.");
+      console.error(e);
+    }
+  });
+ </script> 
  
 </body>
 </html>
