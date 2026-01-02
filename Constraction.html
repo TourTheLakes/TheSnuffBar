@@ -415,10 +415,10 @@ footer.site-footer p:last-child{
   <p><strong>Upstairs function room:</strong> Our function room has been home to choirs, meetings, parties and more. It’s available to book for private events, with cold food provided on request.</p>
 
   <p><strong>Coming in 2026:</strong> Regular live music nights, quizzes and games evenings — more reasons to gather, enjoy and return.</p>
-    </div>
-    
+
     <div id="liveEvents"></div>
-    
+      
+    </div>
   </section>
 
 <section id="gallery" aria-label="Gallery">
@@ -603,7 +603,7 @@ footer.site-footer p:last-child{
       if (body) lines.push(esc(body));
 
       if (!lines.length) return "";
-      return `<div style="margin-top:18px;">${lines.join("<br>")}</div>`;
+      return `<p style="margin-top:18px;">${lines.join("<br>")}</p>`;
     }).filter(Boolean);
 
     host.innerHTML = blocks.join("");
