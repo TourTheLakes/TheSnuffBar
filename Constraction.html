@@ -608,7 +608,7 @@ footer.site-footer p:last-child{
       const timeText = (data.timeText ?? "").trim();
       const priceRaw = (data.price ?? "").trim();
 
-      const dayName = weekdayFromDateText(dateText);
+      const whenLine = formatWhen(dateText. timeText);
 
       const whenParts = [];
       if (dayName) whenParts.push(dayName);
@@ -625,8 +625,7 @@ footer.site-footer p:last-child{
       const priceLine = priceRaw ? `Participation fee ${esc(formatPriceGBP(priceRaw))}` : "";
 
       const lines = [];
-      if (title) lines.push(`<span class="event-desc">${esc(title)}</span>`);
-      if (whenLine) lines.push(whenLine);
+
       if (priceLine) lines.push(priceLine);
       if (body) lines.push(esc(body));
 
