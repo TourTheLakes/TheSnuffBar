@@ -543,8 +543,6 @@ footer.site-footer p:last-child{
   }
 
   function isExpired(data){
-    // If no date/time provided, don't auto-expire.
-    // If startAtMs exists and is in the past, hide it.
     if (!data || !data.startAtMs) return false;
     return data.startAtMs < Date.now();
   }
@@ -555,7 +553,7 @@ footer.site-footer p:last-child{
 
   function render(items){
     if (!items.length){
-      host.innerHTML = ""; // nothing visible at all
+      host.innerHTML = "";
       return;
     }
 
@@ -566,7 +564,6 @@ footer.site-footer p:last-child{
       if (data.price)    parts.push(`<div><strong>Price:</strong> ${esc(data.price)}</div>`);
       if (data.description) parts.push(`<div><strong>Description:</strong> ${esc(data.description)}</div>`);
 
-      // Only show what exists — no blanks.
       if (!parts.length) return "";
       return `<div style="margin-top:18px;">${parts.join("")}</div>`;
     }).filter(Boolean);
@@ -621,7 +618,7 @@ footer.site-footer p:last-child{
   }
 
   function isMobileish(){
-    return getBpKey() !== 'base'; // your breakpoints all use translate(-50%, -50%)
+    return getBpKey() !== 'base';
   }
 
   function triggerPoint(){
@@ -640,7 +637,6 @@ footer.site-footer p:last-child{
         const r = rect(brand);
 
         if (mobile){
-          // Store HOME as centre coords, and keep CSS-style transform constant
           home = {
             x: r.left + r.width / 2,
             y: r.top  + r.height / 2,
@@ -649,7 +645,6 @@ footer.site-footer p:last-child{
             transform: 'translate(-50%, -50%)'
           };
         } else {
-          // Base uses top-left anchoring with no transform
           home = {
             x: r.left,
             y: r.top,
@@ -683,7 +678,7 @@ footer.site-footer p:last-child{
     brand.style.top = px(state.y);
     brand.style.width = px(state.width);
     brand.style.height = px(state.height);
-    brand.style.transform = state.transform; // IMPORTANT: constant on mobile => no snap/bounce
+    brand.style.transform = state.transform;
   }
 
   function returnToHome(){
@@ -729,7 +724,6 @@ footer.site-footer p:last-child{
     recalcPositions();
   }
 
-  // INIT
   bpKey = getBpKey();
   brand.style.transition = TRANSITION;
   recalcPositions();
@@ -814,7 +808,6 @@ footer.site-footer p:last-child{
       const baseInterval = intervalForSlide(slides[idx]);
 
       timer = setTimeout(() => {
-        // If an interaction hold is still in effect, reschedule cleanly
         if (now() < resumeAt){
           scheduleNext();
           return;
@@ -839,25 +832,17 @@ footer.site-footer p:last-child{
       else next();
     }
 
-    // Click/tap: left half = prev, right half = next
     galleryViewport.addEventListener('click', handlePointer);
 
-    // Keyboard support (optional but clean)
     galleryViewport.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowLeft'){ userInteracted(); prev(); }
       if (e.key === 'ArrowRight'){ userInteracted(); next(); }
     });
 
-    // Ensure first active slide behaves (especially if it’s a video later)
     stopAllVideos();
     playActiveVideo(slides[idx]);
     scheduleNext();
   }
-/* ===============================
-   BASE ONLY: 3-UP CLICK-THROUGH (NO LOOP, NO AUTO)
-   - click LEFT half = prev (until start, then stop)
-   - click RIGHT half = next (until end, then stop)
-   =============================== */
 
 if (window.innerWidth > 1024) {
   const viewport = document.getElementById('galleryViewport');
@@ -870,7 +855,6 @@ if (window.innerWidth > 1024) {
       const TRANS_MS = 600;
       const STEP_PCT = 33.3334;
 
-      // Force base layout: show ALL slides in a row (3 visible at a time)
       slides.forEach(slide => {
         slide.classList.remove('is-active');
         slide.style.display = 'block';
@@ -885,28 +869,26 @@ if (window.innerWidth > 1024) {
       viewport.style.overflow = 'hidden';
 
       let index = 0;
-      const maxIndex = slides.length - 3; // last valid 3-up window
+      const maxIndex = slides.length - 3;
 
       function goTo(i) {
         track.style.transform = `translateX(-${i * STEP_PCT}%)`;
       }
 
       function next() {
-        if (index >= maxIndex) return; // stop at end
+        if (index >= maxIndex) return;
         index += 1;
         goTo(index);
       }
 
       function prev() {
-        if (index <= 0) return; // stop at start
+        if (index <= 0) return;
         index -= 1;
         goTo(index);
       }
 
-      // init
       goTo(0);
 
-      // Click/tap: left half = prev, right half = next
       function handlePointer(e) {
         const r = viewport.getBoundingClientRect();
         const x = (e.clientX != null)
@@ -919,11 +901,9 @@ if (window.innerWidth > 1024) {
         else next();
       }
 
-      // bind once
       if (!viewport.dataset.base3upBound) {
         viewport.addEventListener('click', handlePointer);
 
-        // optional keyboard (base only)
         viewport.addEventListener('keydown', (e) => {
           if (e.key === 'ArrowLeft') prev();
           if (e.key === 'ArrowRight') next();
