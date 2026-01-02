@@ -562,12 +562,7 @@ footer.site-footer p:last-child{
     return data && !data.deletedAtMs && !isExpired(data);
   }
 
-  function weekdayFromDateText(dateText){
-    if (!dateText) return "";
-    const d = new Date(`${dateText}T00:00:00`);
-    if (isNaN(d.getTime())) return "";
-    return d.toLocaleDateString("en-GB", { weekday: "long" });
-  }
+
 
   function formatPriceGBP(raw){
     const v = String(raw ?? "").trim();
