@@ -178,7 +178,9 @@ footer.site-footer p:last-child{
 
 #gallery { margin: 0; padding: 0; }
 
-
+#liveEvents .event-desc{
+  color:#321507;
+}
 
 .gallery-viewport{
   width: 100%;
@@ -599,7 +601,7 @@ footer.site-footer p:last-child{
       const priceLine = priceRaw ? `Participation fee ${esc(formatPriceGBP(priceRaw))}` : "";
 
       const lines = [];
-      
+      if (title) lines.push(`<span class="event-desc">${esc(title)}</span>`);
       if (whenLine) lines.push(whenLine);
       if (priceLine) lines.push(priceLine);
       if (body) lines.push(esc(body));
