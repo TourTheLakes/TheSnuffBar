@@ -229,9 +229,6 @@
   </div>
 
   <script type="module">
-    // ---------------------------
-    // Firebase SDK (CDN modules)
-    // ---------------------------
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import {
       getAuth,
@@ -250,9 +247,6 @@
       onValue
     } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-    // ---------------------------
-    // Config
-    // ---------------------------
     const firebaseConfig = {
       apiKey: "AIzaSyA-XWjlAuoJlqHsExaAWavZ0DsMIOhAnic",
       authDomain: "thesnuffbar-72041.firebaseapp.com",
@@ -272,16 +266,10 @@
     const EVENTS_PATH = "events";
     const INACTIVITY_MS = 10 * 60 * 1000; // 10 minutes
 
-    // ---------------------------
-    // Init
-    // ---------------------------
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getDatabase(app);
 
-    // ---------------------------
-    // UI refs
-    // ---------------------------
     const loginStatusEl = document.getElementById("loginStatus");
     const btnLogin = document.getElementById("btnLogin");
 
@@ -312,9 +300,7 @@
       if (ls) ls.style.display = "none";
     }
 
-    // ---------------------------
-    // Inactivity timer
-    // ---------------------------
+
     let lastActivity = Date.now();
     let tickTimer = null;
 
@@ -342,15 +328,11 @@
       window.addEventListener(evt, resetActivity, { passive:true });
     });
 
-    // ---------------------------
-    // Auth
-    // ---------------------------
     async function doLogin(){
       try{
         lockUI("Opening Google sign-in… (allow popups)");
         const provider = new GoogleAuthProvider();
         await signInWithPopup(auth, provider);
-        // onAuthStateChanged will fire next
       } catch(e){
         console.error(e);
         lockUI("Sign-in failed. Check: popups + Auth authorised domains.");
@@ -369,9 +351,6 @@
     btnLogin.addEventListener("click", doLogin);
     btnLogout.addEventListener("click", doLogout);
 
-    // ---------------------------
-    // Helpers
-    // ---------------------------
     function textOrNull(s){
       const v = (s || "").trim();
       return v.length ? v : null;
@@ -442,17 +421,7 @@
       const startAtMs = combineDateTimeMs(dateStr, timeStr);
       const now = Date.now();
 
-      // IMPORTANT:
-      // We intentionally store null for blank fields, so the index/admin can ignore them.
-      const payload = {
-        dateText: textOrNull(dateStr),
-        timeText: textOrNull(timeStr),
-        price: textOrNull(priceEl.value),
-        description: textOrNull(descEl.value),
-        startAtMs: startAtMs,
-        updatedAtMs: now,
-        updatedBy: email
-      };
+
 
       try{
         if (editingId){
