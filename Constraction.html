@@ -582,7 +582,7 @@ function isExpired(data){
 
     const d = new Date(`${dateText}T00:00:00`);
     if (isNaN(d.getTime())){
-      return t ? `at ${esc(t)}.` : "";
+      return t ? `at $(t).` : "";
     }
 
     const weekday = d.toLocaleDateString("en-GB", { weekday: "long" });
@@ -593,8 +593,8 @@ function isExpired(data){
     const datePretty = `${weekday}, ${dayNum} of ${month} '${yy}`;
 
     return t
-      ? `${esc(datePretty)} at ${esc(t)}.`
-      : `${esc(datePretty)}.`;
+      ? `$(datePretty) at $(t).`
+      : `$(datePretty).`;
   }
 
   function formatPriceGBP(raw){
@@ -611,7 +611,6 @@ function isExpired(data){
     }
 
     const blocks = items.map(({ data }) => {
-      // title/body behaviour unchanged from your working version
       const title = (data.title ?? data.description ?? "").trim();
       const body  = (data.title ? (data.description ?? "").trim() : "");
 
@@ -624,7 +623,7 @@ function isExpired(data){
 
       const lines = [];
       if (title)     lines.push(`<span class="event-desc">${esc(title)}</span>`);
-      if (whenLine)  lines.push(`<span class="event-when">${whenLine}</span>`);
+
       if (priceLine) lines.push(priceLine);
       if (body)      lines.push(esc(body));
 
