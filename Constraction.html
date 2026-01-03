@@ -563,17 +563,13 @@ footer.site-footer p:last-child{
       .replaceAll("'","&#039;");
   }
 
-  function isExpired(data){
-    if (!data || !data.startAtMs) return false;
-    return Number(data.startAtMs) < Date.now();
-  }
+
 
   function isLive(data){
     return data && !data.deletedAtMs && !isExpired(data);
   }
 
   function formatWhen(dateText, timeText){
-    // "Thursday, 8 of January '26 at 19:30."
     const t = (timeText ?? "").trim();
 
     if (!dateText){
