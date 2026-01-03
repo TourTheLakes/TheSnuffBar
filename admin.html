@@ -84,7 +84,7 @@
       background:transparent;
       color:var(--fg);
       outline:none;
-      border-radius:0; /* square */
+      border-radius:0;
       font-size:16px;
     }
 
@@ -140,7 +140,6 @@
     .muted{ opacity:.75; }
     .hidden{ display:none; }
 
-    /* ---- Login Gate ---- */
     body.locked .wrap{ display:none; }
 
     #loginScreen{
@@ -170,7 +169,6 @@
 </head>
 
 <body class="locked">
-  <!-- Login Gate UI -->
   <div id="loginScreen">
     <div id="loginCard">
       <div id="loginTitle">ADMIN ACCESS REQUIRED</div>
@@ -178,8 +176,7 @@
       <button id="btnLogin" class="btn">Sign in with Google</button>
     </div>
   </div>
-
-  <!-- Admin UI (hidden until authorised) -->
+  
   <div class="wrap">
     <div class="topbar">
       <div class="meta">
@@ -259,12 +256,13 @@
     };
 
     const ALLOWED_EMAILS = new Set([
-      "info@tourthelakes.com"
-      // add two later
-    ]);
+     "info@tourthelakes.com",
+       "thesnuffbar@gmail.com",
+        "milysmessages@gmail.com"
+          ]);
 
     const EVENTS_PATH = "events";
-    const INACTIVITY_MS = 10 * 60 * 1000; // 10 minutes
+    const INACTIVITY_MS = 10 * 60 * 1000;
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
@@ -467,7 +465,7 @@
 
       const email = user.email || "";
       const now = Date.now();
-      const purgeAfterMs = now + (60 * 24 * 60 * 60 * 1000); // 60 days
+      const purgeAfterMs = now + (60 * 24 * 60 * 60 * 1000); 
 
       try{
         await update(ref(db, `${EVENTS_PATH}/${id}`), {
@@ -543,15 +541,11 @@
       });
     }
 
-    // ---------------------------
-    // Auth state gate
-    // ---------------------------
     lockUI("Please sign in.");
 
     onAuthStateChanged(auth, async (user) => {
       try{
         if (!user){
-          // stay locked, wait for button
           whoEl.textContent = "—";
           stopCountdown();
           return;
