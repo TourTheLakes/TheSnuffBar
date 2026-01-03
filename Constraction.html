@@ -537,7 +537,7 @@ footer.site-footer p:last-child{
   const host = document.getElementById("liveEvents");
   if (!host){
     console.error("#liveEvents not found");
-    return;
+    throw new Error("#liveEvents not found");
   }
 
   const firebaseConfig = {
@@ -578,7 +578,7 @@ function isExpired(data){
     const t = (timeText ?? "").trim();
 
     if (!dateText){
-      return t ? `at ${t}.` : "";
+      return t ? `at ${esc(t)}.` : "";
     }
 
     const d = new Date(`${dateText}T00:00:00`);
