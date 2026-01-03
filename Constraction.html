@@ -623,7 +623,7 @@ function isExpired(data){
 
       const lines = [];
       if (title)     lines.push(`<span class="event-desc">${esc(title)}</span>`);
-
+      if (whenLine)  lines.push(`<span class="event-when">${esc(whenLine)}</span>`);
       if (priceLine) lines.push(priceLine);
       if (body)      lines.push(esc(body));
 
