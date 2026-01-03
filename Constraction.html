@@ -537,6 +537,7 @@ footer.site-footer p:last-child{
   const host = document.getElementById("liveEvents");
   if (!host){
     console.error("#liveEvents not found");
+    throw new Error("#liveEvents not found");
   }
 
   const firebaseConfig = {
@@ -565,7 +566,7 @@ footer.site-footer p:last-child{
 
 function isExpired(data){
   const ms = Number(data?.startAtMs);
-  if (!Number.isFinite(ms) || ms <= 0) return false; // treat missing/bad as not-expired
+  if (!Number.isFinite(ms) || ms <= 0) return false;
   return ms < Date.now();
 }
 
@@ -582,7 +583,7 @@ function isExpired(data){
 
     const d = new Date(`${dateText}T00:00:00`);
     if (isNaN(d.getTime())){
-      return t ? `at $(t).` : "";
+      return t ? `at ${t}.` : "";
     }
 
     const weekday = d.toLocaleDateString("en-GB", { weekday: "long" });
@@ -593,7 +594,7 @@ function isExpired(data){
     const datePretty = `${weekday}, ${dayNum} of ${month} '${yy}`;
 
     return t
-      ? `$(datePretty) at $(t).`
+      ? `$(datePretty) at ${t}.`
       : `$(datePretty).`;
   }
 
