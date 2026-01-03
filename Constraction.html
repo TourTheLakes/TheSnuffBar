@@ -535,7 +535,9 @@ footer.site-footer p:last-child{
   import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
   const host = document.getElementById("liveEvents");
-  if (!host) throw new Error("#liveEvents not found");
+  if (!host){
+    console.error("#liveEvents not found");
+  }
 
   const firebaseConfig = {
     apiKey: "AIzaSyA-XWjlAuoJlqHsExaAWavZ0DsMIOhAnic",
