@@ -594,8 +594,8 @@ function isExpired(data){
     const datePretty = `${weekday}, ${dayNum} of ${month} '${yy}`;
 
     return t
-      ? `$(datePretty) at ${t}.`
-      : `$(datePretty).`;
+      ? `${datePretty} at ${t}.`
+      : `${datePretty}.`;
   }
 
   function formatPriceGBP(raw){
