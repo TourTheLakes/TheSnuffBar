@@ -563,7 +563,21 @@ footer.site-footer p:last-child{
         .replaceAll("'","&#039;");
     }
 
+    function isExpired(data){
+  // Prefer expiry at 23:30 on the event date (local time)
+  const dateText = String(data?.dateText ?? "").trim();
 
+  if (dateText){
+    const d = new Date(`${dateText}T23:30:00`);
+    const endMs = d.getTime();
+    if (Number.isFinite(endMs)) return endMs < Date.now();
+  }
+
+  // Fallback: original behaviour if no dateText
+  const ms = Number(data?.startAtMs);
+  if (!Number.isFinite(ms) || ms <= 0) return false;
+  return ms < Date.now();
+}
 
     function isLive(data){
       return data && !data.deletedAtMs && !isExpired(data);
