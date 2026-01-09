@@ -554,77 +554,53 @@ footer.site-footer p:last-child{
     const db = getDatabase(app);
     const EVENTS_PATH = "events";
 
-     function esc(s){
-  return String(s ?? "")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-}
+    function esc(s){
+      return String(s ?? "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
 
-function ordinal(n){
-  const s = ["th","st","nd","rd"];
-  const v = n % 100;
-  return n + (s[(v - 20) % 10] || s[v] || s[0]);
-}
+    function ordinal(n){
+      const s = ["th", "st","nd","rd"];
+      const v = n % 100;
+      return n + (s[(v - 20) % 10] || s[v] || s[0]);
+    }
 
-// Patch: expire events at 23:30 on the event date (not at startAtMs)
-// - If dateText is missing/invalid, don't expire automatically.
-function isExpired(data){
+    function isExpired(data){
   const dateText = String(data?.dateText ?? "").trim();
-  if (!dateText) return false;
 
-  const d = new Date(`${dateText}T23:30:00`);
-  if (isNaN(d.getTime())) return false;
-
-  return Date.now() > d.getTime();
-}
-
-function isLive(data){
-  return data && !data.deletedAtMs && !isExpired(data);
-}
-
-function formatWhen(dateText, timeText){
-  const t = (timeText ?? "").trim();
-
-  if (!dateText){
-    return t ? `at ${esc(t)}.` : "";
+  if (dateText){
+    const d = new Date(`${dateText}T23:30:00`);
+    const endMs = d.getTime();
+    if (Number.isFinite(endMs)) return endMs < Date.now();
   }
-
-  const d = new Date(`${dateText}T00:00:00`);
-  if (isNaN(d.getTime())){
-    return t ? `at ${esc(t)}.` : "";
-  }
-
-  const weekday = d.toLocaleDateString("en-GB", { weekday: "long" });
-  const dayNum  = ordinal(d.getDate());
-  const month   = d.toLocaleDateString("en-GB", { month: "long" });
-  const yy      = String(d.getFullYear()).slice(-2);
-
-  const datePretty = `${weekday}, ${dayNum} of ${month} '${yy}`;
-
-  return t ? `${esc(datePretty)} at ${esc(t)}.` : `${esc(datePretty)}.`;
+      
+  const ms = Number(data?.startAtMs);
+  if (!Number.isFinite(ms) || ms <= 0) return false;
+  return ms < Date.now();
 }
 
-function formatPriceGBP(raw){
-  const v = String(raw ?? "").trim();
-  if (!v) return "";
-  if (v.startsWith("£")) return v;
-  return `£${v}`;
-}
+    function isLive(data){
+      return data && !data.deletedAtMs && !isExpired(data);
+    }
 
-function render(items){
-  if (!items.length){
-    host.innerHTML = "";
-    return;
-  }
+    function formatWhen(dateText, timeText){
+      const t = (timeText ?? "").trim();
 
-  // ... your existing render body continues unchanged ...
-}
+      if (!dateText){
+        return t ? `at ${esc(t)}.` : "";
+      }
+
+      const d = new Date(`${dateText}T00:00:00`);
+      if (isNaN(d.getTime())){
+        return t ? `at ${esc(t)}.` : "";
+      }
 
       const weekday = d.toLocaleDateString("en-GB", { weekday: "long" });
-      const dayNum  = d.getDate();
+      const dayNum  = ordinal(d.getDate());
       const month   = d.toLocaleDateString("en-GB", { month: "long" });
       const yy      = String(d.getFullYear()).slice(-2);
 
