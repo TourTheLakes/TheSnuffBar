@@ -563,11 +563,7 @@ footer.site-footer p:last-child{
         .replaceAll("'","&#039;");
     }
 
-    function isExpired(data){
-      const ms = Number(data?.startAtMs);
-      if (!Number.isFinite(ms) || ms <= 0) return false;
-      return ms < Date.now();
-    }
+
 
     function isLive(data){
       return data && !data.deletedAtMs && !isExpired(data);
