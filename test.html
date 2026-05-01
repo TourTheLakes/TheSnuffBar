@@ -34,6 +34,26 @@
       object-position: center;
     }
 
+    .site-header::after{
+  content:"";
+  position:absolute;
+  inset:0 auto 0 0;
+  width:33.333%;
+  pointer-events:none;
+  background:
+    linear-gradient(
+      to right,
+      rgba(228, 3, 3, .75) 0%,
+      rgba(255, 140, 0, .65) 16%,
+      rgba(255, 237, 0, .55) 32%,
+      rgba(0, 128, 38, .45) 48%,
+      rgba(36, 64, 142, .35) 64%,
+      rgba(115, 41, 130, .25) 80%,
+      rgba(115, 41, 130, 0) 100%
+    );
+  z-index:2;
+}
+
     .brand-mark{
       position: fixed;
       left: 50px;
