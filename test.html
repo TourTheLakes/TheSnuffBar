@@ -83,48 +83,29 @@
 
     @media (max-width: 1024px){
   .site-header::after{
-    left:50%;
-    transform:translateX(-50%);
-    width:66.666%;
+    left:0;
+    transform:none;
+    width:100%;
 
     background:
       linear-gradient(
         to right,
-        #e40303 0%,
-        #ff8c00 16.66%,
-        #ffed00 33.33%,
-        #008026 50%,
-        #24408e 66.66%,
-        #732982 100%
+        transparent 0%,
+        rgba(228,3,3,.42) 18%,
+        rgba(255,140,0,.42) 28%,
+        rgba(255,237,0,.42) 38%,
+        rgba(0,128,38,.42) 50%,
+        rgba(36,64,142,.42) 62%,
+        rgba(115,41,130,.42) 72%,
+        transparent 100%
       );
 
-    /* THIS is the key improvement */
-    background-size: 200% 100%;
-    background-position: center;
+    opacity:1;
 
-    opacity: .45;
-
-    -webkit-mask-image:
-      radial-gradient(
-        ellipse at center,
-        rgba(0,0,0,1) 0%,
-        rgba(0,0,0,.85) 20%,
-        rgba(0,0,0,.6) 40%,
-        rgba(0,0,0,.3) 65%,
-        rgba(0,0,0,0) 100%
-      );
-
-    mask-image:
-      radial-gradient(
-        ellipse at center,
-        rgba(0,0,0,1) 0%,
-        rgba(0,0,0,.85) 20%,
-        rgba(0,0,0,.6) 40%,
-        rgba(0,0,0,.3) 65%,
-        rgba(0,0,0,0) 100%
-      );
+    -webkit-mask-image:none;
+    mask-image:none;
   }
-    }
+}
 
     @media (max-width: 700px){
       body{ padding-top: 20vh; }
