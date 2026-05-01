@@ -109,16 +109,6 @@
     width:66.666%;
 
     background:
-      /* opacity layer (centre strong → edges fade) */
-      radial-gradient(
-        ellipse at center,
-        rgba(255,255,255,0.9) 0%,
-        rgba(255,255,255,0.6) 35%,
-        rgba(255,255,255,0.25) 65%,
-        rgba(255,255,255,0) 100%
-      ),
-
-      /* actual pride flag (single, not mirrored) */
       linear-gradient(
         to right,
         #e40303 0%,
@@ -126,10 +116,28 @@
         #ffed00 33.33%,
         #008026 50%,
         #24408e 66.66%,
-        #732982 83.33%
+        #732982 100%
       );
 
-    background-blend-mode: multiply;
+    opacity: .42;
+
+    -webkit-mask-image:
+      radial-gradient(
+        ellipse at center,
+        rgba(0,0,0,1) 0%,
+        rgba(0,0,0,.75) 28%,
+        rgba(0,0,0,.35) 58%,
+        rgba(0,0,0,0) 100%
+      );
+
+    mask-image:
+      radial-gradient(
+        ellipse at center,
+        rgba(0,0,0,1) 0%,
+        rgba(0,0,0,.75) 28%,
+        rgba(0,0,0,.35) 58%,
+        rgba(0,0,0,0) 100%
+      );
   }
 }
 
