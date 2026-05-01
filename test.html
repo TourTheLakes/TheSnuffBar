@@ -81,32 +81,11 @@
       top: 10vh; 
     }
 
-    /* Responsive (copied exactly) */
-
     @media (max-width: 1024px){
-      body{ padding-top: 15vh; }
-
-      .site-header{ height: 15vh; }
-
-      .brand-mark{
-        left: 50%;
-        top: 20vh;
-        width: 340px;
-        height: 340px;
-        transform: translate(-50%, -50%);
-      }
-
-      .logo-target{
-        left: 600px;
-        top: 15vh;
-      }
-    }
-
-  @media (max-width: 1024px){
   .site-header::after{
     left:50%;
     transform:translateX(-50%);
-    width:100%;
+    width:66.666%;
 
     background:
       linear-gradient(
@@ -119,14 +98,19 @@
         #732982 100%
       );
 
-    opacity: .42;
+    /* THIS is the key improvement */
+    background-size: 200% 100%;
+    background-position: center;
+
+    opacity: .45;
 
     -webkit-mask-image:
       radial-gradient(
         ellipse at center,
         rgba(0,0,0,1) 0%,
-        rgba(0,0,0,.75) 28%,
-        rgba(0,0,0,.35) 58%,
+        rgba(0,0,0,.85) 20%,
+        rgba(0,0,0,.6) 40%,
+        rgba(0,0,0,.3) 65%,
         rgba(0,0,0,0) 100%
       );
 
@@ -134,12 +118,13 @@
       radial-gradient(
         ellipse at center,
         rgba(0,0,0,1) 0%,
-        rgba(0,0,0,.75) 28%,
-        rgba(0,0,0,.35) 58%,
+        rgba(0,0,0,.85) 20%,
+        rgba(0,0,0,.6) 40%,
+        rgba(0,0,0,.3) 65%,
         rgba(0,0,0,0) 100%
       );
   }
-}
+    }
 
     @media (max-width: 700px){
       body{ padding-top: 20vh; }
