@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Header Test</title>
+
+  <link rel="icon" type="image/png" href="assets/images/TheSnuffBarFavicon.png">
+
+  <style>
+    body{
+      margin:0;
+      padding:0;
+      padding-top: 20vh;
+      background:#000; /* just so you can see contrast */
+    }
+
+    .site-header{
+      position: fixed;
+      top: 0;
+      left: 0;
+      width:100vw;
+      height: 20vh;
+      overflow: hidden;
+      z-index: 9998;
+    }
+
+    .site-header img{
+      display:block;
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .brand-mark{
+      position: fixed;
+      left: 50px;
+      top: 50px;
+      width: 280px;
+      height: 280px;
+      z-index: 9999;
+    }
+
+    .brand-mark img{
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .logo-target{
+      position: fixed;
+      width: 0;
+      height: 0;
+      background: transparent;
+      z-index: -1;
+      pointer-events: none;
+
+      left: 1100px;  
+      top: 10vh; 
+    }
+
+    /* Responsive (copied exactly) */
+
+    @media (max-width: 1024px){
+      body{ padding-top: 15vh; }
+
+      .site-header{ height: 15vh; }
+
+      .brand-mark{
+        left: 50%;
+        top: 20vh;
+        width: 340px;
+        height: 340px;
+        transform: translate(-50%, -50%);
+      }
+
+      .logo-target{
+        left: 600px;
+        top: 15vh;
+      }
+    }
+
+    @media (max-width: 700px){
+      body{ padding-top: 20vh; }
+
+      .site-header{ height: 20vh; }
+
+      .brand-mark{
+        left: 50%;
+        top: 28vh;
+        width: 300px;
+        height: 300px;
+        transform: translate(-50%, -50%);
+      }
+
+      .logo-target{
+        left: 500px;
+        top: 20vh;
+      }
+    }
+
+    @media (max-width: 600px){
+      body{ padding-top: 15vh; }
+
+      .site-header{ height: 15vh; }
+
+      .brand-mark{
+        left: 50%;
+        top: 22vh;
+        width: 240px;
+        height: 240px;
+        transform: translate(-50%, -50%);
+      }
+
+      .logo-target{
+        left: 200px;
+        top: 15vh;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="site-header">
+    <img src="assets/images/TheSnuffBarHeader.png" alt="The Snuff Bar">
+  </header>
+
+  <div class="brand-mark">
+    <img src="assets/images/TheSnuffBarLogo.png" alt="The Snuff Bar">
+  </div>
+
+  <div class="logo-target" aria-hidden="true"></div>
+
+</body>
+</html>
