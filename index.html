@@ -1,109 +1,4 @@
-<!DOCTYPE html>
-<html lang="en-GB">
-<head>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SVXH2ETN49"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-SVXH2ETN49');
-  </script>
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <title>The Snuff Bar | Kendal</title>
-
-  <!-- SEO -->
-  <meta name="description" content="The Snuff Bar is a family-run bar in Kendal on Kent Street. Old Craft. New Spirit. Drinks, darts & games, and an upstairs function room available to book.">
-  <link rel="canonical" href="https://thesnuffbar.co.uk/">
-  <meta name="robots" content="index,follow,max-image-preview:large">
-  <meta name="theme-color" content="#321507">
-
-  <!-- Open Graph -->
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="The Snuff Bar">
-  <meta property="og:title" content="The Snuff Bar | Kendal">
-  <meta property="og:description" content="Family-run bar in Kendal on Kent Street. Old Craft. New Spirit.">
-  <meta property="og:url" content="https://thesnuffbar.co.uk/">
-  <meta property="og:image" content="https://thesnuffbar.co.uk/assets/images/TheSnuffBarHero.jpeg">
-  <meta property="og:image:alt" content="The Snuff Bar in Kendal">
-
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="The Snuff Bar | Kendal">
-  <meta name="twitter:description" content="Family-run bar in Kendal on Kent Street. Old Craft. New Spirit.">
-  <meta name="twitter:image" content="https://thesnuffbar.co.uk/assets/images/TheSnuffBarHero.jpeg">
-
-  <link rel="icon" type="image/png" href="assets/images/TheSnuffBarFavicon.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BarOrPub",
-    "name": "The Snuff Bar",
-    "url": "https://thesnuffbar.co.uk/",
-    "image": "https://thesnuffbar.co.uk/assets/images/TheSnuffBarHero.jpeg",
-    "creator": {
-      "@type": "Organization",
-      "name": "Neon Forge",
-      "url": "https://neonforge.co.uk/"
-    },
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "14 Kent Street",
-      "addressLocality": "Kendal",
-      "postalCode": "LA9 4AT",
-      "addressCountry": "GB"
-    },
-    "email": "thesnuffbar@gmail.com",
-    "openingHoursSpecification": [
-      {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Monday","Tuesday"],
-        "opens": "16:00",
-        "closes": "22:30"
-      },
-      {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Wednesday","Thursday"],
-        "opens": "16:00",
-        "closes": "23:00"
-      },
-      {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Friday","Saturday"],
-        "opens": "15:00",
-        "closes": "23:00"
-      },
-      {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Sunday"],
-        "opens": "16:00",
-        "closes": "22:30"
-      }
-    ]
-  }
-  </script>
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "The Snuff Bar",
-    "url": "https://thesnuffbar.co.uk/"
-  }
-  </script>
-
-  <style>
-    body{
-      margin:0;
-      padding:0;
-      padding-top:20vh;
-    }
 
     .site-header{
       position:fixed;
@@ -309,6 +204,37 @@
       font-size:18px;
       font-weight:400;
       letter-spacing:.03em;
+    }
+
+    #liveEvents .event-description{
+      color:#F6C96B;
+      font-size:14px;
+      font-weight:400;
+      letter-spacing:.01em;
+    }
+
+    #liveEvents .event-description-preview.is-hidden,
+    #liveEvents .event-description-full.is-hidden{
+      display:none;
+    }
+
+    #liveEvents .event-toggle{
+      margin:0;
+      padding:0;
+      border:0;
+      background:transparent;
+      color:#fff;
+      font:inherit;
+      cursor:pointer;
+      text-decoration:underline;
+      margin-left:.35em;
+    }
+
+    #liveEvents .event-link{
+      color:#fff;
+      font-size:18px;
+      font-weight:600;
+      text-decoration:underline;
     }
 
     .gallery-viewport{
@@ -742,6 +668,52 @@
         return `£${v}`;
       }
 
+      function normaliseWebsiteLink(raw){
+        const value = String(raw ?? "").trim();
+        if (!value) return "";
+
+        let candidate = value;
+
+        if (candidate.startsWith("//")){
+          candidate = `https:${candidate}`;
+        } else if (!/^https?:\/\//i.test(candidate)){
+          candidate = `https://${candidate}`;
+        }
+
+        try{
+          const url = new URL(candidate);
+          if (url.protocol !== "http:" && url.protocol !== "https:") return "";
+          return url.href;
+        } catch(e){
+          return "";
+        }
+      }
+
+      function descriptionHtml(text){
+        const value = String(text ?? "").trim();
+        if (!value) return "";
+
+        if (value.length <= 50){
+          return `<span class="event-description">${esc(value)}</span>`;
+        }
+
+        const preview = `${value.slice(0, 50).trimEnd()}…`;
+
+        return `
+          <span class="event-description">
+            <span class="event-description-preview">${esc(preview)}</span>
+            <span class="event-description-full is-hidden">${esc(value)}</span>
+            <button type="button" class="event-toggle" aria-expanded="false">Read more</button>
+          </span>
+        `.trim();
+      }
+
+      function usesNewEventFormat(data){
+        return Number(data?.eventFormatVersion) >= 2
+          || Object.prototype.hasOwnProperty.call(data || {}, "title")
+          || Object.prototype.hasOwnProperty.call(data || {}, "website");
+      }
+
       function render(items){
         if (!items.length){
           host.innerHTML = "";
@@ -749,22 +721,33 @@
         }
 
         const blocks = items.map((data) => {
-          const title = (data.title ?? data.description ?? "").trim();
-          const body = (data.title ? (data.description ?? "").trim() : "");
+          const newFormat = usesNewEventFormat(data);
+          const title = newFormat
+            ? String(data.title ?? "").trim()
+            : String(data.description ?? "").trim();
+          const body = newFormat
+            ? String(data.description ?? "").trim()
+            : "";
 
           const dateText = (data.dateText ?? "").trim();
           const timeText = (data.timeText ?? "").trim();
           const priceRaw = (data.price ?? "").trim();
+          const website = normaliseWebsiteLink(data.website);
 
           const whenLine = formatWhen(dateText, timeText);
           const priceLine = priceRaw ? `Participation fee ${esc(formatPriceGBP(priceRaw))}.` : "";
+          const bodyLine = descriptionHtml(body);
+          const websiteLine = website
+            ? `<a class="event-link" href="${esc(website)}" target="_blank" rel="noopener noreferrer">Visit website</a>`
+            : "";
 
           const lines = [];
 
           if (title) lines.push(`<span class="event-desc">${esc(title)}</span>`);
           if (whenLine) lines.push(`<span class="event-when">${whenLine}</span>`);
           if (priceLine) lines.push(priceLine);
-          if (body) lines.push(esc(body));
+          if (bodyLine) lines.push(bodyLine);
+          if (websiteLine) lines.push(websiteLine);
 
           if (!lines.length) return "";
 
@@ -784,6 +767,25 @@
       }, (err) => {
         console.error("RTDB read failed:", err);
         host.innerHTML = "";
+      });
+
+      host.addEventListener("click", (event) => {
+        const button = event.target.closest(".event-toggle");
+        if (!button || !host.contains(button)) return;
+
+        const description = button.closest(".event-description");
+        if (!description) return;
+
+        const preview = description.querySelector(".event-description-preview");
+        const full = description.querySelector(".event-description-full");
+        if (!preview || !full) return;
+
+        const expanded = button.getAttribute("aria-expanded") === "true";
+
+        preview.classList.toggle("is-hidden", !expanded);
+        full.classList.toggle("is-hidden", expanded);
+        button.setAttribute("aria-expanded", String(!expanded));
+        button.textContent = expanded ? "Read more" : "Read less";
       });
     }
   </script>
