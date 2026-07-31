@@ -212,8 +212,18 @@
       </div>
 
       <div class="field">
-        <label for="desc">Description</label>
-        <textarea id="desc" placeholder="Optional"></textarea>
+        <label for="title">Title</label>
+        <textarea id="title" placeholder="Optional"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="description">Description</label>
+        <textarea id="description" placeholder="Optional"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="website">Website link</label>
+        <input id="website" type="text" inputmode="url" placeholder="Optional — for example www.example.com" />
       </div>
 
       <div class="actions">
@@ -282,7 +292,9 @@
     const dateEl = document.getElementById("date");
     const timeEl = document.getElementById("time");
     const priceEl = document.getElementById("price");
-    const descEl = document.getElementById("desc");
+    const titleEl = document.getElementById("title");
+    const descriptionEl = document.getElementById("description");
+    const websiteEl = document.getElementById("website");
     const btnSave = document.getElementById("btnSave");
     const btnCancel = document.getElementById("btnCancel");
     const formNote = document.getElementById("formNote");
@@ -354,6 +366,27 @@
       return v.length ? v : null;
     }
 
+    function normaliseWebsiteLink(raw){
+      const value = textOrNull(raw);
+      if (!value) return null;
+
+      let candidate = value;
+
+      if (candidate.startsWith("//")){
+        candidate = `https:${candidate}`;
+      } else if (!/^https?:\/\//i.test(candidate)){
+        candidate = `https://${candidate}`;
+      }
+
+      try{
+        const url = new URL(candidate);
+        if (url.protocol !== "http:" && url.protocol !== "https:") return null;
+        return url.href;
+      } catch(e){
+        return null;
+      }
+    }
+
     function combineDateTimeMs(dateStr, timeStr){
       if (!dateStr && !timeStr) return null;
       const d = dateStr || new Date().toISOString().slice(0,10);
@@ -366,7 +399,9 @@
       dateEl.value = "";
       timeEl.value = "";
       priceEl.value = "";
-      descEl.value = "";
+      titleEl.value = "";
+      descriptionEl.value = "";
+      websiteEl.value = "";
       editingId = null;
       formNote.textContent = "";
     }
@@ -389,11 +424,17 @@
       return !data.deletedAtMs;
     }
 
+    function usesNewEventFormat(data){
+      return Number(data?.eventFormatVersion) >= 2
+        || Object.prototype.hasOwnProperty.call(data || {}, "title")
+        || Object.prototype.hasOwnProperty.call(data || {}, "website");
+    }
+
     // ---------------------------
     // Data (RTDB)
     // ---------------------------
     // /events/{id} = {
-    //   dateText?, timeText?, price?, description?,
+    //   eventFormatVersion, dateText?, timeText?, price?, title?, description?, website?,
     //   startAtMs?,
     //   createdAtMs, createdBy,
     //   updatedAtMs, updatedBy,
@@ -419,7 +460,17 @@
       const startAtMs = combineDateTimeMs(dateStr, timeStr);
       const now = Date.now();
 
+      const websiteInput = textOrNull(websiteEl.value);
+      const website = normaliseWebsiteLink(websiteInput);
+
+      if (websiteInput && !website){
+        formNote.textContent = "Website link is not valid.";
+        websiteEl.focus();
+        return;
+      }
+
       const payload = {
+  eventFormatVersion: 2,
   dateText: textOrNull(dateStr),
   timeText: textOrNull(timeStr),
 
@@ -427,7 +478,9 @@
     ? `£${textOrNull(priceEl.value).replace(/^£\s*/, "")}`
     : null,
 
-  description: textOrNull(descEl.value),
+  title: textOrNull(titleEl.value),
+  description: textOrNull(descriptionEl.value),
+  website,
 
   startAtMs: startAtMs ?? null,
   updatedAtMs: now,
@@ -486,7 +539,12 @@
       dateEl.value = data.dateText || "";
       timeEl.value = data.timeText || "";
       priceEl.value = data.price || "";
-      descEl.value = data.description || "";
+
+      const newFormat = usesNewEventFormat(data);
+      titleEl.value = newFormat ? (data.title || "") : (data.description || "");
+      descriptionEl.value = newFormat ? (data.description || "") : "";
+      websiteEl.value = data.website || "";
+
       editingId = id;
       formNote.textContent = `Editing: ${id}`;
       resetActivity();
@@ -505,12 +563,17 @@
         const wrapper = document.createElement("div");
         wrapper.className = "item";
 
-        const desc = data.description || "";
+        const newFormat = usesNewEventFormat(data);
+        const title = newFormat ? (data.title || "") : (data.description || "");
+        const description = newFormat ? (data.description || "") : "";
+
         wrapper.innerHTML = `
-          <div class="title">${escapeHtml(desc || "Event")}</div>
+          <div class="title">${escapeHtml(title || "Event")}</div>
+          ${formatLine("Description", description)}
           ${formatLine("Date", data.dateText)}
           ${formatLine("Time", data.timeText)}
           ${formatLine("Price", data.price)}
+          ${formatLine("Website", data.website)}
           <div class="item-actions">
             <button class="btn" data-action="edit">Amend</button>
             <button class="btn" data-action="delete">Delete</button>
