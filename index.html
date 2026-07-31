@@ -311,12 +311,38 @@
       letter-spacing:.03em;
     }
 
+    #liveEvents p{
+      margin:18px 0 0;
+    }
+
+    #liveEvents .event-desc{
+      display:block;
+      margin:0 0 6px;
+    }
+
+    #liveEvents .event-when{
+      display:block;
+      margin:0 0 10px;
+    }
+
     #liveEvents .event-description{
+      display:block;
       color:#F6C96B;
       font-size:18px;
       font-weight:500;
       letter-spacing:.01em;
       white-space:pre-line;
+      margin:0;
+    }
+
+    #liveEvents .event-toggle{
+      display:inline-block;
+      margin:6px 0 0;
+    }
+
+    #liveEvents .event-link{
+      display:inline-block;
+      margin:8px 0 0;
     }
 
     #liveEvents .event-description-preview.is-hidden,
@@ -857,7 +883,7 @@
 
           if (!lines.length) return "";
 
-          return `<p style="margin-top:18px;">${lines.join("<br>")}</p>`;
+          return `<p>${lines.join("<br>")}</p>`;
         }).filter(Boolean);
 
         host.innerHTML = blocks.join("");
